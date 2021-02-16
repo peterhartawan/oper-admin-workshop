@@ -35,17 +35,24 @@ Route::prefix( 'logout' )->group(function() {
     Route::prefix( 'user-management' )->group(function() {
 
         Route::prefix( 'user-manager' )->group(function() {
-            Route::get   ( '', 'UserManagement\UserManagerController@userManagerPage' );
-            // Route::put   ( '', '' );
-            // Route::post  ( '', '' );
-            // Route::delete( '', '' );
+            Route::get   ( '', 'UserManagement\UserManagerController@viewUserManager' );
+            Route::put   ( '', 'UserManagement\UserManagerController@updateUserManager' );
+            Route::post  ( '', 'UserManagement\UserManagerController@createUserManager' );
+            Route::patch ( '', 'UserManagement\UserManagerController@updateStatusUserManager' );
+            Route::delete( '', 'UserManagement\UserManagerController@deleteUserManager' );
+
+            Route::get   ( 'pagination', 'Usermanagement\UserManagerController@paginateUserManager' );
+            Route::get   ( '{id}', 'Usermanagement\UserManagerController@detailUserManager' );
         });
     
         Route::prefix( 'customer-list' )->group(function() {
-            Route::get   ( '', 'UserManagement\CustomerListController@customerListPage' );
-            // Route::put   ( '', '' );
-            // Route::post  ( '', '' );
-            // Route::delete( '', '' );
+            Route::get   ( '', 'UserManagement\CustomerListController@viewCustomerList' );
+            Route::put   ( '', 'UserManagement\CustomerListController@updateCustomerList' );
+            Route::post  ( '', 'UserManagement\CustomerListController@createCustomerList' );
+            Route::delete( '', 'UserManagement\CustomerListController@deleteCustomerList' );
+
+            Route::get   ( 'pagination', 'Usermanagement\CustomerListController@paginateCustomerList' );
+            Route::get   ( '{id}', 'Usermanagement\CustomerListController@detailCustomerList' );
         });
 
         Route::fallback(function() {
@@ -69,24 +76,36 @@ Route::prefix( 'logout' )->group(function() {
     Route::prefix( 'bengkel-manager' )->group(function() {
 
         Route::prefix( 'bengkel-registration' )->group(function() {
-            Route::get   ( '', 'BengkelManager\BengkelRegistrationController@bengkelRegistrationPage' );
-            // Route::put   ( '', '' );
-            // Route::post  ( '', '' );
-            // Route::delete( '', '' );
+            Route::get   ( '', 'BengkelManager\BengkelRegistrationController@viewBengkelRegistration' );
+            Route::put   ( '', 'BengkelManager\BengkelRegistrationController@updateBengkelRegistration' );
+            Route::post  ( '', 'BengkelManager\BengkelRegistrationController@createBengkelRegistration' );
+            Route::patch ( '', 'BengkelManager\BengkelRegistrationController@updateStatusBengkelRegistration' );
+            Route::delete( '', 'BengkelManager\BengkelRegistrationController@deleteBengkelRegistration' );
+
+            Route::get   ( 'pagination', 'BengkelManager\BengkelRegistrationController@paginateBengkelRegistration' );
+            Route::get   ( '{id}', 'BengkelManager\BengkelRegistrationController@detailBengkelRegistration' );
         });
     
         Route::prefix( 'bengkel-setting' )->group(function() {
-            Route::get   ( '', 'BengkelManager\BengkelSettingController@bengkelSettingPage' );
-            // Route::put   ( '', '' );
-            // Route::post  ( '', '' );
-            // Route::delete( '', '' );
+            Route::get   ( '', 'BengkelManager\BengkelSettingController@viewBengkelSetting' );
+            Route::put   ( '', 'BengkelManager\BengkelSettingController@updateBengkelSetting' );
+            Route::post  ( '', 'BengkelManager\BengkelSettingController@createBengkelSetting' );
+            Route::patch ( '', 'BengkelManager\BengkelSettingController@updateStatusBengkelSetting' );
+            Route::delete( '', 'BengkelManager\BengkelSettingController@deleteBengkelSetting' );
+
+            Route::get   ( 'pagination', 'BengkelManager\BengkelSettingController@paginateBengkelSetting' );
+            Route::get   ( '{id}', 'BengkelManager\BengkelSettingController@detailBengkelSetting' );
         });
     
         Route::prefix( 'task-setting' )->group(function() {
-            Route::get   ( '', 'BengkelManager\TaskSettingController@taskSettingPage' );
-            // Route::put   ( '', '' );
-            // Route::post  ( '', '' );
-            // Route::delete( '', '' );
+            Route::get   ( '', 'BengkelManager\TaskSettingController@viewTaskSetting' );
+            Route::put   ( '', 'BengkelManager\TaskSettingController@updateTaskSetting' );
+            Route::post  ( '', 'BengkelManager\TaskSettingController@createTaskSetting' );
+            Route::patch ( '', 'BengkelManager\TaskSettingController@updateStatusTaskSetting' );
+            Route::delete( '', 'BengkelManager\TaskSettingController@deleteTaskSetting' );
+
+            Route::get   ( 'pagination', 'BengkelManager\TaskSettingController@paginateTaskSetting' );
+            Route::get   ( '{id}', 'BengkelManager\TaskSettingController@detailTaskSetting' );
         });
 
         Route::fallback(function() {
