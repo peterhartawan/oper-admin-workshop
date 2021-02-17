@@ -126,17 +126,21 @@ Route::prefix( 'logout' )->group(function() {
     Route::prefix( 'wa-marketing-blast' )->group(function() {
 
         Route::prefix( 'dashboard-wa' )->group(function() {
-            Route::get   ( '', 'WaMarketingBlast\DashboardWaController@dashboardWaPage' );
+            Route::get   ( '', 'WaMarketingBlast\DashboardWaController@viewDashboardWa' );
             // Route::put   ( '', '' );
             // Route::post  ( '', '' );
             // Route::delete( '', '' );
         });
     
         Route::prefix( 'promo-blast' )->group(function() {
-            Route::get   ( '', 'WaMarketingBlast\PromoBlastController@promoBlastPage' );
-            // Route::put   ( '', '' );
-            // Route::post  ( '', '' );
-            // Route::delete( '', '' );
+            Route::get   ( '', 'WaMarketingBlast\PromoBlastController@viewPromoBlast' );
+            Route::put   ( '', 'WaMarketingBlast\PromoBlastController@updatePromoBlast' );
+            Route::post  ( '', 'WaMarketingBlast\PromoBlastController@createPromoBlast' );
+            Route::delete( '', 'WaMarketingBlast\PromoBlastController@deletePromoBlast' );
+
+            Route::get   ( 'pagination', 'WaMarketingBlast\PromoBlastController@paginatePromoBlast' );
+            Route::get   ( 'logs', 'WaMarketingBlast\PromoBlastController@paginatePromoLog' );
+            Route::get   ( '{id}', 'WaMarketingBlast\PromoBlastController@detailPromoBlast' );
         });
 
         Route::fallback(function() {

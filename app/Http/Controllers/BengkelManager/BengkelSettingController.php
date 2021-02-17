@@ -5,8 +5,6 @@ namespace App\Http\Controllers\BengkelManager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\BengkelSetting;
-use App\Model\CmsUser;
-use App\Model\Role;
 use Illuminate\Support\Facades\Log;
 
 use Session;
@@ -14,11 +12,7 @@ use Session;
 class BengkelSettingController extends Controller
 {
     public function viewBengkelSetting() {
-        $roles = Role::where( "role_name", "NOT LIKE", "%superadmin%" )
-                        ->get()
-                        ->toJson();
-        return view( 'features.bengkel-manager.bengkel-setting.main' )
-            ->with( 'roles', json_decode($roles, false) );
+        return view( 'features.bengkel-manager.bengkel-setting.main' );
     }
 
     public function updateBengkelSetting(Request $request) {
