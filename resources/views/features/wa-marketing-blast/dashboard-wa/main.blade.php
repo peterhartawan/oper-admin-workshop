@@ -18,7 +18,7 @@
         <!-- Wallet -->
         <div class="col-lg-6 invisible" data-toggle="appear">
             <div class="block block-bordered">
-                <div class="block-content">
+                {{-- <div class="block-content">
                     <div class="px-sm-3 pt-sm-3 clearfix" style="min-height: 260px;">
                         <i class="fa fa-chart-line fa-2x text-gray-light float-right"></i>
                         <p class="display-4 text-black font-w300 mb-2">
@@ -49,7 +49,7 @@
                           data-highlight-spot-color="#0665d0"
                           data-highlight-line-color="#0665d0"
                           data-tooltip-prefix="$"></span>
-                </div>
+                </div> --}}
             </div>
         </div>
         <!-- Wallet -->
@@ -61,10 +61,10 @@
                 <div class="block-content block-content-full d-flex align-items-center justify-content-between">
                     <div class="ml-3">
                         <p class="font-size-h2 font-w300 text-black mb-0">
-                            160
+                            {{ $promos }}
                         </p>
                         <a class="link-fx font-size-sm font-w600 text-muted text-uppercase mb-0" href="javascript:void(0)">
-                            Orders
+                            Master Promos
                         </a>
                     </div>
                     <div>
@@ -91,10 +91,10 @@
                 <div class="block-content block-content-full d-flex align-items-center justify-content-between">
                     <div class="ml-3">
                         <p class="font-size-h2 font-w300 text-black mb-0">
-                            3.670
+                            {{ $logs }}
                         </p>
                         <a class="link-fx font-size-sm font-w600 text-muted text-uppercase mb-0" href="javascript:void(0)">
-                            Visits
+                            Promo Logs
                         </a>
                     </div>
                     <div>
@@ -117,7 +117,7 @@
             <!-- END Weekly Visits -->
 
             <!-- Weekly Followers -->
-            <div class="block block-bordered mb-lg-2">
+            {{-- <div class="block block-bordered mb-lg-2">
                 <div class="block-content block-content-full d-flex align-items-center justify-content-between">
                     <div class="ml-3">
                         <p class="font-size-h2 font-w300 text-black mb-0">
@@ -143,11 +143,11 @@
                               data-tooltip-suffix="Followers"></span>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!-- END Weekly Followers -->
 
             <!-- Weekly Tickets -->
-            <div class="block block-bordered mb-lg-2">
+            {{-- <div class="block block-bordered mb-lg-2">
                 <div class="block-content block-content-full d-flex align-items-center justify-content-between">
                     <div class="ml-3">
                         <p class="font-size-h2 font-w300 text-black mb-0">
@@ -160,20 +160,20 @@
                     <div>
                         <!-- Sparkline Container -->
                         <span class="js-sparkline" data-type="line"
-                              data-points="[1,6,3,5,4,8,2]"
-                              data-width="100px"
-                              data-height="60px"
-                              data-line-color="#e04f1a"
-                              data-fill-color="rgba(224,79,26,.1)"
-                              data-spot-color="transparent"
-                              data-min-spot-color="transparent"
-                              data-max-spot-color="transparent"
-                              data-highlight-spot-color="#e04f1a"
-                              data-highlight-line-color="#e04f1a"
-                              data-tooltip-suffix="Tickets"></span>
+                            data-points="[1,6,3,5,4,8,2]"
+                            data-width="100px"
+                            data-height="60px"
+                            data-line-color="#e04f1a"
+                            data-fill-color="rgba(224,79,26,.1)"
+                            data-spot-color="transparent"
+                            data-min-spot-color="transparent"
+                            data-max-spot-color="transparent"
+                            data-highlight-spot-color="#e04f1a"
+                            data-highlight-line-color="#e04f1a"
+                            data-tooltip-suffix="Tickets"></span>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!-- END Weekly Tickets -->
         </div>
         <!-- END Various Stats -->
