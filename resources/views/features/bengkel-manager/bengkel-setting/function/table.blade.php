@@ -3,18 +3,18 @@
         endOfRequest = true;
 
         if(!$('#end-of-content').length){
-            $('#content').append('<tr id="end-of-content"><td colspan="6"><div class="row"><div class="col-12 d-flex justify-content-center"><h4>This is the end of the content.</h4></div></div></td></tr>');
+            $('#content').append('<tr id="end-of-content"><td colspan="4"><div class="row"><div class="col-12 d-flex justify-content-center"><h4>This is the end of the content.</h4></div></div></td></tr>');
         }
     </script>
 @else
     
-    @foreach($listdata->data as $user)
+    @foreach($listdata->data as $setting)
      
         <tr>
 
-            @isset($user->username)
+            @isset($setting->workshop_bengkel->bengkel_name)
                 <td>
-                    {{ $user->username }}
+                    {{ $setting->workshop_bengkel->bengkel_name }}
                 </td>
             @else   
                 <td class="bg-danger-light">
@@ -22,9 +22,9 @@
                 </td>
             @endisset
 
-           @isset($user->email)
+           @isset($setting->bengkel_open)
                 <td>
-                    {{ $user->email }}
+                    {{ $setting->bengkel_open }}
                 </td>
             @else   
                 <td class="bg-danger-light">
@@ -32,9 +32,9 @@
                 </td>
             @endisset
 
-            @isset($user->phone)
+            @isset($setting->bengkel_close)
                  <td>
-                     {{ $user->phone }}
+                     {{ $setting->bengkel_close }}
                  </td>
              @else   
                  <td class="bg-danger-light">
@@ -42,9 +42,9 @@
                  </td>
              @endisset
 
-            @isset($user->role->role_name)
+            @isset($setting->min_daily)
                 <td>
-                    {{ $user->role->role_name }}
+                    {{ $setting->min_daily }}
                 </td>
             @else   
                 <td class="bg-danger-light">
@@ -52,37 +52,18 @@
                 </td>
             @endisset
 
-            @isset($user->status)
-                <td>
-                    @if ($user->status)
-                        <span class="badge badge-pill badge-success">active</span>
-                    @else
-                        <span class="badge badge-pill badge-danger">suspend</span>
-                    @endif
-                </td>
-            @else   
-                <td class="bg-danger-light">
-                    <i class="fa fa-exclamation-circle"></i> Data not available
-                </td>
-            @endisset
-
-            @isset($user->id)
+            @isset($setting->id)
                 <td class="text-center">
                     <div class="btn-group mr-2 mb-2" data-toggle="buttons" role="group" aria-label="Icons Action group">
                         <button type="button" 
                             class="btn btn-sm btn-primary"
-                            onclick="detailView({{ $user->id }})">
+                            onclick="detailView({{ $setting->id }})">
                             <i class="far fa-fw fa-eye"></i>
                         </button>
                         <button type="button" 
                             class="btn btn-sm btn-primary"
-                            onclick="updateView({{ $user->id }})">
+                            onclick="updateView({{ $setting->id }})">
                                 <i class="fa fa-fw fa-pencil-alt"></i>
-                        </button>
-                        <button type="button" 
-                            class="btn btn-sm btn-primary"
-                            onclick="deleteView({{ $user->id }}, '{{ $user->username }}')">
-                                <i class="fa fa-fw fa-trash"></i>
                         </button>
                     </div>
                 </td>

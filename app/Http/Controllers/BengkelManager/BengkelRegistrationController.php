@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BengkelManager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\WorkshopBengkel;
+use App\Model\BengkelSetting;
 use Illuminate\Support\Facades\Log;
 
 use Session;
@@ -16,8 +17,11 @@ class BengkelRegistrationController extends Controller
     }
 
     public function createBengkelRegistration(Request $request) {
+        $rollbackDB = false;
+        $bengkel = null;
+
         try {
-            WorkshopBengkel::insert([
+            $bengkel = WorkshopBengkel::create([
                 "bengkel_name" => $request->name,
                 "bengkel_alamat" => $request->address,
                 "bengkel_long" => '106.762708119932597',
@@ -26,11 +30,22 @@ class BengkelRegistrationController extends Controller
                 "bengkel_status" => 1,
                 "created_date" => new \DateTime('now'),
             ]);
+
+            $rollbackDB = true;
+
+            BengkelSetting::insert([
+                "workshop_bengkel_id" => $bengkel->id,
+            ]);            
             
             Session::flash('success', 'Success to create bengkel');
             return back();
         } catch (\Throwable $th) {
-            Log::debug('Create Bengkel Registration error: '.$th);
+            if($rollbackDB) {
+                WorkshopBengkel::find($bengkel->id)->delete();
+                Log::debug('Create Bengkel Setting error: '.$th);
+            } else {
+                Log::debug('Create Bengkel Registration error: '.$th);
+            }
             Session::flash('error', 'Something went wrong. Please contact system administrator.');
             return back();
         }
