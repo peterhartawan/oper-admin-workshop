@@ -27,7 +27,7 @@ class CreateOtpVerificationTable extends Migration
 
             $table->tinyInteger('is_sent')
                 ->default(0)
-                ->comment('0: Not Sent| 1: Sent');
+                ->comment('0: Not Sent| 1: Sent | 2: OTP Expired');
 
             $table->timestamps();
         });
