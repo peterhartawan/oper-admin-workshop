@@ -26,28 +26,16 @@
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <select id="type" class="btn btn-primary" onchange="changeType(this.value)">
-                            <option value="username">Username</option>
-                            <option value="email">Email</option>
-                            <option value="phone">Phone Number</option>
-                            <option value="role_id">Role</option>
+                        <select id="type" class="btn btn-primary">
+                            <option value="bengkel_name">Bengkel Name</option>
                         </select>
                     </div>
                     <input type="text" class="form-control" id="search" placeholder="Search">
-                    <select class="form-control d-none" id="search-select">
-                        <option value="">Please Select</option>
-                        @foreach ($roles as $role)
-                            <option value="{{ $role->id }}">{{ $role->role_name }}</option>
-                        @endforeach
-                    </select>
-                    <div class="input-group-append mr-2">
+                    <div class="input-group-append">
                         <button type="button" class="btn btn-primary" onclick="search()">
                             <i class="fa fa-search mr-1"></i>
                         </button>
                     </div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-modal">
-                        <i class="fa far-fw fa-plus mr-1"></i> Create Setting
-                    </button>
                 </div>
             </div>
 
@@ -70,11 +58,10 @@
             <div id="wrapper" style="height: 300px; overflow-y: scroll;" class="table-responsive">
                 <table id="allowance-table" class="table table-bordered table-striped table-vcenter display nowrap ">
                     <thead class="text-center">
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Role</th>
-                        <th>Status</th>
+                        <th>Bengkel Name</th>
+                        <th>Bengkel Open</th>
+                        <th>Bengkel Close</th>
+                        <th>Minimal Order</th>
                         <th>Action</th>
                     </thead>
                     <tbody id="content" class="text-center">
@@ -92,11 +79,17 @@
 @endsection
 
 @section('js_after')
+    <script type="text/javascript" src="{{ asset('template/js/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script> 
+
     <script type='text/javascript'>
 
         //global
         let searchValue = "";
         let filter = "";
+
+        $(function() {
+            Dashmix.helpers(['masked-inputs']);
+        });
 
         $(document).ready(function() {
             loadTable();
@@ -178,36 +171,6 @@
             endOfRequest
         );
 
-        function changeType(val) {
-            $('#search').val('');
-            $('#search-select').val('');
-            switch (val) {
-                case "username":
-                    $('#search').removeClass('d-none');
-                    $('#search-select').addClass('d-none');
-                    searchField = $('#search');
-                    break;
-
-                case "email":
-                    $('#search').removeClass('d-none');
-                    $('#search-select').addClass('d-none');
-                    searchField = $('#search');
-                    break;
-
-                case "phone":
-                    $('#search').removeClass('d-none');
-                    $('#search-select').addClass('d-none');
-                    searchField = $('#search');
-                    break;
-                    
-                case "role_id":
-                    $('#search').addClass('d-none');
-                    $('#search-select').removeClass('d-none');
-                    searchField = $('#search-select');
-                    break;
-            }
-        }
-
         function search() {
             filter = $("#type").val();
             if(filter == "role_id") {
@@ -226,23 +189,12 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function(rspn) {
-                    $('#view-form').find('[name="username"]').val(rspn.username);
-                    $('#view-form').find('[name="email"]').val(rspn.email);
-                    $('#view-form').find('[name="phone"]').val(rspn.phone);
-                    $('#view-form').find('[name="role"]').val(rspn.role_id);
-                    $('#status-form').find('[name="id"]').val(rspn.id);
-
-                    if (rspn.status) {
-                        $('#status-active').removeClass('d-none');
-                        $('#status-suspend').addClass('d-none');
-                        $('#update-status-active').addClass('d-none');
-                        $('#update-status-suspend').removeClass('d-none');
-                    } else {
-                        $('#status-active').addClass('d-none');
-                        $('#status-suspend').removeClass('d-none');
-                        $('#update-status-active').removeClass('d-none');
-                        $('#update-status-suspend').addClass('d-none');
-                    }
+                    $('#view-form').find('[name="bengkel"]').val(rspn.workshop_bengkel.bengkel_name);
+                    $('#view-form').find('[name="open"]').val(rspn.bengkel_open);
+                    $('#view-form').find('[name="close"]').val(rspn.bengkel_close);
+                    $('#view-form').find('[name="order"]').val(rspn.min_daily);
+                    $('#view-form').find('[name="ordertime"]').val(rspn.min_order_time);
+                    $('#view-form').find('[name="distance"]').val(rspn.maks_jarak);
 
                     loaderOff();
                     $('#view-modal').modal('show');
@@ -261,10 +213,12 @@
                 dataType: 'json',
                 success: function(rspn) {
                     $('#update-form').find('[name="id"]').val(rspn.id);
-                    $('#update-form').find('[name="username"]').val(rspn.username);
-                    $('#update-form').find('[name="email"]').val(rspn.email);
-                    $('#update-form').find('[name="phone"]').val(rspn.phone);
-                    $('#update-form').find('[name="role"]').val(rspn.role_id);
+                    $('#update-form').find('[name="bengkel"]').val(rspn.workshop_bengkel.bengkel_name);
+                    $('#update-form').find('[name="open"]').val(rspn.bengkel_open);
+                    $('#update-form').find('[name="close"]').val(rspn.bengkel_close);
+                    $('#update-form').find('[name="order"]').val(rspn.min_daily);
+                    $('#update-form').find('[name="ordertime"]').val(rspn.min_order_time);
+                    $('#update-form').find('[name="distance"]').val(rspn.maks_jarak);
 
                     loaderOff();
                     $('#update-modal').modal('show');
@@ -273,12 +227,6 @@
                     loaderOff();
                 },
             });
-        }
-
-        function deleteView(id, name) {
-            $('#delete-form').find('[name="id"]').val(id);
-            $('#delete-name').text(name);
-            $('#delete-modal').modal('show');
         }
 
     </script>

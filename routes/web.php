@@ -41,8 +41,8 @@ Route::prefix( 'logout' )->group(function() {
             Route::patch ( '', 'UserManagement\UserManagerController@updateStatusUserManager' );
             Route::delete( '', 'UserManagement\UserManagerController@deleteUserManager' );
 
-            Route::get   ( 'pagination', 'Usermanagement\UserManagerController@paginateUserManager' );
-            Route::get   ( '{id}', 'Usermanagement\UserManagerController@detailUserManager' );
+            Route::get   ( 'pagination', 'UserManagement\UserManagerController@paginateUserManager' );
+            Route::get   ( '{id}', 'UserManagement\UserManagerController@detailUserManager' );
         });
     
         Route::prefix( 'customer-list' )->group(function() {
@@ -51,8 +51,8 @@ Route::prefix( 'logout' )->group(function() {
             Route::post  ( '', 'UserManagement\CustomerListController@createCustomerList' );
             Route::delete( '', 'UserManagement\CustomerListController@deleteCustomerList' );
 
-            Route::get   ( 'pagination', 'Usermanagement\CustomerListController@paginateCustomerList' );
-            Route::get   ( '{id}', 'Usermanagement\CustomerListController@detailCustomerList' );
+            Route::get   ( 'pagination', 'UserManagement\CustomerListController@paginateCustomerList' );
+            Route::get   ( '{id}', 'UserManagement\CustomerListController@detailCustomerList' );
         });
 
         Route::fallback(function() {
@@ -89,9 +89,6 @@ Route::prefix( 'logout' )->group(function() {
         Route::prefix( 'bengkel-setting' )->group(function() {
             Route::get   ( '', 'BengkelManager\BengkelSettingController@viewBengkelSetting' );
             Route::put   ( '', 'BengkelManager\BengkelSettingController@updateBengkelSetting' );
-            Route::post  ( '', 'BengkelManager\BengkelSettingController@createBengkelSetting' );
-            Route::patch ( '', 'BengkelManager\BengkelSettingController@updateStatusBengkelSetting' );
-            Route::delete( '', 'BengkelManager\BengkelSettingController@deleteBengkelSetting' );
 
             Route::get   ( 'pagination', 'BengkelManager\BengkelSettingController@paginateBengkelSetting' );
             Route::get   ( '{id}', 'BengkelManager\BengkelSettingController@detailBengkelSetting' );
