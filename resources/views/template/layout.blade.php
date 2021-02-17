@@ -24,7 +24,7 @@
         <!-- Fonts and Dashmix framework -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700">
         <link rel="stylesheet" id="css-main" href="{{ asset('/template/css/dashmix.css') }}" />
-        <link rel="stylesheet" href="{{ asset('/template/css/themes/xdream.css') }}" />
+        <link rel="stylesheet" href="{{ asset('/template/css/themes/xplay.css') }}" />
         <link rel="stylesheet" href="{{ asset('/template/css/loader.css') }}" />
         
         @yield('css_after')

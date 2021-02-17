@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\CmsUser;
-use App\MenuMaster;
+use App\Model\CmsUser;
+use App\Model\MenuMaster;
 use Illuminate\Http\Request;
 
 use Validator;
