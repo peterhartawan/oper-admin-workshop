@@ -47,10 +47,17 @@ class UserManagerController extends Controller
                 "phone" => $request->phone,
                 "status" => 1,
                 "is_bengkel_staff" => 0,
+                "url_image" => 
+                    env('APP_URL').'/download?file=files/cms-user/'.$request->file('image')->getClientOriginalName(),
                 "created_at" => new \DateTime('now'),
                 "updated_at" => null,
                 "deleted_at" => null,
             ]);
+
+            $request->file( "image" )->move(
+                public_path('files/cms-user'),
+                $request->file( "image" )->getClientOriginalName()
+            );
             
             Session::flash('success', 'Success to create user');
             return back();
@@ -79,6 +86,17 @@ class UserManagerController extends Controller
                     Session::flash('error', 'Phone already exist');
                     return back();
             }
+
+            if ($request->hasFile('image')) {
+                $user->url_image = 
+                    env('APP_URL').'/download?file=files/cms-user/'.$request->file('image')->getClientOriginalName();
+
+                $request->file( "image" )->move(
+                    public_path('files/cms-user'),
+                    $request->file( "image" )->getClientOriginalName()
+                );
+            }
+            
 
             $user->username = $request->username;
             $user->email = $request->email;
@@ -144,6 +162,10 @@ class UserManagerController extends Controller
 
     public function detailUserManager($id) {
         $response = CmsUser::find($id);
+        if ($response->url_image != null) {
+            $array_string = explode("?file=", $response->url_image);
+            $response->image = "/".$array_string[1];
+        }
         
         return response()->json( $response );
     }

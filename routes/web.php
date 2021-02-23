@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get( '/', function () {
     return view('welcome');
 });
 
@@ -25,6 +25,8 @@ Route::prefix( 'login' )->group(function() {
 Route::prefix( 'logout' )->group(function() {
     Route::get ( '', 'AuthController@logout' );
 });
+
+Route::get( 'download', 'UtilitiesController@download' );
 
 /* 
 |--------------------------------------------------------------------------
