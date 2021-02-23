@@ -36,6 +36,33 @@
                                     required></textarea>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <input type="text"
+                                    id="create-latitude"
+                                    name="latitude"
+                                    class="form-control"
+                                    placeholder="Bengkel Latitude"
+                                    pattern="[0-9-.]*"
+                                    title="Latitude only use: 0-9 - ."
+                                    value="-6.161287494589915"
+                                    required>
+                            </div>
+                            <div class="col-6 form-group">
+                                <input type="text"
+                                    id="create-longitude"
+                                    name="longitude"
+                                    class="form-control"
+                                    placeholder="Bengkel Longitude"
+                                    pattern="[0-9-.]*"
+                                    title="Longitude only use: 0-9 - ."
+                                    value="106.762708119932597"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div id="create-maps" style="min-height: 65vh;width: 100%;"></div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Type</label>
                             <div class="col-sm-8">
@@ -66,7 +93,7 @@
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-primary-dark">
                     <h3 class="block-title">
-                        <i class="far far-fw fa-plus-square mr-1"></i> Update User
+                        <i class="far far-fw fa-plus-square mr-1"></i> Update Bengkel
                     </h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
@@ -99,6 +126,33 @@
                                     rows="5"
                                     required></textarea>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <input type="text"
+                                    id="update-latitude"
+                                    name="latitude"
+                                    class="form-control"
+                                    placeholder="Bengkel Latitude"
+                                    pattern="[0-9-.]*"
+                                    title="Latitude only use: 0-9 - ."
+                                    value="-6.161287494589915"
+                                    required>
+                            </div>
+                            <div class="col-6 form-group">
+                                <input type="text"
+                                    id="update-longitude"
+                                    name="longitude"
+                                    class="form-control"
+                                    placeholder="Bengkel Longitude"
+                                    pattern="[0-9-.]*"
+                                    title="Longitude only use: 0-9 - ."
+                                    value="106.762708119932597"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div id="update-maps" style="min-height: 65vh;width: 100%;"></div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Type</label>
@@ -146,7 +200,7 @@
                                 <input type="text"
                                     class="form-control" 
                                     name="name" 
-                                    id="create-name" 
+                                    id="view-name" 
                                     disabled>
                             </div>
                         </div>
@@ -155,7 +209,7 @@
                             <div class="col-sm-8">
                                 <textarea class="form-control"
                                     name="address" 
-                                    id="create-address" 
+                                    id="view-address" 
                                     rows="5"
                                     disabled></textarea>
                             </div>
@@ -164,7 +218,7 @@
                             <label class="col-sm-4 col-form-label">Type</label>
                             <div class="col-sm-8">
                                 <select class="form-control" 
-                                    id="create-type"
+                                    id="view-type"
                                     name="type"
                                     disabled>
                                         <option value="">Please Select</option>

@@ -24,8 +24,8 @@ class BengkelRegistrationController extends Controller
             $bengkel = WorkshopBengkel::create([
                 "bengkel_name" => $request->name,
                 "bengkel_alamat" => $request->address,
-                "bengkel_long" => '106.762708119932597',
-                "bengkel_lat" => '-6.161287494589915',
+                "bengkel_long" => $request->longitude,
+                "bengkel_lat" => $request->latitude,
                 "bengkel_tipe" => $request->type,
                 "bengkel_status" => 1,
                 "created_date" => new \DateTime('now'),
@@ -56,8 +56,8 @@ class BengkelRegistrationController extends Controller
             $bengkel = WorkshopBengkel::find($request->id);
             $bengkel->bengkel_name = $request->name;
             $bengkel->bengkel_alamat = $request->address;
-            $bengkel->bengkel_long = '106.762708119932597';
-            $bengkel->bengkel_lat = '-6.161287494589915';
+            $bengkel->bengkel_long = $request->longitude;
+            $bengkel->bengkel_lat = $request->latitude;
             $bengkel->bengkel_tipe = $request->type;
             $bengkel->save();
             
