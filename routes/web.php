@@ -164,17 +164,19 @@ Route::prefix( 'logout' )->group(function() {
     Route::prefix( 'service-advisor' )->group(function() {
 
         Route::prefix( 'new-order-list' )->group(function() {
-            Route::get   ( '', 'ServiceAdvisor\NewOrderListController@newOrderListPage' );
-            // Route::put   ( '', '' );
-            // Route::post  ( '', '' );
-            // Route::delete( '', '' );
+            Route::get   ( '', 'ServiceAdvisor\NewOrderListController@viewNewOrderList' );
+            Route::patch ( '', 'ServiceAdvisor\NewOrderListController@updateStatusNewOrderList' );
+
+            Route::get   ( 'pagination', 'ServiceAdvisor\NewOrderListController@paginateNewOrderList' );
+            Route::get   ( '{id}', 'ServiceAdvisor\NewOrderListController@detailNewOrderList' );
         });
     
         Route::prefix( 'order-inprogress' )->group(function() {
-            Route::get   ( '', 'ServiceAdvisor\OrderInProgressController@orderInProgressPage' );
-            // Route::put   ( '', '' );
-            // Route::post  ( '', '' );
-            // Route::delete( '', '' );
+            Route::get   ( '', 'ServiceAdvisor\OrderInProgressController@viewOrderInProgress' );
+            Route::put   ( '', 'ServiceAdvisor\OrderInProgressController@updateOrderInProgress' );
+
+            Route::get   ( 'pagination', 'ServiceAdvisor\OrderInProgressController@paginateOrderInProgress' );
+            Route::get   ( '{id}', 'ServiceAdvisor\OrderInProgressController@detailOrderInProgress' );
         });
 
         Route::fallback(function() {
@@ -205,10 +207,11 @@ Route::prefix( 'logout' )->group(function() {
         });
     
         Route::prefix( 'order-list' )->group(function() {
-            Route::get   ( '', 'Foreman\orderListController@OrderListPage' );
-            // Route::put   ( '', '' );
-            // Route::post  ( '', '' );
-            // Route::delete( '', '' );
+            Route::get   ( '', 'Foreman\OrderListController@viewOrderList' );
+            Route::put   ( '', 'Foreman\OrderListController@updateOrderList' );
+
+            Route::get   ( 'pagination', 'Foreman\OrderListController@paginateOrderList' );
+            Route::get   ( '{id}', 'Foreman\OrderListController@detailOrderList' );
         });
 
         Route::fallback(function() {

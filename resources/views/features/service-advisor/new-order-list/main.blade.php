@@ -1,194 +1,232 @@
 @extends('template.layout')
 
 @section('js_before')
-
+    <script type="text/javascript" src="{{ asset('template/js/custom/infinity-scrolling.js') }}"></script> 
+    <script type="text/javascript">
+        //API Hit Setting
+        var page = 1;
+        var perPage = 10;
+        var endOfRequest = false;
+    </script>
 @endsection
+
 @section('css_before')
 
 @endsection
+
 @section('css_after')
 
 @endsection
 
 @section('title', 'Service Advisor - New Order List')
-
+    
 @section('content')
-    <!-- Statistics -->
-    <div class="row">
-        <!-- Wallet -->
-        <div class="col-lg-6 invisible" data-toggle="appear">
-            <div class="block block-bordered">
-                <div class="block-content">
-                    <div class="px-sm-3 pt-sm-3 clearfix" style="min-height: 260px;">
-                        <i class="fa fa-chart-line fa-2x text-gray-light float-right"></i>
-                        <p class="display-4 text-black font-w300 mb-2">
-                            4.860 <span class="font-size-h5 font-w600 text-muted">USD</span>
-                        </p>
-                        <p class="text-muted w-75">
-                            You had <strong>15</strong> orders today and <strong>12</strong> orders yesterday. You seem to be doing great, so keep it up!
-                        </p>
-                        <a class="btn btn-hero-sm btn-outline-primary btn-square mr-1 mb-1" href="javascript:void(0)">
-                            <i class="far fa-money-bill-alt fa-fw mr-1"></i> Latest Orders
-                        </a>
-                        <a class="btn btn-hero-sm btn-outline-primary btn-square mr-1 mb-1" href="javascript:void(0)">
-                            <i class="far fa-user fa-fw mr-1"></i> Account
-                        </a>
+    <div class="block block-rounded block-bordered">
+        <div class="block-content">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <select id="type" class="btn btn-primary">
+                            <option value="booking_no">Booking Number</option>
+                            <option value="customer_name">Customer Name</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" id="search" placeholder="Search">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" onclick="search()">
+                            <i class="fa fa-search mr-1"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="block-content p-1 overflow-hidden">
-                    <!-- Sparkline Container -->
-                    <span class="js-sparkline" data-type="line"
-                          data-points="[340,390,360,420,385,366,440,470]"
-                          data-width="100%"
-                          data-height="189px"
-                          data-chart-range-min="320"
-                          data-fill-color="rgba(6,101,208,.1)"
-                          data-spot-color="transparent"
-                          data-min-spot-color="transparent"
-                          data-max-spot-color="transparent"
-                          data-highlight-spot-color="#0665d0"
-                          data-highlight-line-color="#0665d0"
-                          data-tooltip-prefix="$"></span>
-                </div>
             </div>
+
+            @if (Session::has('success'))
+                <div class="alert alert-success alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p class="mb-0">{{Session::get('success')}}</p>
+                </div>
+            @elseif (Session::has('error'))
+                <div class="alert alert-danger alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p class="mb-0">{{Session::get('error')}}</p>
+                </div>
+            @endif
+
+            <div id="wrapper" style="height: 300px; overflow-y: scroll;" class="table-responsive">
+                <table id="allowance-table" class="table table-bordered table-striped table-vcenter display nowrap ">
+                    <thead class="text-center">
+                        <th>Booking Number</th>
+                        <th>Customer Name</th>
+                        <th>Bengkel Name</th>
+                        <th>Order Type</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody id="content" class="text-center">
+
+                    </tbody>
+                </table>
+            </div>
+            <br>
         </div>
-        <!-- Wallet -->
-
-        <!-- Various Stats -->
-        <div class="col-lg-6 invisible" data-toggle="appear">
-            <!-- Weekly Orders -->
-            <div class="block block-bordered mb-lg-2">
-                <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                    <div class="ml-3">
-                        <p class="font-size-h2 font-w300 text-black mb-0">
-                            160
-                        </p>
-                        <a class="link-fx font-size-sm font-w600 text-muted text-uppercase mb-0" href="javascript:void(0)">
-                            Orders
-                        </a>
-                    </div>
-                    <div>
-                        <!-- Sparkline Container -->
-                        <span class="js-sparkline" data-type="line"
-                              data-points="[15,18,22,19,16,21,19]"
-                              data-width="100px"
-                              data-height="60px"
-                              data-line-color="#3c90df"
-                              data-fill-color="rgba(60,144,223,.1)"
-                              data-spot-color="transparent"
-                              data-min-spot-color="transparent"
-                              data-max-spot-color="transparent"
-                              data-highlight-spot-color="#3c90df"
-                              data-highlight-line-color="#3c90df"
-                              data-tooltip-suffix="Orders"></span>
-                    </div>
-                </div>
-            </div>
-            <!-- END Weekly Orders -->
-
-            <!-- Weekly Visits -->
-            <div class="block block-bordered mb-lg-2">
-                <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                    <div class="ml-3">
-                        <p class="font-size-h2 font-w300 text-black mb-0">
-                            3.670
-                        </p>
-                        <a class="link-fx font-size-sm font-w600 text-muted text-uppercase mb-0" href="javascript:void(0)">
-                            Visits
-                        </a>
-                    </div>
-                    <div>
-                        <!-- Sparkline Container -->
-                        <span class="js-sparkline" data-type="line"
-                              data-points="[352,480,698,758,523,625,780]"
-                              data-width="100px"
-                              data-height="60px"
-                              data-line-color="#689550"
-                              data-fill-color="rgba(104,149,80,.1)"
-                              data-spot-color="transparent"
-                              data-min-spot-color="transparent"
-                              data-max-spot-color="transparent"
-                              data-highlight-spot-color="#689550"
-                              data-highlight-line-color="#689550"
-                              data-tooltip-suffix="Visits"></span>
-                    </div>
-                </div>
-            </div>
-            <!-- END Weekly Visits -->
-
-            <!-- Weekly Followers -->
-            <div class="block block-bordered mb-lg-2">
-                <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                    <div class="ml-3">
-                        <p class="font-size-h2 font-w300 text-black mb-0">
-                            630
-                        </p>
-                        <a class="link-fx font-size-sm font-w600 text-muted text-uppercase mb-0" href="javascript:void(0)">
-                            Followers
-                        </a>
-                    </div>
-                    <div>
-                        <!-- Sparkline Container -->
-                        <span class="js-sparkline" data-type="line"
-                              data-points="[89,78,115,98,82,136,112]"
-                              data-width="100px"
-                              data-height="60px"
-                              data-line-color="#ffb119"
-                              data-fill-color="rgba(255,177,25,.1)"
-                              data-spot-color="transparent"
-                              data-min-spot-color="transparent"
-                              data-max-spot-color="transparent"
-                              data-highlight-spot-color="#ffb119"
-                              data-highlight-line-color="#ffb119"
-                              data-tooltip-suffix="Followers"></span>
-                    </div>
-                </div>
-            </div>
-            <!-- END Weekly Followers -->
-
-            <!-- Weekly Tickets -->
-            <div class="block block-bordered mb-lg-2">
-                <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                    <div class="ml-3">
-                        <p class="font-size-h2 font-w300 text-black mb-0">
-                            32
-                        </p>
-                        <a class="link-fx font-size-sm font-w600 text-muted text-uppercase mb-0" href="javascript:void(0)">
-                            Tickets
-                        </a>
-                    </div>
-                    <div>
-                        <!-- Sparkline Container -->
-                        <span class="js-sparkline" data-type="line"
-                              data-points="[1,6,3,5,4,8,2]"
-                              data-width="100px"
-                              data-height="60px"
-                              data-line-color="#e04f1a"
-                              data-fill-color="rgba(224,79,26,.1)"
-                              data-spot-color="transparent"
-                              data-min-spot-color="transparent"
-                              data-max-spot-color="transparent"
-                              data-highlight-spot-color="#e04f1a"
-                              data-highlight-line-color="#e04f1a"
-                              data-tooltip-suffix="Tickets"></span>
-                    </div>
-                </div>
-            </div>
-            <!-- END Weekly Tickets -->
-        </div>
-        <!-- END Various Stats -->
     </div>
-    <!-- END Statistics -->
 @endsection
 
 @section('modal')
-
+    @include('features.service-advisor.new-order-list.function.modal')
 @endsection
 
 @section('js_after')
-    <!-- Page JS Plugins -->
-    <script src="{{ asset('/template/js/plugins/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('template/js/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script> 
 
-    <!-- Page JS Helpers (jQuery Sparkline Plugin) -->
-    <script>jQuery(function(){ Dashmix.helpers('sparkline'); });</script>
+    <script type='text/javascript'>
+
+        //global
+        let searchValue = "";
+        let filter = "";
+
+        $(function() {
+            Dashmix.helpers(['masked-inputs']);
+        });
+
+        $(document).ready(function() {
+            loadTable();
+        });
+
+        function loadTable(){
+            page = 1;
+            endOfRequest = false;
+
+            $('#content').empty();
+
+            loaderOn();
+
+            $.ajax({
+                "type": "GET",
+                "url": "/service-advisor/new-order-list/pagination",
+                "data": {
+                    page: page,
+                    size: perPage,
+                    key: filter,
+                    value: searchValue
+                },
+                "dataType": "html",
+                success: function(e) {
+                    $('#content').append(e);
+                    loaderOff();
+                },
+                error: function(e){
+                    alert("Connection to system is error! Please contact system administrator!");
+                    loaderOff();
+                }
+            });
+        }
+
+        infinityScroll("wrapper", 
+            "content", 
+            "GET", 
+            "/service-advisor/new-order-list/pagination", 
+            "html",
+            {
+                "page": page+1,
+                "size": perPage,
+                "key": filter,
+                "value": searchValue
+            },
+            function(){
+                if(!$('#end-of-content').length){
+                    loaderOn();
+                }
+            },
+            function(){
+                page = page+1;
+            },
+            function(){
+                return {
+                    "param": {
+                        "page": page+1,
+                        "size": perPage
+                    },
+                    "endOfRequest": endOfRequest
+                }
+            },
+            function(success){
+                if(!$('#end-of-content').length){
+                    loaderOff();
+
+                    $('#content').append(success);
+                }
+            },
+            function(xhr, status, error){
+                loaderOff();
+
+                if(xhr.status === 404){
+                    customSwal(xhr.status+ " - " + xhr.statusText, 'Requested URL is not found!');
+                }else{
+                    customSwal(xhr.status+ " - " + xhr.statusText, "Connection to system is error! Please contact system administrator!");
+                }
+            },
+            endOfRequest
+        );
+
+        function search() {
+            filter = $("#type").val();
+            if(filter == "role_id") {
+                searchValue = $("#search-select").val();
+            } else {
+                searchValue = $("#search").val();
+            }
+
+            loadTable();
+        }
+
+        function detailView(id) {
+            loaderOn();
+            $.ajax({
+                url: '/service-advisor/new-order-list/' + id,
+                method: 'GET',
+                dataType: 'json',
+                success: function(rspn) {
+                    $('#view-form').find('[name="cName"]').val(rspn.customer_name);
+                    $('#view-form').find('[name="cHp"]').val(rspn.customer_hp);
+                    $('#view-form').find('[name="cEmail"]').val(rspn.customer_email);
+                    $('#view-form').find('[name="cAddress"]').val(rspn.customer_address);
+                    $('#view-form').find('[name="vBrand"]').val(rspn.vehicle_brand.brand_name);
+                    $('#view-form').find('[name="vType"]').val(rspn.vehicle_type.vehicle_name);
+                    $('#view-form').find('[name="vPlat"]').val(rspn.vehicle_plat);
+                    $('#view-form').find('[name="bName"]').val(rspn.workshop_bengkel.bengkel_name);
+                    $('#view-form').find('[name="pkbNomer"]').val(rspn.pkb_nomer);
+                    $('#view-form').find('[name="pkbEstimation"]').val(rspn.pkb_estimation);
+                    $('#view-form').find('[name="bNumber"]').val(rspn.booking_no);
+                    $('#view-form').find('[name="bTime"]').val(rspn.booking_time);
+
+                    switch (rspn.order_type) {
+                        case 1:
+                            $('#view-form').find('[name="oType"]').val('Mobil');
+                            break;
+
+                        case 2:
+                            $('#view-form').find('[name="oType"]').val('Motor');
+                            break;
+                    }
+
+                    loaderOff();
+                    $('#view-modal').modal('show');
+                },
+                error: function(err) {
+                    loaderOff();
+                },
+            });
+        }
+
+        function updateStatusView(id, name) {
+            $('#update-status-form').find('[name="id"]').val(id);
+            $('#update-status-name').text(name);
+            $('#update-status-modal').modal('show');
+        }
+
+    </script>
 @endsection
