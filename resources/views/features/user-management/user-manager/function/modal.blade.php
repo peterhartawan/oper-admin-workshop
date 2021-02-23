@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="create-form" action="/user-management/user-manager" method="POST" onsubmit="loaderOn()">
+                    <form id="create-form" action="/user-management/user-manager" method="POST" onsubmit="loaderOn()" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Role</label>
@@ -22,7 +22,8 @@
                                 <select class="form-control" 
                                     id="create-role"
                                     name="role"
-                                    required>
+                                    required
+                                    onchange="changeRole('create')">
                                         <option value="">Please Select</option>
                                         @foreach ($roles as $role)
                                             <option value="{{ $role->id }}">{{ $role->role_name }}</option>
@@ -60,6 +61,19 @@
                                     required>
                             </div>
                         </div>
+                        <div class="form-group row d-none">
+                            <label class="col-sm-4 col-form-label">User Image</label>
+                            <div class="col-sm-8">
+                                <div class="custom-file">
+                                    <input type="file" 
+                                        class="custom-file-input" 
+                                        data-toggle="custom-file-input" 
+                                        id="create-image" 
+                                        name="image">
+                                    <label class="custom-file-label" for="create-image">Choose Image</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-block btn-primary" value="Submit">
                         </div>
@@ -86,7 +100,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="update-form" action="/user-management/user-manager" method="POST" onsubmit="loaderOn()">
+                    <form id="update-form" action="/user-management/user-manager" method="POST" onsubmit="loaderOn()" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
 
@@ -97,7 +111,8 @@
                                 <select class="form-control" 
                                     id="update-role"
                                     name="role"
-                                    required>
+                                    required
+                                    onchange="changeRole('update')">
                                         <option value="">Please Select</option>
                                         @foreach ($roles as $role)
                                             <option value="{{ $role->id }}">{{ $role->role_name }}</option>
@@ -133,6 +148,19 @@
                                     name="phone" 
                                     id="update-phone" 
                                     required>
+                            </div>
+                        </div>
+                        <div class="form-group row d-none">
+                            <label class="col-sm-4 col-form-label">User Image</label>
+                            <div class="col-sm-8">
+                                <div class="custom-file">
+                                    <input type="file" 
+                                        class="custom-file-input" 
+                                        data-toggle="custom-file-input" 
+                                        id="update-image" 
+                                        name="image">
+                                    <label class="custom-file-label" for="update-image">Choose Image</label>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -204,6 +232,25 @@
                                     name="phone" 
                                     id="view-phone" 
                                     disabled>
+                            </div>
+                        </div>
+                        {{-- <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">User Image</label>
+                            <div class="col-sm-8">
+                                <a id="download-image" href="javascript:void(0);">
+                                    <button type="button" class="btn btn-block btn-primary mr-1 mb-3">
+                                        <i class="fa fa-fw fa-file mr-1"></i> Download Image
+                                    </button>
+                                </a>
+                            </div>
+                        </div> --}}
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">User Image</label>
+                            <div class="col-sm-8">
+                                <img class="img-fluid" 
+                                    id="view-image"
+                                    src="" 
+                                    alt="">
                             </div>
                         </div>
                         <div class="form-group row">
