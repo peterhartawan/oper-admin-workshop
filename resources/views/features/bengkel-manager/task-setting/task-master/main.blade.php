@@ -26,27 +26,18 @@
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <select id="type" class="btn btn-primary" onchange="changeType(this.value)">
-                            <option value="username">Username</option>
-                            <option value="email">Email</option>
-                            <option value="phone">Phone Number</option>
-                            <option value="role_id">Role</option>
+                        <select id="type" class="btn btn-primary">
+                            <option value="task_name">Task Name</option>
                         </select>
                     </div>
                     <input type="text" class="form-control" id="search" placeholder="Search">
-                    <select class="form-control d-none" id="search-select">
-                        <option value="">Please Select</option>
-                        @foreach ($roles as $role)
-                            <option value="{{ $role->id }}">{{ $role->role_name }}</option>
-                        @endforeach
-                    </select>
                     <div class="input-group-append mr-2">
                         <button type="button" class="btn btn-primary" onclick="search()">
                             <i class="fa fa-search mr-1"></i>
                         </button>
                     </div>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-modal">
-                        <i class="fa far-fw fa-plus mr-1"></i> Create Task Setting
+                        <i class="fa far-fw fa-plus mr-1"></i> Create Master Task
                     </button>
                 </div>
             </div>
@@ -70,11 +61,8 @@
             <div id="wrapper" style="height: 300px; overflow-y: scroll;" class="table-responsive">
                 <table id="allowance-table" class="table table-bordered table-striped table-vcenter display nowrap ">
                     <thead class="text-center">
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Role</th>
-                        <th>Status</th>
+                        <th>Task Name</th>
+                        <th>Total Bengkel</th>
                         <th>Action</th>
                     </thead>
                     <tbody id="content" class="text-center">
@@ -88,7 +76,7 @@
 @endsection
 
 @section('modal')
-    @include('features.bengkel-manager.task-setting.function.modal')
+    @include('features.bengkel-manager.task-setting.task-master.function.modal')
 @endsection
 
 @section('js_after')
@@ -178,36 +166,6 @@
             endOfRequest
         );
 
-        function changeType(val) {
-            $('#search').val('');
-            $('#search-select').val('');
-            switch (val) {
-                case "username":
-                    $('#search').removeClass('d-none');
-                    $('#search-select').addClass('d-none');
-                    searchField = $('#search');
-                    break;
-
-                case "email":
-                    $('#search').removeClass('d-none');
-                    $('#search-select').addClass('d-none');
-                    searchField = $('#search');
-                    break;
-
-                case "phone":
-                    $('#search').removeClass('d-none');
-                    $('#search-select').addClass('d-none');
-                    searchField = $('#search');
-                    break;
-                    
-                case "role_id":
-                    $('#search').addClass('d-none');
-                    $('#search-select').removeClass('d-none');
-                    searchField = $('#search-select');
-                    break;
-            }
-        }
-
         function search() {
             filter = $("#type").val();
             if(filter == "role_id") {
@@ -219,40 +177,6 @@
             loadTable();
         }
 
-        function detailView(id) {
-            loaderOn();
-            $.ajax({
-                url: '/bengkel-manager/task-setting/' + id,
-                method: 'GET',
-                dataType: 'json',
-                success: function(rspn) {
-                    $('#view-form').find('[name="username"]').val(rspn.username);
-                    $('#view-form').find('[name="email"]').val(rspn.email);
-                    $('#view-form').find('[name="phone"]').val(rspn.phone);
-                    $('#view-form').find('[name="role"]').val(rspn.role_id);
-                    $('#status-form').find('[name="id"]').val(rspn.id);
-
-                    if (rspn.status) {
-                        $('#status-active').removeClass('d-none');
-                        $('#status-suspend').addClass('d-none');
-                        $('#update-status-active').addClass('d-none');
-                        $('#update-status-suspend').removeClass('d-none');
-                    } else {
-                        $('#status-active').addClass('d-none');
-                        $('#status-suspend').removeClass('d-none');
-                        $('#update-status-active').removeClass('d-none');
-                        $('#update-status-suspend').addClass('d-none');
-                    }
-
-                    loaderOff();
-                    $('#view-modal').modal('show');
-                },
-                error: function(err) {
-                    loaderOff();
-                },
-            });
-        }
-
         function updateView(id) {
             loaderOn();
             $.ajax({
@@ -261,10 +185,7 @@
                 dataType: 'json',
                 success: function(rspn) {
                     $('#update-form').find('[name="id"]').val(rspn.id);
-                    $('#update-form').find('[name="username"]').val(rspn.username);
-                    $('#update-form').find('[name="email"]').val(rspn.email);
-                    $('#update-form').find('[name="phone"]').val(rspn.phone);
-                    $('#update-form').find('[name="role"]').val(rspn.role_id);
+                    $('#update-form').find('[name="name"]').val(rspn.task_name);
 
                     loaderOff();
                     $('#update-modal').modal('show');

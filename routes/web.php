@@ -100,9 +100,25 @@ Route::get( 'download', 'UtilitiesController@download' );
             Route::get   ( '', 'BengkelManager\TaskSettingController@viewTaskSetting' );
             Route::put   ( '', 'BengkelManager\TaskSettingController@updateTaskSetting' );
             Route::post  ( '', 'BengkelManager\TaskSettingController@createTaskSetting' );
-            Route::patch ( '', 'BengkelManager\TaskSettingController@updateStatusTaskSetting' );
             Route::delete( '', 'BengkelManager\TaskSettingController@deleteTaskSetting' );
 
+            Route::prefix( 'task-list' )->group(function() {
+                Route::put   ( '', 'BengkelManager\TaskSettingController@updateTaskList' );
+                Route::post  ( '', 'BengkelManager\TaskSettingController@createTaskList' );
+                Route::delete( '', 'BengkelManager\TaskSettingController@deleteTaskList' );
+    
+                Route::get   ( 'pagination', 'BengkelManager\TaskSettingController@paginateTaskList' );
+                Route::get   ( '{id}', 'BengkelManager\TaskSettingController@detailTaskList' );
+            });
+
+            Route::prefix( 'workshop-bengkel' )->group(function() {
+                Route::post  ( '', 'BengkelManager\TaskSettingController@createTaskMasterWorkshopBengkel' );
+                Route::delete( '', 'BengkelManager\TaskSettingController@deleteTaskMasterWorkshopBengkel' );
+    
+                Route::get   ( 'pagination', 'BengkelManager\TaskSettingController@paginateTaskMasterWorkshopBengkel' );
+            });
+
+            Route::get   ( 'detail', 'BengkelManager\TaskSettingController@viewDetailTaskMaster' );
             Route::get   ( 'pagination', 'BengkelManager\TaskSettingController@paginateTaskSetting' );
             Route::get   ( '{id}', 'BengkelManager\TaskSettingController@detailTaskSetting' );
         });
