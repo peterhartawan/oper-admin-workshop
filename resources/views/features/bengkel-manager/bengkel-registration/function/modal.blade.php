@@ -146,7 +146,7 @@
                                 <input type="text"
                                     class="form-control" 
                                     name="name" 
-                                    id="create-name" 
+                                    id="view-name" 
                                     disabled>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
                             <div class="col-sm-8">
                                 <textarea class="form-control"
                                     name="address" 
-                                    id="create-address" 
+                                    id="view-address" 
                                     rows="5"
                                     disabled></textarea>
                             </div>
@@ -164,7 +164,7 @@
                             <label class="col-sm-4 col-form-label">Type</label>
                             <div class="col-sm-8">
                                 <select class="form-control" 
-                                    id="create-type"
+                                    id="view-type"
                                     name="type"
                                     disabled>
                                         <option value="">Please Select</option>
