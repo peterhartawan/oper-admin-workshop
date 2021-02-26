@@ -65,7 +65,7 @@
                         @case(2)
                             Open Order
                             @break
-                        @case(4)
+                        @case(5)
                             Done Foreman
                             @break
                     @endswitch
@@ -88,12 +88,16 @@
                             @case(2)
                                 <button type="button" 
                                     class="btn btn-sm btn-primary"
-                                    onclick="updateView({{ $order->id }})">
+                                    onclick="updateViewStatus2({{ $order->id }})">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                 </button>
                                 @break
-                            @case(4)
-                                
+                            @case(5)
+                                <button type="button" 
+                                    class="btn btn-sm btn-primary"
+                                    onclick="updateViewStatus5({{ $order->id }}, '{{ $order->customer_name }}')">
+                                        <i class="fa fa-fw fa-pencil-alt"></i>
+                                </button>
                                 @break                                
                         @endswitch
                     </div>

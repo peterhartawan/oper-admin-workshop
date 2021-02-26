@@ -204,6 +204,14 @@
                     $('#view-form').find('[name="bNumber"]').val(rspn.booking_no);
                     $('#view-form').find('[name="bTime"]').val(rspn.booking_time);
 
+                    if(rspn.pkb_file == null || rspn.pkb_file == "") {
+                        $('#download-file').prop('href', 'javascript:void(0);');
+                        $('#download-file button').prop('disabled', true);
+                    } else {
+                        $('#download-file').prop('href', rspn.pkb_file);
+                        $('#download-file button').prop('disabled', false);
+                    }
+
                     switch (rspn.order_type) {
                         case 1:
                             $('#view-form').find('[name="oType"]').val('Mobil');
@@ -223,22 +231,28 @@
             });
         }
 
-        function updateView(id) {
+        function updateViewStatus2(id) {
             loaderOn();
             $.ajax({
                 url: '/service-advisor/order-inprogress/' + id,
                 method: 'GET',
                 dataType: 'json',
                 success: function(rspn) {
-                    $('#update-form').find('[name="id"]').val(rspn.id);
+                    $('#update-status-2-form').find('[name="id"]').val(rspn.id);
 
                     loaderOff();
-                    $('#update-modal').modal('show');
+                    $('#update-status-2-modal').modal('show');
                 },
                 error: function(err) {
                     loaderOff();
                 },
             });
+        }
+
+        function updateViewStatus5(id, name) {
+            $('#update-status-5-form').find('[name="id"]').val(id);
+            $('#update-status-5-name').text(name);
+            $('#update-status-5-modal').modal('show');
         }
 
     </script>
