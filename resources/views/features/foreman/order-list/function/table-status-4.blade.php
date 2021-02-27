@@ -1,14 +1,10 @@
-@if(!isset($listdata) || empty($listdata))
-    <script type="text/javascript">
-        endOfRequest = true;
+@if(isset($listdata))
 
-        if(!$('#list_eor').length){
-            $('#list_content').append('<tr id="list_eor"><td colspan="6"><div class="row"><div class="col-12 d-flex justify-content-center"><h4>This is the end of the content.</h4></div></div></td></tr>');
-        }
-    </script>
-@else
+    @php
+        $flag_button = true;
+    @endphp
     
-    @foreach($listdata->data as $list)
+    @foreach($listdata as $list)
      
         <tr>
 
@@ -42,33 +38,40 @@
                 </td>
             @endisset
 
-            @isset($list->as_final_task)
+            @isset($list->list_done)
                 <td>
-                    @if ($list->as_final_task)
-                        <span class="badge badge-pill badge-success">Final Task</span>
-                    @else
-                        <span class="badge badge-pill badge-primary">Not Final Task</span>
-                    @endif
+                    {{ $list->list_done }}
                 </td>
             @else   
-                <td class="bg-danger-light">
-                    <i class="fa fa-exclamation-circle"></i> Data not available
+                <td>
+                    <span class="badge badge-pill badge-secondary">not finished</span>
                 </td>
             @endisset
 
             @isset($list->id)
                 <td class="text-center">
                     <div class="btn-group mr-2 mb-2" data-toggle="buttons" role="group" aria-label="Icons Action group">
-                        <button type="button" 
-                            class="btn btn-sm btn-primary"
-                            onclick="updateView({{ $list->id }})">
-                                <i class="fa fa-fw fa-pencil-alt"></i>
-                        </button>
-                        <button type="button" 
-                            class="btn btn-sm btn-primary"
-                            onclick="deleteView({{ $list->id }}, '{{ $list->list_name }}')">
-                                <i class="fa fa-fw fa-trash"></i>
-                        </button>
+                        @isset($list->list_done)
+                            <span class="badge badge-pill badge-success">finished</span>
+                        @else
+                            @if ($flag_button)
+                                <input type="hidden" name="listID" value="{{ $list->id }}">
+                                <button type="submit" 
+                                    class="btn btn-sm btn-primary"
+                                    onclick="$('#update-status-4-form').submit()">
+                                        <i class="fa fa-fw fa-check"></i> Done
+                                </button>
+                                @php
+                                    $flag_button = false;
+                                @endphp
+                            @else
+                                <button type="button" 
+                                    class="btn btn-sm btn-secondary"
+                                    disabled>
+                                        <i class="fa fa-fw fa-check"></i> Done
+                                </button>
+                            @endif
+                        @endisset
                     </div>
                 </td>
             @else
@@ -80,4 +83,5 @@
         </tr> 
         
     @endforeach
+
 @endif

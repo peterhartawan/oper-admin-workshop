@@ -27,9 +27,8 @@
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <select id="type" class="btn btn-primary">
-                            <option value="bengkel_name">Booking Number</option>
-                            <option value="bengkel_name">Customer Name</option>
-                            <option value="bengkel_name">Bengkel Name</option>
+                            <option value="booking_no">Booking Number</option>
+                            <option value="customer_name">Customer Name</option>
                         </select>
                     </div>
                     <input type="text" class="form-control" id="search" placeholder="Search">
@@ -64,6 +63,7 @@
                         <th>Customer Name</th>
                         <th>Bengkel Name</th>
                         <th>Order Type</th>
+                        <th>Order Status</th>
                         <th>Action</th>
                     </thead>
                     <tbody id="content" class="text-center">
@@ -191,12 +191,36 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function(rspn) {
-                    $('#view-form').find('[name="bengkel"]').val(rspn.workshop_bengkel.bengkel_name);
-                    $('#view-form').find('[name="open"]').val(rspn.bengkel_open);
-                    $('#view-form').find('[name="close"]').val(rspn.bengkel_close);
-                    $('#view-form').find('[name="order"]').val(rspn.min_daily);
-                    $('#view-form').find('[name="ordertime"]').val(rspn.min_order_time);
-                    $('#view-form').find('[name="distance"]').val(rspn.maks_jarak);
+                    $('#view-form').find('[name="cName"]').val(rspn.customer_name);
+                    $('#view-form').find('[name="cHp"]').val(rspn.customer_hp);
+                    $('#view-form').find('[name="cEmail"]').val(rspn.customer_email);
+                    $('#view-form').find('[name="cAddress"]').val(rspn.customer_address);
+                    $('#view-form').find('[name="vBrand"]').val(rspn.vehicle_brand.brand_name);
+                    $('#view-form').find('[name="vType"]').val(rspn.vehicle_type.vehicle_name);
+                    $('#view-form').find('[name="vPlat"]').val(rspn.vehicle_plat);
+                    $('#view-form').find('[name="bName"]').val(rspn.workshop_bengkel.bengkel_name);
+                    $('#view-form').find('[name="pkbNomer"]').val(rspn.pkb_nomer);
+                    $('#view-form').find('[name="pkbEstimation"]').val(rspn.pkb_estimation);
+                    $('#view-form').find('[name="bNumber"]').val(rspn.booking_no);
+                    $('#view-form').find('[name="bTime"]').val(rspn.booking_time);
+
+                    if(rspn.pkb_file == null || rspn.pkb_file == "") {
+                        $('#download-file').prop('href', 'javascript:void(0);');
+                        $('#download-file button').prop('disabled', true);
+                    } else {
+                        $('#download-file').prop('href', rspn.pkb_file);
+                        $('#download-file button').prop('disabled', false);
+                    }
+
+                    switch (rspn.order_type) {
+                        case 1:
+                            $('#view-form').find('[name="oType"]').val('Mobil');
+                            break;
+
+                        case 2:
+                            $('#view-form').find('[name="oType"]').val('Motor');
+                            break;
+                    }
 
                     loaderOff();
                     $('#view-modal').modal('show');
@@ -207,28 +231,30 @@
             });
         }
 
-        function updateView(id) {
+        function updateViewStatus4(id) {
             loaderOn();
+            $('#update-status-4-form').find('[name="id"]').val(id);
             $.ajax({
-                url: '/foreman/order-list/' + id,
+                url: '/foreman/order-list/' + id + '/task-list',
                 method: 'GET',
-                dataType: 'json',
+                dataType: 'html',
                 success: function(rspn) {
-                    $('#update-form').find('[name="id"]').val(rspn.id);
-                    $('#update-form').find('[name="bengkel"]').val(rspn.workshop_bengkel.bengkel_name);
-                    $('#update-form').find('[name="open"]').val(rspn.bengkel_open);
-                    $('#update-form').find('[name="close"]').val(rspn.bengkel_close);
-                    $('#update-form').find('[name="order"]').val(rspn.min_daily);
-                    $('#update-form').find('[name="ordertime"]').val(rspn.min_order_time);
-                    $('#update-form').find('[name="distance"]').val(rspn.maks_jarak);
+                    $('#update-status-4-form').find('#list-table tbody').empty();
+                    $('#update-status-4-form').find('#list-table tbody').append(rspn);
 
                     loaderOff();
-                    $('#update-modal').modal('show');
+                    $('#update-status-4-modal').modal('show');
                 },
                 error: function(err) {
                     loaderOff();
                 },
             });
+        }
+
+        function updateViewStatus3(id, name) {
+            $('#update-status-3-form').find('[name="id"]').val(id);
+            $('#update-status-3-name').text(name);
+            $('#update-status-3-modal').modal('show');
         }
 
     </script>

@@ -99,10 +99,20 @@ class TaskSettingController extends Controller
     /* TASK LIST */
         public function createTaskList(Request $request) {
             try {
+                $max_sequence = TaskList::where("master_task_id", $request->id)
+                                ->max("list_sequence");
+                
+                if($max_sequence == null) {
+                    $max_sequence = 1;
+                } else {
+                    $max_sequence += 1;
+                }
+
                 TaskList::insert([
                     "list_name" => $request->name,
                     "master_task_id" => $request->master,
                     "as_final_task" => $request->final,
+                    "list_sequence" => $max_sequence
                 ]);
                 
                 Session::flash('success', 'Success to create task list');
@@ -118,6 +128,7 @@ class TaskSettingController extends Controller
             try {
                 $user = TaskList::find($request->id);
                 $user->list_name = $request->name;
+                $user->list_sequence = $request->sequence;
                 $user->save();
                 
                 Session::flash('success', 'Success to update task list');

@@ -73,6 +73,7 @@
                 <div id="wrapper" style="height: 300px; overflow-y: scroll;" class="table-responsive">
                     <table id="allowance-table" class="table table-bordered table-striped table-vcenter display nowrap ">
                         <thead class="text-center">
+                            <th>Sequence</th>
                             <th>Master Name</th>
                             <th>List Name</th>
                             <th>Final Task</th>
@@ -311,6 +312,7 @@
                 success: function(rspn) {
                     $('#update-form').find('[name="id"]').val(rspn.id);
                     $('#update-form').find('[name="name"]').val(rspn.list_name);
+                    $('#update-form').find('[name="sequence"]').val(rspn.list_sequence);
 
                     loaderOff();
                     $('#update-modal').modal('show');
