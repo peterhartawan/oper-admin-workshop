@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Foreman;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Model\BengkelSetting;
+use App\Model\OperOrder;
+use App\Model\TaskList;
+use App\Model\TaskMaster;
 use Illuminate\Support\Facades\Log;
 
 use Session;
@@ -17,19 +19,21 @@ class OrderListController extends Controller
 
     public function updateOrderList(Request $request) {
         try {
-            $bengkel = BengkelSetting::find($request->id);
-            $bengkel->bengkel_open = $request->open;
-            $bengkel->bengkel_close = $request->close;
-            $bengkel->min_daily = $request->order;
-            $bengkel->min_order_time = $request->ordertime;
-            $bengkel->maks_jarak = $request->distance;
-            $bengkel->last_update = new \DateTime('now');
-            $bengkel->save();
+            $order = OperOrder::find($request->id);
+            if ($order->order_status == 3) {
+                $order->update([
+                    "order_status" => 4
+                ]);
+            } else if($order->order_status == 4) {
+                $order->update([
+                    "order_status" => 6
+                ]);
+            }
             
-            Session::flash('success', 'Success to update user');
+            Session::flash('success', 'Success to update status order');
             return back();
         } catch (\Throwable $th) {
-            Log::debug('Update User Manager error: '.$th);
+            Log::debug('Update Status Order error: '.$th);
             Session::flash('error', 'Something went wrong. Please contact system administrator.');
             return back();
         }
@@ -41,23 +45,61 @@ class OrderListController extends Controller
         if( !empty($request->value) )
             array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
-        $response = BengkelSetting::whereHas( "workshopBengkel", function($query) use ($filter) {
-                $query->where( $filter );
-            })
-            ->with(['workshopBengkel:id,bengkel_name'])
-            ->paginate( $request->get( 'size' ) )
-            ->toJson();
-        
-        $response = '{[]}';
+        $response = OperOrder::where( $filter )
+                        ->whereIn("order_status", [3,4])
+                        ->with(['workshopBengkel:id,bengkel_name'])
+                        ->paginate( $request->get( 'size' ) )
+                        ->toJson();
             
         return view( 'features.foreman.order-list.function.table')
             ->with( 'listdata', json_decode($response, false) );
     }
 
     public function detailOrderList($id) {
-        $response = BengkelSetting::with('workshopBengkel:id,bengkel_name')
+        $response = OperOrder::with([
+                            'workshopBengkel:id,bengkel_name',
+                            'vehicleBrand',
+                            'vehicleType'
+                        ])
                         ->find($id);
         
         return response()->json( $response );
+    }
+
+    public function tableTaskList($id) {
+        $response = OperOrder::find($id);
+        $response = TaskList::where('master_task_id', $response->master_task)
+                        ->with('masterTask')
+                        ->get()
+                        ->sortBy('list_sequence')
+                        ->toJson();
+            
+        return view( 'features.foreman.order-list.function.table-status-4')
+            ->with( 'listdata', json_decode($response, false) );
+    }
+
+    public function updateTaskList(Request $request) {
+        try {
+            $response = TaskList::find($request->listID);
+            $response->list_done = new \DateTime('now');
+            $response->save();
+
+            $check = TaskList::where("master_task_id", $response->master_task_id)
+                        ->whereNull("list_done")
+                        ->count();
+
+            if ($check == 0) {
+                OperOrder::find($request->id)->update([
+                    "order_status" => 5
+                ]);
+            }
+            
+            Session::flash('success', 'Success to update task list timestamp');
+            return back();
+        } catch (\Throwable $th) {
+            Log::debug('Update Task List Timestamp error: '.$th);
+            Session::flash('error', 'Something went wrong. Please contact system administrator.');
+            return back();
+        }
     }
 }

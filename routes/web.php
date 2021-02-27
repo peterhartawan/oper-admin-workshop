@@ -227,8 +227,10 @@ Route::get( 'download', 'UtilitiesController@download' );
         Route::prefix( 'order-list' )->group(function() {
             Route::get   ( '', 'Foreman\OrderListController@viewOrderList' );
             Route::put   ( '', 'Foreman\OrderListController@updateOrderList' );
+            Route::patch ( '', 'Foreman\OrderListController@updateTaskList' );
 
             Route::get   ( 'pagination', 'Foreman\OrderListController@paginateOrderList' );
+            Route::get   ( '{id}/task-list', 'Foreman\OrderListController@tableTaskList' );
             Route::get   ( '{id}', 'Foreman\OrderListController@detailOrderList' );
         });
 

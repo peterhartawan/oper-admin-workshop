@@ -16,6 +16,8 @@
                 <div class="block-content">
                     <form id="create-form" action="/bengkel-manager/task-setting/task-list" method="POST" onsubmit="loaderOn()">
                         @csrf
+
+                        <input type="hidden" name="id" value="{{ $id }}">
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Master Task</label>
                             <div class="col-sm-8">
@@ -88,6 +90,16 @@
                                     class="form-control" 
                                     name="name" 
                                     id="update-name" 
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">List Sequence</label>
+                            <div class="col-sm-8">
+                                <input type="number"
+                                    class="form-control" 
+                                    name="sequence" 
+                                    id="update-sequence" 
                                     required>
                             </div>
                         </div>
