@@ -45,7 +45,9 @@ class OrderInProgressController extends Controller
     }
 
     public function paginateOrderInProgress(Request $request) {
-        $filter = [];
+        $filter = [
+            [ "service_advisor_id", Session::get("user")->id]
+        ];
 
         if( !empty($request->value) )
             array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
