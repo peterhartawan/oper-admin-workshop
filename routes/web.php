@@ -218,7 +218,7 @@ Route::get( 'download', 'UtilitiesController@download' );
     Route::prefix( 'foreman' )->group(function() {
 
         Route::prefix( 'dashboard' )->group(function() {
-            Route::get   ( '', 'Foreman\dashboardController@DashboardPage' );
+            Route::get   ( '', 'Foreman\DashboardController@DashboardPage' );
             // Route::put   ( '', '' );
             // Route::post  ( '', '' );
             // Route::delete( '', '' );
