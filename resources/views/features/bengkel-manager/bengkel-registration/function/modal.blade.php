@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="create-form" action="/bengkel-manager/bengkel-registration" method="POST" onsubmit="loaderOn()">
+                    <form id="create-form" action="/bengkel-manager/bengkel-registration" method="POST" onsubmit="loaderOn()" autocomplete="off">
                         @csrf
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Name</label>
@@ -36,6 +36,33 @@
                                     required></textarea>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <input type="text"
+                                    id="create-latitude"
+                                    name="latitude"
+                                    class="form-control"
+                                    placeholder="Bengkel Latitude"
+                                    pattern="[0-9-.]*"
+                                    title="Latitude only use: 0-9 - ."
+                                    value="-6.161287494589915"
+                                    required>
+                            </div>
+                            <div class="col-6 form-group">
+                                <input type="text"
+                                    id="create-longitude"
+                                    name="longitude"
+                                    class="form-control"
+                                    placeholder="Bengkel Longitude"
+                                    pattern="[0-9-.]*"
+                                    title="Longitude only use: 0-9 - ."
+                                    value="106.762708119932597"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div id="create-maps" style="min-height: 65vh;width: 100%;"></div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Type</label>
                             <div class="col-sm-8">
@@ -47,6 +74,26 @@
                                         <option value="1">Bengkel Resmi</option>
                                         <option value="2">Bengkel Umum</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Username</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                    class="form-control" 
+                                    name="otUsername" 
+                                    id="create-otUsername" 
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Password</label>
+                            <div class="col-sm-8">
+                                <input type="password"
+                                    class="form-control" 
+                                    name="otPassword" 
+                                    id="create-otPassword" 
+                                    required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -66,7 +113,7 @@
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-primary-dark">
                     <h3 class="block-title">
-                        <i class="far far-fw fa-plus-square mr-1"></i> Update User
+                        <i class="far far-fw fa-plus-square mr-1"></i> Update Bengkel
                     </h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
@@ -75,7 +122,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="update-form" action="/bengkel-manager/bengkel-registration" method="POST" onsubmit="loaderOn()">
+                    <form id="update-form" action="/bengkel-manager/bengkel-registration" method="POST" onsubmit="loaderOn()" autocomplete="off">
                         @method('PUT')
                         @csrf
 
@@ -100,6 +147,33 @@
                                     required></textarea>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <input type="text"
+                                    id="update-latitude"
+                                    name="latitude"
+                                    class="form-control"
+                                    placeholder="Bengkel Latitude"
+                                    pattern="[0-9-.]*"
+                                    title="Latitude only use: 0-9 - ."
+                                    value="-6.161287494589915"
+                                    required>
+                            </div>
+                            <div class="col-6 form-group">
+                                <input type="text"
+                                    id="update-longitude"
+                                    name="longitude"
+                                    class="form-control"
+                                    placeholder="Bengkel Longitude"
+                                    pattern="[0-9-.]*"
+                                    title="Longitude only use: 0-9 - ."
+                                    value="106.762708119932597"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div id="update-maps" style="min-height: 65vh;width: 100%;"></div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Type</label>
                             <div class="col-sm-8">
@@ -111,6 +185,25 @@
                                         <option value="1">Bengkel Resmi</option>
                                         <option value="2">Bengkel Umum</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Username</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                    class="form-control" 
+                                    name="otUsername" 
+                                    id="update-otUsername" 
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Password</label>
+                            <div class="col-sm-8">
+                                <input type="password"
+                                    class="form-control" 
+                                    name="otPassword" 
+                                    id="update-otPassword">
                             </div>
                         </div>
                         <div class="form-group">
@@ -171,6 +264,16 @@
                                         <option value="1">Bengkel Resmi</option>
                                         <option value="2">Bengkel Umum</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Username</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                    class="form-control" 
+                                    name="otUsername" 
+                                    id="view-otUsername" 
+                                    disabled>
                             </div>
                         </div>
                         <div class="form-group row">

@@ -1,6 +1,8 @@
 @extends('template.layout')
 
 @section('js_before')
+<!-- This API Google must be loaded first -->
+<script defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEf_wLCEciMDw7tgnDGXptl94rdzLhW7Y"></script>
     <script type="text/javascript" src="{{ asset('template/js/custom/infinity-scrolling.js') }}"></script> 
     <script type="text/javascript">
         //API Hit Setting
@@ -212,6 +214,7 @@
                     $('#view-form').find('[name="name"]').val(rspn.bengkel_name);
                     $('#view-form').find('[name="address"]').val(rspn.bengkel_alamat);
                     $('#view-form').find('[name="type"]').val(rspn.bengkel_tipe);
+                    $('#view-form').find('[name="otUsername"]').val(rspn.oper_task_username);
                     $('#status-form').find('[name="id"]').val(rspn.id);
 
                     if (rspn.bengkel_status) {
@@ -246,6 +249,11 @@
                     $('#update-form').find('[name="address"]').val(rspn.bengkel_alamat);
                     $('#update-form').find('[name="type"]').val(rspn.bengkel_tipe);
                     $('#update-form').find('[name="id"]').val(rspn.id);
+                    $('#update-form').find('[name="longitude"]').val(rspn.bengkel_long);
+                    $('#update-form').find('[name="latitude"]').val(rspn.bengkel_lat);
+                    $('#update-form').find('[name="otUsername"]').val(rspn.oper_task_username);
+                    $('#update-form').find('[name="otPassword"]').val("");
+                    $('#update-longitude').trigger( "change" );
 
                     loaderOff();
                     $('#update-modal').modal('show');
@@ -262,5 +270,106 @@
             $('#delete-modal').modal('show');
         }
 
+        function defineMaps(marker_poi, map_poi, latElement, longElement) {
+            google.maps.event.addListener(map_poi, "click", function(event) {
+                // get lat/lon of click
+                var clickLat = event.latLng.lat();
+                var clickLon = event.latLng.lng();
+
+                $('#'+latElement).val(clickLat.toFixed(15));
+                $('#'+latElement).valid();
+                $('#'+longElement).val(clickLon.toFixed(15));
+                $('#'+longElement).valid();
+
+                marker_poi.setPosition(event.latLng);
+            });
+
+            google.maps.event.addListener(marker_poi, "dragend", function(event) {
+                // get lat/lon of click
+                var clickLat = event.latLng.lat();
+                var clickLon = event.latLng.lng();
+
+                $('#'+latElement).val(clickLat.toFixed(15));
+                $('#'+latElement).valid();
+                $('#'+longElement).val(clickLon.toFixed(15));
+                $('#'+longElement).valid();
+            });
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        // Global Variable            
+            // for data maps
+            var create_marker_poi;
+            var create_map_poi;
+            var update_marker_poi;
+            var update_map_poi;
+
+        $(function() {
+            // Initialize Maps For Create
+            var create_myLatlng = new google.maps.LatLng(-6.161287494589915, 106.762708119932597);
+            var myOptions = {
+                zoom:17,
+                center: create_myLatlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            create_map_poi = new google.maps.Map(document.getElementById("create-maps"), myOptions);
+            
+            create_marker_poi = new google.maps.Marker({
+                position: create_myLatlng,
+                draggable: true,
+                map: create_map_poi
+            });
+
+            defineMaps(create_marker_poi, create_map_poi, 'create-latitude', 'create-longitude');
+
+            $('#create-longitude, #create-latitude').on('change', function() {
+                var lat = $('#create-latitude');
+                var lng = $('#create-longitude');
+                lat.val(lat.val());
+                lng.val(lng.val());
+
+                var latLngValue = {
+                    lat: parseFloat(lat.val()),
+                    lng: parseFloat(lng.val())
+                };
+
+                create_map_poi.setCenter(latLngValue);
+                create_marker_poi.setPosition(latLngValue);
+            });
+
+            // Initialize Maps For Update
+            var update_myLatlng = new google.maps.LatLng(-6.161287494589915, 106.762708119932597);
+            var myOptions = {
+                zoom:17,
+                center: update_myLatlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            update_map_poi = new google.maps.Map(document.getElementById("update-maps"), myOptions);
+            
+            update_marker_poi = new google.maps.Marker({
+                position: update_myLatlng,
+                draggable: true,
+                map: update_map_poi
+            });
+
+            defineMaps(update_marker_poi, update_map_poi, 'update-latitude', 'update-longitude');
+
+            $('#update-longitude, #update-latitude').on('change', function() {
+                var lat = $('#update-latitude');
+                var lng = $('#update-longitude');
+                lat.val(lat.val());
+                lng.val(lng.val());
+
+                var latLngValue = {
+                    lat: parseFloat(lat.val()),
+                    lng: parseFloat(lng.val())
+                };
+
+                update_map_poi.setCenter(latLngValue);
+                update_marker_poi.setPosition(latLngValue);
+            });
+        });
     </script>
 @endsection
