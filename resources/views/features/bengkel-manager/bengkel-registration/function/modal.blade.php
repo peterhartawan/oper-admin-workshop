@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="create-form" action="/bengkel-manager/bengkel-registration" method="POST" onsubmit="loaderOn()">
+                    <form id="create-form" action="/bengkel-manager/bengkel-registration" method="POST" onsubmit="loaderOn()" autocomplete="off">
                         @csrf
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Name</label>
@@ -76,6 +76,26 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Username</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                    class="form-control" 
+                                    name="otUsername" 
+                                    id="create-otUsername" 
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Password</label>
+                            <div class="col-sm-8">
+                                <input type="password"
+                                    class="form-control" 
+                                    name="otPassword" 
+                                    id="create-otPassword" 
+                                    required>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-block btn-primary" value="Submit">
                         </div>
@@ -102,7 +122,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="update-form" action="/bengkel-manager/bengkel-registration" method="POST" onsubmit="loaderOn()">
+                    <form id="update-form" action="/bengkel-manager/bengkel-registration" method="POST" onsubmit="loaderOn()" autocomplete="off">
                         @method('PUT')
                         @csrf
 
@@ -167,6 +187,25 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Username</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                    class="form-control" 
+                                    name="otUsername" 
+                                    id="update-otUsername" 
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Password</label>
+                            <div class="col-sm-8">
+                                <input type="password"
+                                    class="form-control" 
+                                    name="otPassword" 
+                                    id="update-otPassword">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-block btn-primary" value="Submit">
                         </div>
@@ -225,6 +264,16 @@
                                         <option value="1">Bengkel Resmi</option>
                                         <option value="2">Bengkel Umum</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Username</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                    class="form-control" 
+                                    name="otUsername" 
+                                    id="view-otUsername" 
+                                    disabled>
                             </div>
                         </div>
                         <div class="form-group row">
