@@ -21,7 +21,7 @@ class OrderInProgressController extends Controller
             if ($order->order_status == 2) {
                 $order->update([
                     "pkb_file" => 
-                        'files/pkb/'.$request->file('file')->getClientOriginalName(),
+                        env('APP_URL').'/download?file=files/pkb/'.$request->file('file')->getClientOriginalName(),
                     "order_status" => 3
                 ]);
 
@@ -29,9 +29,9 @@ class OrderInProgressController extends Controller
                     public_path('files/pkb'),
                     $request->file( "file" )->getClientOriginalName()
                 );
-            } else if($order->order_status == 4) {
+            } else if($order->order_status == 5) {
                 $order->update([
-                    "order_status" => 5
+                    "order_status" => 6
                 ]);
             }
             
@@ -51,7 +51,7 @@ class OrderInProgressController extends Controller
             array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
         $response = OperOrder::where( $filter )
-                        ->whereIn("order_status", [2, 4])
+                        ->whereIn("order_status", [2, 5])
                         ->with(['workshopBengkel:id,bengkel_name'])
                         ->paginate( $request->get( 'size' ) )
                         ->toJson();

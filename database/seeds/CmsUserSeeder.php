@@ -44,7 +44,7 @@ class CmsUserSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'role_id' => 1,
+                'role_id' => 3,
                 'bengkel_id' => null,
                 'username' => 'foreman',
                 'password' => Hash::make('admin12345'),

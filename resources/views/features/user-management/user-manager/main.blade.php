@@ -231,6 +231,8 @@
                     $('#view-form').find('[name="phone"]').val(rspn.phone);
                     $('#view-form').find('[name="role"]').val(rspn.role_id);
                     $('#status-form').find('[name="id"]').val(rspn.id);
+                    // $('#download-image').prop('href', rspn.url_image);
+                    $('#view-image').prop('src', rspn.image);
 
                     if (rspn.status) {
                         $('#status-active').removeClass('d-none');
@@ -264,7 +266,7 @@
                     $('#update-form').find('[name="username"]').val(rspn.username);
                     $('#update-form').find('[name="email"]').val(rspn.email);
                     $('#update-form').find('[name="phone"]').val(rspn.phone);
-                    $('#update-form').find('[name="role"]').val(rspn.role_id);
+                    $('#update-form').find('[name="role"]').val(rspn.role_id).trigger("change");
 
                     loaderOff();
                     $('#update-modal').modal('show');
@@ -279,6 +281,36 @@
             $('#delete-form').find('[name="id"]').val(id);
             $('#delete-name').text(name);
             $('#delete-modal').modal('show');
+        }
+
+        /**
+        *@param action : what will use to this function create or update
+        */
+        function changeRole(action) {
+            var roleElement = $('#'+action+'-form').find('[name="role"] option:selected');
+            switch (roleElement.text().toLowerCase().replace(" ", "")) {
+                case 'serviceadvisor':
+                    if(action == "create")
+                        $('#'+action+'-form')
+                            .find('[name="image"]')
+                            .prop('required', true);
+                    $('#'+action+'-form')
+                        .find('[name="image"]')
+                        .parents('.form-group')
+                        .removeClass("d-none");
+                    break;
+
+                default:
+                    if(action == "create")
+                        $('#'+action+'-form')
+                            .find('[name="image"]')
+                            .prop('required', false);
+                    $('#'+action+'-form')
+                        .find('[name="image"]')
+                        .parents('.form-group')
+                        .addClass("d-none");
+                    break;
+            }
         }
 
     </script>

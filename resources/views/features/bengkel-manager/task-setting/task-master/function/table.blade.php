@@ -8,13 +8,13 @@
     </script>
 @else
     
-    @foreach($listdata->data as $user)
+    @foreach($listdata->data as $task)
      
         <tr>
 
-            @isset($user->username)
+            @isset($task->task_name)
                 <td>
-                    {{ $user->username }}
+                    {{ $task->task_name }}
                 </td>
             @else   
                 <td class="bg-danger-light">
@@ -22,9 +22,9 @@
                 </td>
             @endisset
 
-           @isset($user->email)
+           @isset($task->bengkels)
                 <td>
-                    {{ $user->email }}
+                    {{ $task->bengkels }}
                 </td>
             @else   
                 <td class="bg-danger-light">
@@ -32,56 +32,22 @@
                 </td>
             @endisset
 
-            @isset($user->phone)
-                 <td>
-                     {{ $user->phone }}
-                 </td>
-             @else   
-                 <td class="bg-danger-light">
-                     <i class="fa fa-exclamation-circle"></i> Data not available
-                 </td>
-             @endisset
-
-            @isset($user->role->role_name)
-                <td>
-                    {{ $user->role->role_name }}
-                </td>
-            @else   
-                <td class="bg-danger-light">
-                    <i class="fa fa-exclamation-circle"></i> Data not available
-                </td>
-            @endisset
-
-            @isset($user->status)
-                <td>
-                    @if ($user->status)
-                        <span class="badge badge-pill badge-success">active</span>
-                    @else
-                        <span class="badge badge-pill badge-danger">suspend</span>
-                    @endif
-                </td>
-            @else   
-                <td class="bg-danger-light">
-                    <i class="fa fa-exclamation-circle"></i> Data not available
-                </td>
-            @endisset
-
-            @isset($user->id)
+            @isset($task->id)
                 <td class="text-center">
                     <div class="btn-group mr-2 mb-2" data-toggle="buttons" role="group" aria-label="Icons Action group">
                         <button type="button" 
                             class="btn btn-sm btn-primary"
-                            onclick="detailView({{ $user->id }})">
+                            onclick="location.href = '/bengkel-manager/task-setting/detail?id={{ $task->id }}'; loaderOn();">
                             <i class="far fa-fw fa-eye"></i>
                         </button>
                         <button type="button" 
                             class="btn btn-sm btn-primary"
-                            onclick="updateView({{ $user->id }})">
+                            onclick="updateView({{ $task->id }})">
                                 <i class="fa fa-fw fa-pencil-alt"></i>
                         </button>
                         <button type="button" 
                             class="btn btn-sm btn-primary"
-                            onclick="deleteView({{ $user->id }}, '{{ $user->username }}')">
+                            onclick="deleteView({{ $task->id }}, '{{ $task->task_name }}')">
                                 <i class="fa fa-fw fa-trash"></i>
                         </button>
                     </div>
