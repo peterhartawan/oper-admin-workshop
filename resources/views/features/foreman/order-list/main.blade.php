@@ -8,6 +8,15 @@
         var perPage = 10;
         var endOfRequest = false;
     </script>
+    @if (Request::get("page") == 'confirmed')
+        <script type="text/javascript">
+            let url_with_param = "/foreman/order-list/pagination-confirmed";
+        </script>
+    @else
+        <script type="text/javascript">
+            let url_with_param = "/foreman/order-list/pagination-pending";
+        </script>
+    @endif
 @endsection
 
 @section('css_before')
@@ -21,6 +30,29 @@
 @section('title', 'Foreman - Order List')
     
 @section('content')
+    <div class="block block-bordered js-classic-nav d-none d-sm-block">
+        <div class="block-content block-content-full">
+            <div class="row no-gutters border">
+                <div class="col-sm-6 col-xl-6 invisible" data-toggle="appear">
+                    <a class="block block-bordered block-link-pop text-center mb-0 @if (Request::get('page') != 'confirmed') bg-gray-lighter @endif" href="/foreman/order-list" onclick="loaderOn()">
+                        <div class="block-content block-content-full text-center">
+                            <i class="far fa-hourglass fa-2x text-primary d-none d-sm-inline-block mb-3"></i>
+                            <div class="font-w600 text-uppercase">Foreman Pending</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-xl-6 invisible" data-toggle="appear">
+                    <a class="block block-bordered block-link-pop text-center mb-0 @if (Request::get('page') == 'confirmed') bg-gray-lighter @endif" href="/foreman/order-list?page=confirmed" onclick="loaderOn()">
+                        <div class="block-content block-content-full text-center">
+                            <i class="far fa-check-circle fa-2x text-primary d-none d-sm-inline-block mb-3"></i>
+                            <div class="font-w600 text-uppercase">Foreman Confirmed</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="block block-rounded block-bordered">
         <div class="block-content">
             <div class="form-group">
@@ -107,7 +139,7 @@
 
             $.ajax({
                 "type": "GET",
-                "url": "/foreman/order-list/pagination",
+                "url": url_with_param,
                 "data": {
                     page: page,
                     size: perPage,
@@ -129,7 +161,7 @@
         infinityScroll("wrapper", 
             "content", 
             "GET", 
-            "/foreman/order-list/pagination", 
+            url_with_param, 
             "html",
             {
                 "page": page+1,

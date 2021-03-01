@@ -13,8 +13,9 @@ use Session;
 
 class OrderListController extends Controller
 {
-    public function viewOrderList() {
-        return view( 'features.foreman.order-list.main' );
+    public function viewOrderList(Request $request) {
+        return view( 'features.foreman.order-list.main' )
+            ->with( 'confirmed', ($request->page == 'confirmed') ? true :false );
     }
 
     public function updateOrderList(Request $request) {
@@ -22,7 +23,8 @@ class OrderListController extends Controller
             $order = OperOrder::find($request->id);
             if ($order->order_status == 3) {
                 $order->update([
-                    "order_status" => 4
+                    "order_status" => 4,
+                    "foreman_id" => Session::get("user")->id
                 ]);
             } else if($order->order_status == 4) {
                 $order->update([
@@ -39,14 +41,32 @@ class OrderListController extends Controller
         }
     }
 
-    public function paginateOrderList(Request $request) {
+    public function paginateOrderListPending(Request $request) {
         $filter = [];
 
         if( !empty($request->value) )
             array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
         $response = OperOrder::where( $filter )
-                        ->whereIn("order_status", [3,4])
+                        ->whereIn("order_status", [3])
+                        ->with(['workshopBengkel:id,bengkel_name'])
+                        ->paginate( $request->get( 'size' ) )
+                        ->toJson();
+            
+        return view( 'features.foreman.order-list.function.table')
+            ->with( 'listdata', json_decode($response, false) );
+    }
+
+    public function paginateOrderListConfirmed(Request $request) {
+        $filter = [
+            [ "foreman_id", Session::get("user")->id]
+        ];
+
+        if( !empty($request->value) )
+            array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
+
+        $response = OperOrder::where( $filter )
+                        ->whereIn("order_status", [4])
                         ->with(['workshopBengkel:id,bengkel_name'])
                         ->paginate( $request->get( 'size' ) )
                         ->toJson();

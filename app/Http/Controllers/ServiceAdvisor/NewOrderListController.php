@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ServiceAdvisor;
 
 use App\Http\Controllers\Controller;
+use App\Model\CmsUser;
 use Illuminate\Http\Request;
 use App\Model\OperOrder;
 use Illuminate\Support\Facades\Log;
@@ -18,7 +19,8 @@ class NewOrderListController extends Controller
     public function updateStatusNewOrderList(Request $request) {
         try {
             OperOrder::find($request->id)->update([
-                "order_status" => 2
+                "order_status" => 2,
+                "service_advisor_id" => Session::get("user")->id
             ]);
             
             Session::flash('success', 'Success to update status order');
