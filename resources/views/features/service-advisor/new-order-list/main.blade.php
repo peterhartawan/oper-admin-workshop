@@ -195,7 +195,7 @@
                     $('#view-form').find('[name="cEmail"]').val(rspn.customer_email);
                     $('#view-form').find('[name="cAddress"]').val(rspn.customer_address);
                     $('#view-form').find('[name="vBrand"]').val(rspn.vehicle_brand.brand_name);
-                    $('#view-form').find('[name="vType"]').val(rspn.vehicle_type.vehicle_name);
+                    $('#view-form').find('[name="vType"]').val(rspn.vehicle_name);
                     $('#view-form').find('[name="vPlat"]').val(rspn.vehicle_plat);
                     $('#view-form').find('[name="bName"]').val(rspn.workshop_bengkel.bengkel_name);
                     $('#view-form').find('[name="pkbNomer"]').val(rspn.pkb_nomer);
