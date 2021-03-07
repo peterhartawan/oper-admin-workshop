@@ -25,6 +25,25 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        
+        /*
+         |--------------------------------------------------------------------------
+         | CRON JOB OPERTASK
+         |--------------------------------------------------------------------------
+         |
+         | This part is used for OperTask's integration.
+         | Please only put OperTask's cron-job related 
+         | in this row.
+         | 
+         | @since February 25, 2021
+         |
+         */
+
+        /**
+         * Login Opertask to get their token.
+         * It's run at 00:00 everyday.
+         */
+        $schedule->command('opertask:sync-driver-status')->everyFiveMinutes();
     }
 
     /**
