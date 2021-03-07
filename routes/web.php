@@ -85,6 +85,7 @@ Route::get( 'download', 'UtilitiesController@download' );
             Route::delete( '', 'BengkelManager\BengkelRegistrationController@deleteBengkelRegistration' );
 
             Route::get   ( 'pagination', 'BengkelManager\BengkelRegistrationController@paginateBengkelRegistration' );
+            Route::post  ( 'master-brand', 'BengkelManager\BengkelRegistrationController@createMasterBrand' );
             Route::get   ( '{id}', 'BengkelManager\BengkelRegistrationController@detailBengkelRegistration' );
         });
     

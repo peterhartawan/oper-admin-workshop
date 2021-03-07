@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\WorkshopBengkel;
 use App\Model\BengkelSetting;
+use App\Model\MasterBrand;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -125,5 +126,21 @@ class BengkelRegistrationController extends Controller
         $response = WorkshopBengkel::find($id);
         
         return response()->json( $response );
+    }
+
+    public function createMasterBrand(Request $request) {
+        try {
+            MasterBrand::create([
+                "brand_name" => $request->name,
+                "brand_type" => $request->type,
+            ]);           
+            
+            Session::flash('success', 'Success to create master brand');
+            return back();
+        } catch (\Throwable $th) {
+            Log::debug('Create Master Brand error: '.$th);
+            Session::flash('error', 'Something went wrong. Please contact system administrator.');
+            return back();
+        }
     }
 }

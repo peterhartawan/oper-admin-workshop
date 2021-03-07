@@ -44,7 +44,10 @@
                             <i class="fa fa-search mr-1"></i>
                         </button>
                     </div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-modal">
+                    <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#brand-modal">
+                        <i class="fa far-fw fa-plus mr-1"></i> Create Brand
+                    </button>
+                    <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#create-modal">
                         <i class="fa far-fw fa-plus mr-1"></i> Create Bengkel
                     </button>
                 </div>
