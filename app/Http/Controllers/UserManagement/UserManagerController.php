@@ -17,8 +17,13 @@ class UserManagerController extends Controller
         $roles = Role::where( "role_name", "NOT LIKE", "%superadmin%" )
                         ->get()
                         ->toJson();
+        $bengkels = WorkshopBengkel::whereDoesntHave("masterTasks", function($query) use ($request) {
+            $query->where("master_task_id", $request->id);
+        })->get()->toJson();
+        
         return view( 'features.user-management.user-manager.main' )
-            ->with( 'roles', json_decode($roles, false) );
+            ->with( 'roles', json_decode($roles, false) )
+            ->with( 'bengkels', json_decode($bengkels, false) );
     }
 
     public function createUserManager(Request $request) {
@@ -39,6 +44,7 @@ class UserManagerController extends Controller
             }
 
             CmsUser::insert([
+                "bengkel_id" => $request->workshop,
                 "role_id" => $request->role,
                 "bengkel_id" => null,
                 "username" => $request->username,
@@ -46,7 +52,7 @@ class UserManagerController extends Controller
                 "email" => $request->email,
                 "phone" => $request->phone,
                 "status" => 1,
-                "is_bengkel_staff" => 0,
+                "is_bengkel_staff" => 1,
                 "url_image" => 
                     env('APP_URL').'/download?file=files/cms-user/'.$request->file('image')->getClientOriginalName(),
                 "created_at" => new \DateTime('now'),

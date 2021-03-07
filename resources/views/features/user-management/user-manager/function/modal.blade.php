@@ -32,6 +32,20 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Workshop Bengkel</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" 
+                                    id="create-workshop"
+                                    name="workshop"
+                                    required>
+                                        <option value="">Please Select</option>
+                                        @foreach ($bengkels as $bengkel)
+                                            <option value="{{ $bengkel->id }}">{{ $bengkel->bengkel_name }}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Username</label>
                             <div class="col-sm-8">
                                 <input type="text"
