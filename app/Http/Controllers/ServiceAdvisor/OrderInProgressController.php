@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Log;
 
 use Session;
 
+use App\Services\OperTaskServices;
+use App\Services\UtilitiesServices;
+
+use App\Model\BookingInfo;
+
 class OrderInProgressController extends Controller
 {
     public function viewOrderInProgress() {
@@ -17,7 +22,15 @@ class OrderInProgressController extends Controller
 
     public function updateOrderInProgress(Request $request) {
         try {
-            $order = OperOrder::find($request->id);
+            $order = OperOrder
+                        ::with([
+                            'vehicleBrand',
+                            'workshopBengkel'
+                        ])
+                        ->where('id', $request->id)
+                        ->get()
+                        ->first();
+
             if ($order->order_status == 2) {
                 $order->update([
                     "pkb_file" => 
@@ -30,6 +43,61 @@ class OrderInProgressController extends Controller
                     $request->file( "file" )->getClientOriginalName()
                 );
             } else if($order->order_status == 5) {
+
+                /**
+                 * Begin hit to opertask
+                 */
+
+                $service = new OperTaskServices();
+
+                $message = 
+                    "Kode Booking : {$order->booking_code} \n\n"
+                    ."Nama Konsumen : {$order->customer_name}\n\n"
+                    ."Telfon Konsumen : {$order->customer_hp}\n\n"
+                    ."Tipe Kendaraan : {$order->vehicleBrand->brand_name} {$order->vehicle_name}\n\n"
+                    ."Waktu Booking : {$order->booking_time}\n\n"
+                    ."Harap sebutkan kode booking ketika hendak menghubungi konsumen melalui Whatsapp."
+                ;
+
+
+                $token = new UtilitiesServices();
+                $token = $token->getRecentOpertaskToken();
+
+                $response = $service->sendOrder(
+                            [
+                                "task_template_id" => "1",
+                                "booking_time" => date('Y-m-d H:i:s', strtotime('now')),
+                                "origin_latitude" => $order->customer_lat,
+                                "origin_longitude" => $order->customer_long,
+                                "destination_latitude" => $order->workshopBengkel->bengkel_lat,
+                                "destination_longitude" => $order->workshopBengkel->bengkel_long,
+                                "user_fullname" => $order->customer_name,
+                                "user_phonenumber" => $order->customer_hp,
+                                "vehicle_owner" => $order->customer_name,
+                                "vehicle_brand_id" => strval($order->vehicle_brand),
+                                "vehicle_type" => $order->vehicle_name,
+                                "vehicle_transmission" => "CVT",
+                                "client_vehicle_license" => $order->vehicle_plat,
+                                "message" => $message
+                            ],
+                            $token
+                );
+
+
+                /**
+                 * Insert booking info
+                 */
+                $info = new BookingInfo();
+                $info->booking_no = $order->booking_no;
+                $info->oper_task_order_id = $response->data->idorder;
+                $info->oper_task_trx_id = $response->data->trx_id;
+                $info->order_state = BookingInfo::DELIVERY_STATE_ORDER;
+                $info->save();
+
+                /**
+                 * Update state
+                 */
+
                 $order->update([
                     "order_status" => 6
                 ]);
