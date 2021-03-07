@@ -19,6 +19,19 @@
                         @csrf
 
                         <input type="hidden" name="id">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Task Image</label>
+                            <div class="col-sm-8">
+                                <div class="custom-file">
+                                    <input type="file" 
+                                        class="custom-file-input" 
+                                        data-toggle="custom-file-input" 
+                                        id="status-4-image" 
+                                        name="image">
+                                    <label class="custom-file-label" for="status-4-image">Choose Image</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table id="list-table" class="table table-bordered table-striped table-vcenter display nowrap ">
                                 <thead class="text-center">

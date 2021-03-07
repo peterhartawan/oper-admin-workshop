@@ -26,10 +26,6 @@ class OrderListController extends Controller
                     "order_status" => 4,
                     "foreman_id" => Session::get("user")->id
                 ]);
-            } else if($order->order_status == 4) {
-                $order->update([
-                    "order_status" => 6
-                ]);
             }
             
             Session::flash('success', 'Success to update status order');
@@ -102,6 +98,15 @@ class OrderListController extends Controller
         try {
             $response = TaskList::find($request->listID);
             $response->list_done = new \DateTime('now');
+            if($request->hasFile('image')) {
+                $response->image_name = 
+                    env('APP_URL').'/download?file=files/task/'.$request->file('image')->getClientOriginalName();
+
+                $request->file( "image" )->move(
+                    public_path('files/task'),
+                    $request->file( "image" )->getClientOriginalName()
+                );
+            }
             $response->save();
 
             $check = TaskList::where("master_task_id", $response->master_task_id)
