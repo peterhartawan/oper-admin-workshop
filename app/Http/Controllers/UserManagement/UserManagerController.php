@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\CmsUser;
 use App\Model\Role;
+use App\Model\WorkshopBengkel;
 use Illuminate\Support\Facades\Log;
 
 use Session;
@@ -17,9 +18,7 @@ class UserManagerController extends Controller
         $roles = Role::where( "role_name", "NOT LIKE", "%superadmin%" )
                         ->get()
                         ->toJson();
-        $bengkels = WorkshopBengkel::whereDoesntHave("masterTasks", function($query) use ($request) {
-            $query->where("master_task_id", $request->id);
-        })->get()->toJson();
+        $bengkels = WorkshopBengkel::get()->toJson();
         
         return view( 'features.user-management.user-manager.main' )
             ->with( 'roles', json_decode($roles, false) )
