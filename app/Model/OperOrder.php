@@ -39,4 +39,8 @@ class OperOrder extends Model
     public function vehicleType() {
         return $this->hasOne("App\Model\VehicleName", "id", "vehicle_type");
     }
+
+    public function tasks() {
+        return $this->hasMany('App\Model\ForemanTaskProgress', 'order_id', 'id');
+    }
 }
