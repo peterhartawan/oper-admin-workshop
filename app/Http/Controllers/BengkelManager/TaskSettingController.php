@@ -15,14 +15,23 @@ class TaskSettingController extends Controller
 {
     /* MASTER TASK */
         public function viewTaskSetting() {
-            return view( 'features.bengkel-manager.task-setting.task-master.main' );
+            $workshops = WorkshopBengkel::doesntHave('masterTask')
+                            ->select( ['id', 'bengkel_name'] )
+                            ->get()->toJson();
+
+            return view( 'features.bengkel-manager.task-setting.task-master.main' )
+                ->with( 'workshops', json_decode($workshops, false) );
         }
 
         public function createTaskSetting(Request $request) {
             try {
-                TaskMaster::insert([
-                    "task_name" => $request->name,
-                    "created_at" => new \DateTime('now'),
+                $task = new TaskMaster();
+                $task->task_name = $request->name;
+                $task->created_at = new \DateTime('now');
+                $task->save();
+
+                WorkshopBengkel::find($request->workshop)->update([
+                    "task_id" => $task->id
                 ]);
                 
                 Session::flash('success', 'Success to create master task');
@@ -36,9 +45,18 @@ class TaskSettingController extends Controller
 
         public function updateTaskSetting(Request $request) {
             try {
+                WorkshopBengkel::find($request->workshop)->update([
+                    "task_id" => $request->id
+                ]);
+
                 $user = TaskMaster::find($request->id);
                 $user->task_name = $request->name;
                 $user->save();
+
+                WorkshopBengkel::where([['task_id', $request->id], ['id', '!=', $request->workshop]])
+                    ->update([
+                        "task_id" => null
+                    ]);
                 
                 Session::flash('success', 'Success to update master task');
                 return back();
@@ -69,7 +87,7 @@ class TaskSettingController extends Controller
                 array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
             $response = TaskMaster::where( $filter )
-                ->withCount(['workshopBengkels as bengkels'])
+                ->with('workshopBengkel')
                 ->paginate( $request->get( 'size' ) )
                 ->toJson();
                 
@@ -78,21 +96,19 @@ class TaskSettingController extends Controller
         }
 
         public function detailTaskSetting($id) {
-            $response = TaskMaster::find($id);
+            $response = TaskMaster::with( ['workshopBengkel'] )->find($id);
             
             return response()->json( $response );
         }
 
         public function viewDetailTaskMaster(Request $request) {
-            $master = TaskMaster::find($request->id)->toJson();
-            $workshops = WorkshopBengkel::whereDoesntHave("masterTasks", function($query) use ($request) {
-                $query->where("master_task_id", $request->id);
-            })->get()->toJson();
+            $master = TaskMaster::with('workshopBengkel')
+                        ->find($request->id)
+                        ->toJson();
             
             return view( 'features.bengkel-manager.task-setting.task-list.main' )
                 ->with( 'master', json_decode($master, false) )
-                ->with( 'id', $request->id )
-                ->with( 'workshops', json_decode($workshops, false) );
+                ->with( 'id', $request->id );
         }
     /* END MASTER TASK */
 
@@ -162,7 +178,7 @@ class TaskSettingController extends Controller
                 array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
             $response = TaskList::where( $filter )
-                ->with(['masterTask'])
+                ->with(['masterTask.workshopBengkel'])
                 ->paginate( $request->get( 'size' ) )
                 ->toJson();
                 
@@ -176,57 +192,4 @@ class TaskSettingController extends Controller
             return response()->json( $response );
         }
     /* END TASK LIST */
-
-    /* MASTER TASK MAKE RELATION TO WORKSHOP BENGKEL */
-        public function createTaskMasterWorkshopBengkel(Request $request) {
-            try {
-                $master = TaskMaster::find($request->master);
-                $workshop = WorkshopBengkel::find($request->workshop);
-                $master->workshopBengkels()->attach($workshop);
-                
-                Session::flash('success', 'Success to create relation between workshop bengkel');
-                return back();
-            } catch (\Throwable $th) {
-                Log::debug('Create Relation Between Workshop Bengkel error: '.$th);
-                Session::flash('error', 'Something went wrong. Please contact system administrator.');
-                return back();
-            }
-        }
-
-        public function deleteTaskMasterWorkshopBengkel(Request $request) {
-            try {
-                $master = TaskMaster::find($request->master);
-                $workshop = WorkshopBengkel::find($request->workshop);
-                $master->workshopBengkels()->detach($workshop);
-                
-                Session::flash('success', 'Success to delete relation between workshop bengkel');
-                return back();
-            } catch (\Throwable $th) {
-                Log::debug('Delete Relation Between Workshop Bengkel error: '.$th);
-                Session::flash('error', 'Something went wrong. Please contact system administrator.');
-                return back();
-            }
-        }
-
-        public function paginateTaskMasterWorkshopBengkel(Request $request) {
-            $filter = [];
-
-            if( !empty($request->value) )
-                array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
-
-            $workshops = WorkshopBengkel::where( $filter )
-                ->whereHas("masterTasks", function($query) use ($request) {
-                    $query->where("master_task_id", $request->id);
-                })
-                ->paginate( $request->get( 'size' ) )
-                ->toJson();
-
-            $task = TaskMaster::find($request->id)
-                ->toJson();
-                
-            return view( 'features.bengkel-manager.task-setting.task-list.function.workshop-table')
-                ->with( 'listdata', json_decode($workshops, false) )
-                ->with( 'master_task', json_decode($task, false) );
-        }
-    /* END MASTER TASK MAKE RELATION TO WORKSHOP BENGKEL */
 }

@@ -8,7 +8,7 @@ class TaskMaster extends Model
 {
     public $timestamps = false;
 
-    public function workshopBengkels() {
-        return $this->belongsToMany('App\Model\WorkshopBengkel', 'workshop_task', 'master_task_id', 'bengkel_id');
+    public function workshopBengkel() {
+        return $this->hasOne('App\Model\WorkshopBengkel', 'task_id', 'id');
     }
 }
