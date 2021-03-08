@@ -38,9 +38,9 @@
                 </td>
             @endisset
 
-            @isset($list->list_done)
+            @isset($list->task_progress->list_done)
                 <td>
-                    {{ $list->list_done }}
+                    {{ $list->task_progress->list_done }}
                 </td>
             @else   
                 <td>
@@ -51,11 +51,11 @@
             @isset($list->id)
                 <td class="text-center">
                     <div class="btn-group mr-2 mb-2" data-toggle="buttons" role="group" aria-label="Icons Action group">
-                        @isset($list->list_done)
+                        @isset($list->task_progress->list_done)
                             <span class="badge badge-pill badge-success">finished</span>
                         @else
                             @if ($flag_button)
-                                <input type="hidden" name="listID" value="{{ $list->id }}">
+                                <input type="hidden" name="progressID" value="{{ $list->task_progress->id }}">
                                 <button type="submit" 
                                     class="btn btn-sm btn-primary"
                                     onclick="$('#update-status-4-form').submit()">

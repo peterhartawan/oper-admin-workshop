@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Foreman;
 
 use App\Http\Controllers\Controller;
+use App\Model\ForemanTaskProgress;
 use Illuminate\Http\Request;
 use App\Model\OperOrder;
 use App\Model\TaskList;
@@ -21,10 +22,18 @@ class OrderListController extends Controller
     public function updateOrderList(Request $request) {
         try {
             $order = OperOrder::find($request->id);
-            if ($order->order_status == 3) {
-                $order->update([
-                    "order_status" => 4,
-                    "foreman_id" => Session::get("user")->id
+            $order->update([
+                "order_status" => 4,
+                "foreman_id" => Session::get("user")->id
+            ]);
+
+            $lists = TaskList::where('master_task_id', $order->master_task)
+                ->get()->toJson();
+
+            foreach (json_decode($lists, false) as $list) {
+                ForemanTaskProgress::insert([
+                    "order_id" => $request->id,
+                    "task_id" => $list->id,
                 ]);
             }
             
@@ -85,7 +94,7 @@ class OrderListController extends Controller
     public function tableTaskList($id) {
         $response = OperOrder::find($id);
         $response = TaskList::where('master_task_id', $response->master_task)
-                        ->with('masterTask')
+                        ->with( ['masterTask', 'taskProgress'] )
                         ->get()
                         ->sortBy('list_sequence')
                         ->toJson();
@@ -96,7 +105,7 @@ class OrderListController extends Controller
 
     public function updateTaskList(Request $request) {
         try {
-            $response = TaskList::find($request->listID);
+            $response = ForemanTaskProgress::find($request->progressID);
             $response->list_done = new \DateTime('now');
             if($request->hasFile('image')) {
                 $response->image_name = 
@@ -109,11 +118,15 @@ class OrderListController extends Controller
             }
             $response->save();
 
-            $check = TaskList::where("master_task_id", $response->master_task_id)
-                        ->whereNull("list_done")
+            $list = TaskList::whereHas("taskProgress", function($query) use ($request) {
+                            $query->where('id', $request->progressID);
+                        })->first();
+            $check = ForemanTaskProgress::whereHas("task", function($query) use ($list) {
+                            $query->where("master_task_id", $list->master_task_id);
+                        })->whereNull("list_done")
                         ->count();
 
-            if ($check == 0) {
+            if ($check == 0 && $list->as_final_task) {
                 OperOrder::find($request->id)->update([
                     "order_status" => 5
                 ]);
