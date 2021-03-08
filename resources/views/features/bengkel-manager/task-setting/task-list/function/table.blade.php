@@ -32,6 +32,16 @@
                 </td>
             @endisset
 
+            @isset($list->master_task->workshop_bengkel->bengkel_name)
+                <td>
+                    {{ $list->master_task->workshop_bengkel->bengkel_name }}
+                </td>
+            @else   
+                <td class="bg-danger-light">
+                    <i class="fa fa-exclamation-circle"></i> Data not available
+                </td>
+            @endisset
+
             @isset($list->list_name)
                 <td>
                     {{ $list->list_name }}

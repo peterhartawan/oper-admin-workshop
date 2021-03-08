@@ -26,6 +26,20 @@
                                     required>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Workshop Bengkel</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" 
+                                    name="workshop" 
+                                    id="create-workshop"
+                                    required>
+                                        <option hidden value="">Please Select</option>
+                                        @foreach ($workshops as $workshop)
+                                            <option value="{{ $workshop->id }}">{{ $workshop->bengkel_name }}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-block btn-primary" value="Submit">
                         </div>
@@ -65,6 +79,16 @@
                                     name="name" 
                                     id="update-name" 
                                     required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Workshop Bengkel</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" 
+                                    name="workshop" 
+                                    id="update-workshop"
+                                    required>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
