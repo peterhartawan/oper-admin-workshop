@@ -43,4 +43,8 @@ class OperOrder extends Model
     public function tasks() {
         return $this->hasMany('App\Model\ForemanTaskProgress', 'order_id', 'id');
     }
+
+    public function taskMaster(){
+        return $this->hasOne('App\Model\TaskMaster', 'id', 'master_task');
+    }
 }
