@@ -27,8 +27,11 @@ class OrderListController extends Controller
                 "foreman_id" => Session::get("user")->id
             ]);
 
-            $lists = TaskList::where('master_task_id', $order->master_task)
-                ->get()->toJson();
+            $lists = TaskList
+                        ::where('master_task_id', $order->master_task)
+                        ->orderBy('list_sequence')
+                        ->get()
+                        ->toJson();
 
             foreach (json_decode($lists, false) as $list) {
                 ForemanTaskProgress::insert([
@@ -108,12 +111,22 @@ class OrderListController extends Controller
             $response = ForemanTaskProgress::find($request->progressID);
             $response->list_done = new \DateTime('now');
             if($request->hasFile('image')) {
+
+                /**
+                 * Hashing picture name
+                 */
+                $image_name = 
+                    md5($request->file('image')->getClientOriginalName().time())
+                    .'.'.$request->file('image')->getClientOriginalExtension();
+
                 $response->image_name = 
-                    env('APP_URL').'/download?file=files/task/'.$request->file('image')->getClientOriginalName();
+                    env('APP_URL')
+                    .'/download?file=files/task/'
+                    .$image_name;
 
                 $request->file( "image" )->move(
                     public_path('files/task'),
-                    $request->file( "image" )->getClientOriginalName()
+                    $image_name
                 );
             }
             $response->save();
