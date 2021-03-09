@@ -5,6 +5,9 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use App\Console\Commands\SyncDriverStatus;
+
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -13,7 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        SyncDriverStatus::class
     ];
 
     /**
@@ -40,8 +43,8 @@ class Kernel extends ConsoleKernel
          */
 
         /**
-         * Login Opertask to get their token.
-         * It's run at 00:00 everyday.
+         * Sync Driver Status.
+         * It's every 5 minutes.
          */
         $schedule->command('opertask:sync-driver-status')->everyFiveMinutes();
     }
