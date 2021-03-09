@@ -45,7 +45,7 @@ class UserManagerController extends Controller
             CmsUser::insert([
                 "bengkel_id" => $request->workshop,
                 "role_id" => $request->role,
-                "bengkel_id" => null,
+                "bengkel_id" => $request->get('workshop'),
                 "username" => $request->username,
                 "password" => Hash::make('admin12345'),
                 "email" => $request->email,
@@ -53,16 +53,20 @@ class UserManagerController extends Controller
                 "status" => 1,
                 "is_bengkel_staff" => 1,
                 "url_image" => 
-                    env('APP_URL').'/download?file=files/cms-user/'.$request->file('image')->getClientOriginalName(),
+                    $request->hasFile('image') ? 
+                    env('APP_URL').'/download?file=files/cms-user/'.$request->file('image')->getClientOriginalName()
+                    : null,
                 "created_at" => new \DateTime('now'),
                 "updated_at" => null,
                 "deleted_at" => null,
             ]);
 
-            $request->file( "image" )->move(
-                public_path('files/cms-user'),
-                $request->file( "image" )->getClientOriginalName()
-            );
+            if($request->file('image') != null){
+                $request->file( "image" )->move(
+                    public_path('files/cms-user'),
+                    $request->file( "image" )->getClientOriginalName()
+                );
+            }
             
             Session::flash('success', 'Success to create user');
             return back();
