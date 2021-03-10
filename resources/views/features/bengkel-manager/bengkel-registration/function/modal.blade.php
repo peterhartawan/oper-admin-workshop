@@ -76,6 +76,26 @@
                                 </select>
                             </div>
                         </div>
+
+                        {{--
+                            Vehicle Type currently disabled due to request
+                            --}}
+
+                        <input type="hidden" name="vehicle-type" value="1" />
+
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Vehicle Type</label>
+                            <div class="col-sm-8">
+                                <select disabled class="form-control" 
+                                    id="vehicle-type"
+                                    required>
+                                        <option value="">Please Select</option>
+                                        <option selected value="1">Mobil</option>
+                                        <option value="2">Motor</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Oper Task Username</label>
                             <div class="col-sm-8">
