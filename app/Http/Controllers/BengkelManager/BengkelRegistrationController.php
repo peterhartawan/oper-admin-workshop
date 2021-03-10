@@ -29,6 +29,7 @@ class BengkelRegistrationController extends Controller
                 "bengkel_long" => $request->longitude,
                 "bengkel_lat" => $request->latitude,
                 "bengkel_tipe" => $request->type,
+                "vehicle_type" => $request->get('vehicle-type'),
                 "bengkel_status" => 1,
                 "created_date" => new \DateTime('now'),
                 "oper_task_username" => $request->otUsername,
