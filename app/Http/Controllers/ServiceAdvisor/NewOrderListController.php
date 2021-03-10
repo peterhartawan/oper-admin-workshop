@@ -34,16 +34,18 @@ class NewOrderListController extends Controller
 
     public function paginateNewOrderList(Request $request) {
         $filter = [
-            [ 'order_status', 1 ],
+            [ 'order_status', 1 ]
         ];
 
         if( !empty($request->value) )
             array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
-        $response = OperOrder::where( $filter )
-                ->with(['workshopBengkel:id,bengkel_name'])
-            ->paginate( $request->get( 'size' ) )
-            ->toJson();
+        $response = OperOrder
+                        ::where( $filter )
+                        ->where('bengkel_id', Session::get('user')->bengkel_id)
+                        ->with(['workshopBengkel:id,bengkel_name'])
+                        ->paginate( $request->get( 'size' ) )
+                        ->toJson();
             
         return view( 'features.service-advisor.new-order-list.function.table')
             ->with( 'listdata', json_decode($response, false) );

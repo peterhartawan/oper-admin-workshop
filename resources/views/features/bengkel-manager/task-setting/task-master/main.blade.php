@@ -62,7 +62,7 @@
                 <table id="allowance-table" class="table table-bordered table-striped table-vcenter display nowrap ">
                     <thead class="text-center">
                         <th>Task Name</th>
-                        <th>Total Bengkel</th>
+                        <th>Bengkel Name</th>
                         <th>Action</th>
                     </thead>
                     <tbody id="content" class="text-center">
@@ -184,8 +184,28 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function(rspn) {
+                    if(rspn == null) {
+                        loaderOff();
+                        return;
+                    }
+
                     $('#update-form').find('[name="id"]').val(rspn.id);
                     $('#update-form').find('[name="name"]').val(rspn.task_name);
+
+                    $('#update-form').find('[name="workshop"]')
+                        .empty();
+
+                    var workshops = @json($workshops, JSON_PRETTY_PRINT);
+                    $('#update-form').find('[name="workshop"]')
+                            .append('<option value="">Please Select</option>');
+                    workshops.forEach(function(item, index) {
+                        $('#update-form').find('[name="workshop"]')
+                            .append('<option value="' + item.id + '">' + item.bengkel_name + '</option>');
+                    });
+
+                    if(rspn.workshop_bengkel != null)
+                        $('#update-form').find('[name="workshop"]')
+                            .prepend('<option selected value="' + rspn.workshop_bengkel.id + '">' + rspn.workshop_bengkel.bengkel_name + '</option>');
 
                     loaderOff();
                     $('#update-modal').modal('show');

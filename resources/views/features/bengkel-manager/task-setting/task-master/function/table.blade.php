@@ -22,9 +22,9 @@
                 </td>
             @endisset
 
-           @isset($task->bengkels)
+           @isset($task->workshop_bengkel->bengkel_name)
                 <td>
-                    {{ $task->bengkels }}
+                    {{ $task->workshop_bengkel->bengkel_name }}
                 </td>
             @else   
                 <td class="bg-danger-light">
