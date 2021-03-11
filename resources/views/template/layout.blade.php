@@ -36,6 +36,7 @@
         <script src="{{ asset('/template/js/plugins/sweetalert2/sweetalert2.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/template/js/plugins/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
         <script src="{{ asset('/template/js/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('/template/js/plugins/jquery-validation/additional-methods.min.js') }}"></script>
         <script>jQuery(function(){ Dashmix.helpers(['notify']); });</script>
 
         @yield('js_before')
@@ -78,7 +79,7 @@
                                         <div class="bg-primary-darker rounded-top font-w600 text-white text-center p-3">
                                             <a href="javascript:void(0)" onclick="$('#view-profile-modal').modal('show')">    
                                                 <img class="img-avatar img-avatar48 img-avatar-thumb" 
-                                                    src="{{ asset("/template/media/avatars/avatar10.jpg") }}" 
+                                                    src="{{ (Session::get('user')->url_image == null) ? asset("/template/media/avatars/avatar10.jpg") : asset(Session::get('user')->image) }}" 
                                                     alt="">
                                             </a>
                                             <div class="pt-2">
@@ -95,6 +96,9 @@
                                             </a>
                                             <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#change-password-modal">
                                                 <i class="fa fa-fw fa-user-edit mr-1"></i> Change Password
+                                            </a>
+                                            <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#change-picture-modal">
+                                                <i class="fa fa-fw fa-user-edit mr-1"></i> Change Picture
                                             </a>
                                             <div role="separator" class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="/logout" onclick="loaderOn()">
@@ -186,6 +190,133 @@
         <!-- End Modal -->
 
         @yield('js_after')
+        
+        <script type="text/javascript">
+            $.validator.addMethod("phoneNumber", function(value, element) {
+                return this.optional(element) || /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/.test(value);
+            }, "Format phone number salah");
+
+            $("#edit-profile-form").validate({
+                errorClass: "is-invalid text-danger",
+                rules: {
+                    username: {
+                        required: true,
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                    },
+                    phone: {
+                        required: true,
+                        phoneNumber: true,
+                    },
+                },
+                messages: {
+                    username: {
+                        required: "Please input this field",
+                    },
+                    email: {
+                        required: "Please input this field",
+                        email: "Please input correct email format",
+                    },
+                    phone: {
+                        required: "please input this field",
+                        phoneNumber: "Please input correct phone number format",
+                    },
+                },
+                submitHandler: function(form) {
+                    loaderOn();
+                    form.submit();
+                }
+            });
+
+            $("#change-password-form").validate({
+                errorClass: "is-invalid text-danger",
+                rules: {
+                    current: {
+                        required: true,
+                    },
+                    password: {
+                        required: true,
+                    },
+                    confirm: {
+                        required: true,
+                        equalTo: "#password",
+                    }
+                },
+                messages: {
+                    current: {
+                        required: "Please input this field",
+                    },
+                    password: {
+                        required: "Please input this field",
+                    },
+                    confirm: {
+                        required: "Please input this field",
+                        equalTo: "Password and Confirm Password are not match",
+                    }
+                },
+                submitHandler: function(form) {
+                    loaderOn();
+                    form.submit();
+                }
+            });
+
+            $("#change-picture-form").validate({
+                errorClass: "is-invalid text-danger",
+                rules: {
+                    image: {
+                        required: true,
+                        extension: "jpg|jpeg|png|ico|bmp",
+                    }
+                },
+                messages: {
+                    image: {
+                        required: "Please upload file",
+                        extension: "Please upload file in these format only (jpg, jpeg, png, ico, bmp)",
+                    }
+                },
+                submitHandler: function(form) {
+                    loaderOn();
+                    form.submit();
+                }
+            });
+
+            /**
+             * For All Modal use jquery validation
+             */
+            $("#create-form").validate({
+                errorClass: "is-invalid text-danger",
+                submitHandler: function(form) {
+                    loaderOn();
+                    form.submit();
+                }
+            });
+            
+            $("#update-form").validate({
+                errorClass: "is-invalid text-danger",
+                submitHandler: function(form) {
+                    loaderOn();
+                    form.submit();
+                }
+            });
+            
+            $("#delete-form").validate({
+                errorClass: "is-invalid text-danger",
+                submitHandler: function(form) {
+                    loaderOn();
+                    form.submit();
+                }
+            });
+            
+            $("#status-form").validate({
+                errorClass: "is-invalid text-danger",
+                submitHandler: function(form) {
+                    loaderOn();
+                    form.submit();
+                }
+            });
+        </script>
         
     </body>
 </html>

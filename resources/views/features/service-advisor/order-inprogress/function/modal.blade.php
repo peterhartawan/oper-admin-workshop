@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="update-status-2-form" action="/service-advisor/order-inprogress" method="POST" onsubmit="loaderOn()" enctype="multipart/form-data">
+                    <form id="update-status-2-form" action="/service-advisor/order-inprogress" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
 
@@ -28,6 +28,7 @@
                                         data-toggle="custom-file-input" 
                                         id="update-status-2-file" 
                                         name="file"
+                                        extension="jpg|jpeg|pdf|png"
                                         required>
                                     <label class="custom-file-label" for="update-status-2-file">Choose File</label>
                                 </div>
@@ -62,7 +63,7 @@
                     <p>Are you sure for update status to confirmed payment order with customer name <strong id="update-status-5-name"></strong>?</p>
                 </div>
                 <div class="block-content block-content-full text-right bg-light">
-                    <form id="update-status-5-form" action="/service-advisor/order-inprogress" method="POST" onsubmit="loaderOn()">
+                    <form id="update-status-5-form" action="/service-advisor/order-inprogress" method="POST">
                         @method('PUT')
                         @csrf
                         <input type="hidden" name="id">
@@ -238,3 +239,21 @@
         </div>
     </div>
 </div>
+        
+<script type="text/javascript">    
+    $("#update-status-2-form").validate({
+        errorClass: "is-invalid text-danger",
+        submitHandler: function(form) {
+            loaderOn();
+            form.submit();
+        }
+    });
+    
+    $("#update-status-5-form").validate({
+        errorClass: "is-invalid text-danger",
+        submitHandler: function(form) {
+            loaderOn();
+            form.submit();
+        }
+    });
+</script>

@@ -103,7 +103,7 @@
                 <div class="bg-image" style="background-image: url('{{ asset('template/media/photos/photo15@2x.jpg') }}');">
                     <div class="row justify-content-center bg-primary-op">
                         <!-- Meta Info Section -->
-                        <div class="hero-static col-md-6 d-none d-md-flex align-items-md-center justify-content-md-center text-md-center">
+                        <div class="hero-static col-md-6 col-sm-12 d-md-flex align-items-md-center justify-content-md-center text-md-center">
                             <div class="p-3">
                                 <p class="display-4 font-w700 text-white mb-3">
                                     Welcome to the future

@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="create-form" action="/bengkel-manager/task-setting/task-list" method="POST" onsubmit="loaderOn()">
+                    <form id="create-form" action="/bengkel-manager/task-setting/task-list" method="POST">
                         @csrf
 
                         <input type="hidden" name="id" value="{{ $id }}">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="update-form" action="/bengkel-manager/task-setting/task-list" method="POST" onsubmit="loaderOn()">
+                    <form id="update-form" action="/bengkel-manager/task-setting/task-list" method="POST">
                         @method('PUT')
                         @csrf
 
@@ -132,7 +132,7 @@
                     <p>Are you sure for delete <strong id="delete-name"></strong>?</p>
                 </div>
                 <div class="block-content block-content-full text-right bg-light">
-                    <form id="delete-form" action="/bengkel-manager/task-setting/task-list" method="POST" onsubmit="loaderOn()">
+                    <form id="delete-form" action="/bengkel-manager/task-setting/task-list" method="POST">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" name="id">

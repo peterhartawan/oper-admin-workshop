@@ -108,7 +108,7 @@
                                 <!-- Header -->
                                 <div class="mb-3 text-center">
                                     <a class="link-fx font-w700 font-size-h1" href="index.html">
-                                        <span class="text-dark">Dash</span><span class="text-primary">mix</span>
+                                        <span class="text-primary">Operworkshop</span>
                                     </a>
                                     <p class="text-uppercase font-w700 font-size-sm text-muted">Sign In</p>
                                 </div>
@@ -119,28 +119,20 @@
                                 <!-- For more info and examples you can check out https://github.com/jzaefferer/jquery-validation -->
                                 <div class="row no-gutters justify-content-center">
                                     <div class="col-sm-8 col-xl-6">
-                                        <form class="js-validation-signin" action="/login" method="POST" onsubmit="loaderOn()">
+                                        <form id="login-form" action="/login" method="POST">
                                             @csrf
                                             <div class="py-3">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control form-control-lg form-control-alt" id="username" name="username" placeholder="Username" required>
+                                                    <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Username">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="password" class="form-control form-control-lg form-control-alt" id="password" name="password" placeholder="Password" required>
+                                                    <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Password">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-block btn-hero-lg btn-hero-primary">
                                                     <i class="fa fa-fw fa-sign-in-alt mr-1"></i> Sign In
                                                 </button>
-                                                <p class="mt-3 mb-0 d-lg-flex justify-content-lg-between">
-                                                    <a class="btn btn-sm btn-light d-block d-lg-inline-block mb-1" href="op_auth_reminder.html">
-                                                        <i class="fa fa-exclamation-triangle text-muted mr-1"></i> Forgot password
-                                                    </a>
-                                                    <a class="btn btn-sm btn-light d-block d-lg-inline-block mb-1" href="op_auth_signup.html">
-                                                        <i class="fa fa-plus text-muted mr-1"></i> New Account
-                                                    </a>
-                                                </p>
                                             </div>
                                         </form>
                                     </div>
@@ -154,7 +146,7 @@
                         <div class="hero-static col-md-6 d-none d-md-flex align-items-md-center justify-content-md-center text-md-center">
                             <div class="p-3">
                                 <p class="display-4 font-w700 text-white mb-3">
-                                    Welcome to the future
+                                    Welcome to CMS Operworkshop
                                 </p>
                                 <p class="font-size-lg font-w600 text-white-75 mb-0">
                                     Copyright &copy; <span class="js-year-copy">2018</span>
@@ -184,5 +176,31 @@
                 });
             </script>
         @endif
+
+        <script type="text/javascript">
+    $("#login-form").validate({
+                errorClass: "is-invalid text-danger",
+                rules: {
+                    username: {
+                        required: true,
+                    },
+                    password: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    username: {
+                        required: "Please input this field",
+                    },
+                    password: {
+                        required: "Please input this field",
+                    },
+                },
+                submitHandler: function(form) {
+                    loaderOn();
+                    form.submit();
+                }
+            });
+        </script>
     </body>
 </html>

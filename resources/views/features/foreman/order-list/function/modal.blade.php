@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="update-status-4-form" action="/foreman/order-list" method="POST" onsubmit="loaderOn()" enctype="multipart/form-data">
+                    <form id="update-status-4-form" action="/foreman/order-list" method="POST" enctype="multipart/form-data">
                         @method('PATCH')
                         @csrf
 
@@ -27,7 +27,9 @@
                                         class="custom-file-input" 
                                         data-toggle="custom-file-input" 
                                         id="status-4-image" 
-                                        name="image">
+                                        name="image"
+                                        extension="jpg|jpeg|png"
+                                        required>
                                     <label class="custom-file-label" for="status-4-image">Choose Image</label>
                                 </div>
                             </div>
@@ -72,7 +74,7 @@
                     <p>Are you sure for update status to checking task order with customer name <strong id="update-status-3-name"></strong>?</p>
                 </div>
                 <div class="block-content block-content-full text-right bg-light">
-                    <form id="update-status-3-form" action="/foreman/order-list" method="POST" onsubmit="loaderOn()">
+                    <form id="update-status-3-form" action="/foreman/order-list" method="POST">
                         @method('PUT')
                         @csrf
                         <input type="hidden" name="id">
@@ -248,3 +250,21 @@
         </div>
     </div>
 </div>
+        
+<script type="text/javascript">    
+    $("#update-status-3-form").validate({
+        errorClass: "is-invalid text-danger",
+        submitHandler: function(form) {
+            loaderOn();
+            form.submit();
+        }
+    });
+    
+    $("#update-status-4-form").validate({
+        errorClass: "is-invalid text-danger",
+        submitHandler: function(form) {
+            loaderOn();
+            form.submit();
+        }
+    });
+</script>
