@@ -46,7 +46,8 @@ class Kernel extends ConsoleKernel
          * Sync Driver Status.
          * It's every 5 minutes.
          */
-        $schedule->command('opertask:sync-driver-status')->everyFiveMinutes();
+        $schedule->command('opertask:sync-driver-status')
+            ->cron('*/5 * * * *');
     }
 
     /**
