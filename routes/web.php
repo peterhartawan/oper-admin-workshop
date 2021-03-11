@@ -30,6 +30,24 @@ Route::get( 'download', 'UtilitiesController@download' );
 
 /* 
 |--------------------------------------------------------------------------
+| Profile Routes
+|--------------------------------------------------------------------------
+*/
+
+    Route::prefix( 'profile' )->group(function() {
+        Route::post( '', 'ProfileController@updateProfile' );
+        Route::post( 'password', 'ProfileController@updatePassword' );
+        Route::post( 'picture', 'ProfileController@updatePicture' );
+    });
+    
+/* 
+|--------------------------------------------------------------------------
+| End of Profile Routes
+|--------------------------------------------------------------------------
+*/
+
+/* 
+|--------------------------------------------------------------------------
 | User Management Routes
 |--------------------------------------------------------------------------
 */

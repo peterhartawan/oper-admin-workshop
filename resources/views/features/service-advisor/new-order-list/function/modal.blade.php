@@ -17,7 +17,7 @@
                     <p>Are you sure for update status to open order <strong id="update-status-name"></strong>?</p>
                 </div>
                 <div class="block-content block-content-full text-right bg-light">
-                    <form id="update-status-form" action="/service-advisor/new-order-list" method="POST" onsubmit="loaderOn()">
+                    <form id="update-status-form" action="/service-advisor/new-order-list" method="POST">
                         @method('PATCH')
                         @csrf
                         <input type="hidden" name="id">
@@ -183,3 +183,13 @@
         </div>
     </div>
 </div>
+        
+<script type="text/javascript">    
+    $("#update-status-form").validate({
+        errorClass: "is-invalid text-danger",
+        submitHandler: function(form) {
+            loaderOn();
+            form.submit();
+        }
+    });
+</script>
