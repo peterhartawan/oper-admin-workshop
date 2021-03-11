@@ -34,6 +34,13 @@ class ProfileController extends Controller
             $user->email = $request->email;
             $user->phone = $request->phone;
             $user->save();
+
+            if ($user->url_image != null) {
+                $array_string = explode("?file=", $user->url_image);
+                $user->image = "/".$array_string[1];
+            }
+
+            Session::put('user', json_decode($user->toJson(), false));
             
             Session::flash('success', 'Success to update profile');
             return back();
