@@ -76,14 +76,22 @@ class ProfileController extends Controller
         try {
             $user = CmsUser::with('role:id,role_name')->find($request->id);
 
-            if ($request->hasFile('image')) {
-                $user->url_image = 
-                    env('APP_URL').'/download?file=files/cms-user/'.$request->file('image')->getClientOriginalName();
+            if($request->hasFile('image')) {
+
+                /**
+                 * Hashing picture name
+                 */
+                $image_name = 
+                    md5($request->file('image')->getClientOriginalName().time())
+                    .'.'.$request->file('image')->getClientOriginalExtension();
 
                 $request->file( "image" )->move(
                     public_path('files/cms-user'),
-                    $request->file( "image" )->getClientOriginalName()
+                    $image_name
                 );
+
+                $user->url_image = 
+                    env('APP_URL').'/download?file=files/cms-user/'.$image_name;
             }
             
             $user->save();
