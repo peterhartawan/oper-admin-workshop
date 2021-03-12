@@ -97,7 +97,12 @@ class OrderListController extends Controller
     public function tableTaskList($id) {
         $response = OperOrder::find($id);
         $response = TaskList::where('master_task_id', $response->master_task)
-                        ->with( ['masterTask', 'taskProgress'] )
+                        ->with( [
+                            'masterTask', 
+                            'taskProgress' => function($query) use ($id) {
+                                $query->where('order_id', $id);
+                            }
+                        ] )
                         ->get()
                         ->sortBy('list_sequence')
                         ->toJson();
