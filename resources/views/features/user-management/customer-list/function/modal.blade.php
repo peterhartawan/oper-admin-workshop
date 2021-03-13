@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="create-form" action="/user-management/customer-list" method="POST" onsubmit="loaderOn()">
+                    <form id="create-form" action="/user-management/customer-list" method="POST">
                         @csrf
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Name</label>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="update-form" action="/user-management/customer-list" method="POST" onsubmit="loaderOn()">
+                    <form id="update-form" action="/user-management/customer-list" method="POST">
                         @method('PUT')
                         @csrf
 
@@ -200,7 +200,7 @@
                     <p>Are you sure for delete <strong id="delete-name"></strong>?</p>
                 </div>
                 <div class="block-content block-content-full text-right bg-light">
-                    <form id="delete-form" action="/user-management/customer-list" method="POST" onsubmit="loaderOn()">
+                    <form id="delete-form" action="/user-management/customer-list" method="POST">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" name="id">

@@ -52,6 +52,11 @@ class AuthController extends Controller
             Session::flash('error', 'Password wrong!');
             return redirect('/login');
         }
+        
+        if ($user->url_image != null) {
+            $array_string = explode("?file=", $user->url_image);
+            $user->image = "/".$array_string[1];
+        }
 
         $menus = MenuMaster::with([
                         'childrenMenus' => function($query) use ($user) {

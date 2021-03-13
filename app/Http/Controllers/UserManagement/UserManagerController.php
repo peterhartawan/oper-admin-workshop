@@ -42,6 +42,23 @@ class UserManagerController extends Controller
                     return back();
             }
 
+            $image_name = null;
+        
+            if($request->hasFile('image')) {
+
+                /**
+                 * Hashing picture name
+                 */
+                $image_name = 
+                    md5($request->file('image')->getClientOriginalName().time())
+                    .'.'.$request->file('image')->getClientOriginalExtension();
+
+                $request->file( "image" )->move(
+                    public_path('files/cms-user'),
+                    $image_name
+                );
+            }
+
             CmsUser::insert([
                 "bengkel_id" => $request->workshop,
                 "role_id" => $request->role,
@@ -53,20 +70,13 @@ class UserManagerController extends Controller
                 "status" => 1,
                 "is_bengkel_staff" => 1,
                 "url_image" => 
-                    $request->hasFile('image') ? 
-                    env('APP_URL').'/download?file=files/cms-user/'.$request->file('image')->getClientOriginalName()
+                    $image_name != null ? 
+                    env('APP_URL').'/download?file=files/cms-user/'.$image_name
                     : null,
                 "created_at" => new \DateTime('now'),
                 "updated_at" => null,
                 "deleted_at" => null,
             ]);
-
-            if($request->file('image') != null){
-                $request->file( "image" )->move(
-                    public_path('files/cms-user'),
-                    $request->file( "image" )->getClientOriginalName()
-                );
-            }
             
             Session::flash('success', 'Success to create user');
             return back();
@@ -96,16 +106,23 @@ class UserManagerController extends Controller
                     return back();
             }
 
-            if ($request->hasFile('image')) {
-                $user->url_image = 
-                    env('APP_URL').'/download?file=files/cms-user/'.$request->file('image')->getClientOriginalName();
+            if($request->hasFile('image')) {
+
+                /**
+                 * Hashing picture name
+                 */
+                $image_name = 
+                    md5($request->file('image')->getClientOriginalName().time())
+                    .'.'.$request->file('image')->getClientOriginalExtension();
 
                 $request->file( "image" )->move(
                     public_path('files/cms-user'),
-                    $request->file( "image" )->getClientOriginalName()
+                    $image_name
                 );
+
+                $user->url_image = 
+                    env('APP_URL').'/download?file=files/cms-user/'.$image_name;
             }
-            
 
             $user->username = $request->username;
             $user->email = $request->email;

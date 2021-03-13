@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="create-form" action="/user-management/user-manager" method="POST" onsubmit="loaderOn()" enctype="multipart/form-data">
+                    <form id="create-form" action="/user-management/user-manager" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Role</label>
@@ -60,6 +60,8 @@
                             <div class="col-sm-8">
                                 <input type="text"
                                     class="form-control" 
+                                    pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                    title="Please follow email format example@domain.com"
                                     name="email" 
                                     id="create-email" 
                                     required>
@@ -70,6 +72,8 @@
                             <div class="col-sm-8">
                                 <input type="text"
                                     class="form-control" 
+                                    pattern="^[0]\d{8,14}$"
+                                    title="Please enter valid phone number."
                                     name="phone" 
                                     id="create-phone" 
                                     required>
@@ -114,7 +118,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="update-form" action="/user-management/user-manager" method="POST" onsubmit="loaderOn()" enctype="multipart/form-data">
+                    <form id="update-form" action="/user-management/user-manager" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
 
@@ -149,6 +153,8 @@
                             <div class="col-sm-8">
                                 <input type="text"
                                     class="form-control" 
+                                    pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                    title="Please follow email format example@domain.com"
                                     name="email" 
                                     id="update-email" 
                                     required>
@@ -159,6 +165,8 @@
                             <div class="col-sm-8">
                                 <input type="text"
                                     class="form-control" 
+                                    pattern="^[0]\d{8,14}$"
+                                    title="Please enter valid phone number."
                                     name="phone" 
                                     id="update-phone" 
                                     required>
@@ -233,6 +241,8 @@
                             <div class="col-sm-8">
                                 <input type="text"
                                     class="form-control" 
+                                    pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                    title="Please follow email format example@domain.com"
                                     name="email" 
                                     id="view-email" 
                                     disabled>
@@ -243,7 +253,9 @@
                             <div class="col-sm-8">
                                 <input type="text"
                                     class="form-control" 
-                                    name="phone" 
+                                    name="phone"
+                                    pattern="^[0]\d{8,14}$"
+                                    title="Please enter valid phone number." 
                                     id="view-phone" 
                                     disabled>
                             </div>
@@ -275,7 +287,7 @@
                             </div>
                         </div>
                     </form>
-                    <form id="status-form" action="/user-management/user-manager" method="POST" onsubmit="loaderOn()">
+                    <form id="status-form" action="/user-management/user-manager" method="POST">
                         @method('PATCH')
                         @csrf
                         <input type="hidden" name="id">
@@ -309,7 +321,7 @@
                     <p>Are you sure for delete <strong id="delete-name"></strong>?</p>
                 </div>
                 <div class="block-content block-content-full text-right bg-light">
-                    <form id="delete-form" action="/user-management/user-manager" method="POST" onsubmit="loaderOn()">
+                    <form id="delete-form" action="/user-management/user-manager" method="POST">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" name="id">

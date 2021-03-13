@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="update-form" action="/bengkel-manager/bengkel-setting" method="POST" onsubmit="loaderOn()">
+                    <form id="update-form" action="/bengkel-manager/bengkel-setting" method="POST">
                         @method('PUT')
                         @csrf
 

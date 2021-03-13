@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="create-form" action="/wa-marketing-blast/promo-blast" method="POST" onsubmit="loaderOn()" enctype="multipart/form-data">
+                    <form id="create-form" action="/wa-marketing-blast/promo-blast" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Promo Title</label>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="update-form" action="/wa-marketing-blast/promo-blast" method="POST" onsubmit="loaderOn()" enctype="multipart/form-data">
+                    <form id="update-form" action="/wa-marketing-blast/promo-blast" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
 
@@ -199,7 +199,7 @@
                     <p>Are you sure for delete <strong id="delete-name"></strong>?</p>
                 </div>
                 <div class="block-content block-content-full text-right bg-light">
-                    <form id="delete-form" action="/wa-marketing-blast/promo-blast" method="POST" onsubmit="loaderOn()">
+                    <form id="delete-form" action="/wa-marketing-blast/promo-blast" method="POST">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" name="id">
