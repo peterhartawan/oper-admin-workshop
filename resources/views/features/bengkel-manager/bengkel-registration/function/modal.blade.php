@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="create-form" action="/bengkel-manager/bengkel-registration" method="POST" autocomplete="off">
+                    <form id="create-form" action="/bengkel-manager/bengkel-registration" method="POST" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Name</label>
@@ -97,12 +97,35 @@
                         </div>
 
                         <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Workshop Image</label>
+                            <div class="col-sm-8">
+                                <input type="file"
+                                    accept="image/*"
+                                    class="form-control" 
+                                    name="otImage" 
+                                    id="create-otImage" 
+                                    required />
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Oper Task Username</label>
                             <div class="col-sm-8">
                                 <input type="text"
                                     class="form-control" 
                                     name="otUsername" 
                                     id="create-otUsername" 
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task URI</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                    class="form-control" 
+                                    name="otUri" 
+                                    id="create-otUri" 
                                     required>
                             </div>
                         </div>
@@ -142,7 +165,7 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    <form id="update-form" action="/bengkel-manager/bengkel-registration" method="POST" autocomplete="off">
+                    <form id="update-form" action="/bengkel-manager/bengkel-registration" method="POST" autocomplete="off" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
 
@@ -208,12 +231,35 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Workshop Image</label>
+                            <div class="col-sm-8">
+                                <input type="file"
+                                    accept="image/*"
+                                    class="form-control" 
+                                    name="otImage" 
+                                    id="create-otImage" 
+                                    />
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Oper Task Username</label>
                             <div class="col-sm-8">
                                 <input type="text"
                                     class="form-control" 
                                     name="otUsername" 
-                                    id="update-otUsername" 
+                                    id="create-otUsername" 
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task URI</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                    class="form-control" 
+                                    name="otUri" 
+                                    id="create-otUri" 
                                     required>
                             </div>
                         </div>
@@ -287,13 +333,31 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Workshop Image</label>
+                            <div class="col-sm-8">
+                                <img id="view-img" class="img-thumbnail w-100" src="#" alt="aaaa" />
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Oper Task Username</label>
                             <div class="col-sm-8">
                                 <input type="text"
                                     class="form-control" 
                                     name="otUsername" 
-                                    id="view-otUsername" 
-                                    disabled>
+                                    id="create-otUsername" 
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task URI</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                    class="form-control" 
+                                    name="otUri" 
+                                    id="create-otUri" 
+                                    required>
                             </div>
                         </div>
                         <div class="form-group row">

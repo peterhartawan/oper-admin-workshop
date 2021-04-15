@@ -10,6 +10,8 @@ use App\Model\MasterBrand;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
+use Illuminate\Support\Facades\Storage;
+
 use Session;
 
 class BengkelRegistrationController extends Controller
@@ -23,6 +25,17 @@ class BengkelRegistrationController extends Controller
         $bengkel = null;
 
         try {
+
+            $filename = md5(strtotime('now').$request->file('otImage')->getClientOriginalName())
+                        . '.'
+                        . $request->file('otImage')->getClientOriginalExtension();
+
+            $request->file('otImage')
+                    ->storeAs(
+                        '/public/workshop-image/', 
+                        $filename
+            );
+
             $bengkel = WorkshopBengkel::create([
                 "bengkel_name" => $request->name,
                 "bengkel_alamat" => $request->address,
@@ -33,7 +46,9 @@ class BengkelRegistrationController extends Controller
                 "bengkel_status" => 1,
                 "created_date" => new \DateTime('now'),
                 "oper_task_username" => $request->otUsername,
-                "oper_task_password" => Hash::make($request->otPassword),
+                "oper_task_password" => $request->otPassword,
+                "oper_task_uri" => $request->get('otUri'),
+                "workshop_picture" => env('APP_URL') . "/storage/workshop-image/" . $filename
             ]);
 
             $rollbackDB = true;
@@ -67,7 +82,21 @@ class BengkelRegistrationController extends Controller
             $bengkel->oper_task_username = $request->otUsername;
 
             if (isset($request->otPassword)) {
-                $bengkel->oper_task_password = Hash::make($request->otPassword);
+                $bengkel->oper_task_password = $request->otPassword;
+            }
+
+            if($request->hasFile('otImage')){
+                $filename = md5(strtotime('now').$request->file('otImage')->getClientOriginalName())
+                            . '.'
+                            . $request->file('otImage')->getClientOriginalExtension();
+
+                $request->file('otImage')
+                        ->storeAs(
+                            '/public/workshop-image', 
+                            $filename
+                );
+
+                $bengkel->workshop_picture = env('APP_URL') . "/storage/workshop-image/" . $filename;
             }
 
             $bengkel->save();

@@ -32,6 +32,10 @@
                 </td>
             @endisset
 
+            <td>
+                {{ $order->vehicle_plat ?? "Data not available" }}
+            </td>
+
             @isset($order->workshop_bengkel->bengkel_name)
                 <td>
                     {{ $order->workshop_bengkel->bengkel_name }}
@@ -65,8 +69,17 @@
                         @case(2)
                             Open Order
                             @break
-                        @case(5)
+
+                        @case(3)
+                            PKB Submitted
+                            @break
+
+                        @case(10)
                             Done Foreman
+                            @break
+
+                        @case(5)
+                            Invoice Attached
                             @break
                     @endswitch
                 </td>
@@ -92,6 +105,23 @@
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                 </button>
                                 @break
+
+                            @case(3)
+                                <button type="button" 
+                                    class="btn btn-sm btn-primary"
+                                    onclick="updateViewStatus3({{ $order->id }})">
+                                        <i class="fa fa-fw fa-pencil-alt"></i>
+                                </button>
+                                @break
+
+                            @case(10)
+                                <button type="button" 
+                                    class="btn btn-sm btn-primary"
+                                    onclick="updateViewStatus10({{ $order->id }}, '{{ $order->customer_name }}')">
+                                        <i class="fa fa-fw fa-pencil-alt"></i>
+                                </button>
+                                @break    
+                        
                             @case(5)
                                 <button type="button" 
                                     class="btn btn-sm btn-primary"

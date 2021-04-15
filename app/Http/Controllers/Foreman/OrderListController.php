@@ -56,7 +56,7 @@ class OrderListController extends Controller
             array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
         $response = OperOrder::where( $filter )
-                        ->whereIn("order_status", [3])
+                        ->whereIn("order_status", [9])
                         ->with(['workshopBengkel:id,bengkel_name'])
                         ->paginate( $request->get( 'size' ) )
                         ->toJson();
@@ -106,6 +106,7 @@ class OrderListController extends Controller
                         ->get()
                         ->sortBy('list_sequence')
                         ->toJson();
+
             
         return view( 'features.foreman.order-list.function.table-status-4')
             ->with( 'listdata', json_decode($response, false) );
@@ -115,6 +116,7 @@ class OrderListController extends Controller
         try {
             $response = ForemanTaskProgress::find($request->progressID);
             $response->list_done = new \DateTime('now');
+
             if($request->hasFile('image')) {
 
                 /**
@@ -134,6 +136,8 @@ class OrderListController extends Controller
                     $image_name
                 );
             }
+
+
             $response->save();
 
             $list = TaskList::whereHas("taskProgress", function($query) use ($request) {
@@ -146,7 +150,7 @@ class OrderListController extends Controller
 
             if ($check == 0 && $list->as_final_task) {
                 OperOrder::find($request->id)->update([
-                    "order_status" => 5
+                    "order_status" => 10
                 ]);
             }
             

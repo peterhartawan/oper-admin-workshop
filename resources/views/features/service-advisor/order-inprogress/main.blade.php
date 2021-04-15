@@ -61,6 +61,7 @@
                     <thead class="text-center">
                         <th>Booking Number</th>
                         <th>Customer Name</th>
+                        <th>Vehicle Plate</th>
                         <th>Bengkel Name</th>
                         <th>Order Type</th>
                         <th>Order Status</th>
@@ -247,6 +248,30 @@
                     loaderOff();
                 },
             });
+        }
+
+        function updateViewStatus10(id) {
+            loaderOn();
+            $.ajax({
+                url: '/service-advisor/order-inprogress/' + id,
+                method: 'GET',
+                dataType: 'json',
+                success: function(rspn) {
+                    $('#update-status-10-form').find('[name="id"]').val(rspn.id);
+
+                    loaderOff();
+                    $('#update-status-10-modal').modal('show');
+                },
+                error: function(err) {
+                    loaderOff();
+                },
+            });
+        }
+
+        function updateViewStatus3(id) {
+            $('#update-status-3-form').find('[name="id"]').val(id);
+            $('#update-status-3-name').text(name);
+            $('#update-status-3-modal').modal('show');
         }
 
         function updateViewStatus5(id, name) {

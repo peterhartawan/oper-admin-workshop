@@ -219,6 +219,8 @@
                     $('#view-form').find('[name="type"]').val(rspn.bengkel_tipe);
                     $('#view-form').find('[name="otUsername"]').val(rspn.oper_task_username);
                     $('#status-form').find('[name="id"]').val(rspn.id);
+                    $('#view-form').find('[name="otUri"]').val(rspn.oper_task_uri);
+                    $('#view-img').attr('src', rspn.workshop_picture);
 
                     if (rspn.bengkel_status) {
                         $('#status-active').removeClass('d-none');
@@ -255,6 +257,7 @@
                     $('#update-form').find('[name="longitude"]').val(rspn.bengkel_long);
                     $('#update-form').find('[name="latitude"]').val(rspn.bengkel_lat);
                     $('#update-form').find('[name="otUsername"]').val(rspn.oper_task_username);
+                    $('#update-form').find('[name="otUri"]').val(rspn.oper_task_uri);
                     $('#update-form').find('[name="otPassword"]').val("");
                     $('#update-longitude').trigger( "change" );
 

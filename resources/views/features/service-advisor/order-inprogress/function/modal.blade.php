@@ -44,6 +44,89 @@
     </div>
 </div>
 
+<!-- Update Status 3 to 9 Modal -->
+<div class="modal" id="update-status-3-modal" tabindex="-1" role="dialog" aria-labelledby="modal-block-vcenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                    <h3 class="block-title">
+                        <i class="far far-fw fa-plus-square mr-1"></i> Update Order
+                    </h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <form id="update-status-3-form" action="/service-advisor/order-inprogress" method="POST">
+                        @method('PUT')
+                        @csrf
+
+                        <input type="hidden" name="id">
+                        
+                        <p class="lead">
+                            Attention! Make sure customer has confirm the PKB file before proceed tasks to Foreman.
+                        </p>
+
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-block btn-primary" value="Submit Task to Foreman">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Status 10 to 5 Modal -->
+<div class="modal" id="update-status-10-modal" tabindex="-1" role="dialog" aria-labelledby="modal-block-vcenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-dark">
+                    <h3 class="block-title">
+                        <i class="far far-fw fa-plus-square mr-1"></i> Update Order
+                    </h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <form id="update-status-10-form" action="/service-advisor/order-inprogress" method="POST" enctype="multipart/form-data">
+                        @method('PUT')
+                        @csrf
+
+                        <input type="hidden" name="id">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Invoice File</label>
+                            <div class="col-sm-8">
+                                <div class="custom-file">
+                                    <input type="file" 
+                                        class="custom-file-input" 
+                                        data-toggle="custom-file-input" 
+                                        id="update-status-2-file" 
+                                        name="file"
+                                        extension="jpg|jpeg|pdf|png"
+                                        required>
+                                    <label class="custom-file-label" for="update-status-2-file">Choose File</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-block btn-primary" value="Submit Invoice To Customer">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Update Status 5 to 6 Modal -->
 <div class="modal" id="update-status-5-modal" tabindex="-1" role="dialog" aria-labelledby="modal-block-vcenter" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

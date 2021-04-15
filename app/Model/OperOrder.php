@@ -11,14 +11,16 @@ class OperOrder extends Model
      * '
      * Reference to `order_status`
      * 
-     * Flow: 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8
+     * Flow: 0 - 1 - 2 - 3 - 9 - 4 - 10 - 5 - 6 - 7 - 8
      * Out of flow: -1
      */
     const WAITING_FOR_DRIVER = 0;
     const GET_DRIVER = 1;
     const SERVICE_ADVISOR_OPEN_ORDER = 2;
     const SERVICE_ADVISOR_SUBMIT_PKB = 3;
+    const PKB_CONFIRMED = 9;
     const FOREMAN_TASK = 4;
+    const FOREMAN_TASK_DONE = 10;
     const SERVICE_ADVISOR_UPLOAD_INVOICE = 5;
     const WAITING_FOR_DRIVER_AFTER_INVOICE = 6;
     const GET_DRIVER_AND_SHOW_DRIVER = 7;

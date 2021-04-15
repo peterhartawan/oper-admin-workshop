@@ -32,6 +32,10 @@
                 </td>
             @endisset
 
+            <td>
+                {{ $order->vehicle_plat ?? "Data not available" }}
+            </td>
+
             @isset($order->workshop_bengkel->bengkel_name)
                 <td>
                     {{ $order->workshop_bengkel->bengkel_name }}
@@ -62,7 +66,7 @@
             @isset($order->order_status)
                 <td>
                     @switch($order->order_status)
-                        @case(3)
+                        @case(9)
                             Not Confirmed
                             @break
                         @case(4)
@@ -92,7 +96,7 @@
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                 </button>
                                 @break
-                            @case(3)
+                            @case(9)
                                 <button type="button" 
                                     class="btn btn-sm btn-primary"
                                     onclick="updateViewStatus3({{ $order->id }}, '{{ $order->customer_name }}')">
