@@ -93,7 +93,8 @@
                     <thead class="text-center">
                         <th>Booking Number</th>
                         <th>Customer Name</th>
-                        <th>Bengkel Name</th>
+                        <th>Vehicle Plate</th>
+                        <th>Workshop Name</th>
                         <th>Order Type</th>
                         <th>Order Status</th>
                         <th>Action</th>

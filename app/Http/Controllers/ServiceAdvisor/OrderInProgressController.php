@@ -14,6 +14,8 @@ use App\Services\UtilitiesServices;
 
 use App\Model\BookingInfo;
 
+use Illuminate\Support\Facades\Storage;
+
 class OrderInProgressController extends Controller
 {
     public function viewOrderInProgress() {
@@ -42,7 +44,34 @@ class OrderInProgressController extends Controller
                     public_path('files/pkb'),
                     $request->file( "file" )->getClientOriginalName()
                 );
+            } else if($order->order_status == 3){
+                
+                $order->update([
+                    "order_status" => 9
+                ]);
+
+            } else if($order->order_status == 10) {
+
+                $filename = md5(strtotime('now').$request->file('file')->getClientOriginalName())
+                            . '.'
+                            . $request->file('file')->getClientOriginalExtension();
+
+                $request->file('file')
+                        ->storeAs(
+                            '/public/invoice-image', 
+                            $filename
+                );
+
+                $order->update([
+                    "order_status" => 5,
+                    "invoice_file" => $filename
+                ]);
+
             } else if($order->order_status == 5) {
+
+                /**
+                 * Insert image
+                 */
 
                 /**
                  * Begin hit to opertask
@@ -121,7 +150,7 @@ class OrderInProgressController extends Controller
             array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
         $response = OperOrder::where( $filter )
-                        ->whereIn("order_status", [2, 5])
+                        ->whereIn("order_status", [2, 3, 10, 5])
                         ->with(['workshopBengkel:id,bengkel_name'])
                         ->paginate( $request->get( 'size' ) )
                         ->toJson();
