@@ -6,7 +6,6 @@ use App\Model\CmsUser;
 use App\Model\MenuMaster;
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\DB;
 use Validator;
 use Session;
 use Hash;
@@ -40,12 +39,7 @@ class AuthController extends Controller
             Session::flash('error', $error);
             return redirect('/login');
         }
-// Test database connection
-        try {
-            DB::connection()->getPdo();
-        } catch (\Exception $e) {
-            die("Could not connect to the database.  Please check your configuration. error:" . $e );
-        }
+
         $user = CmsUser::with('role:id,role_name')
                     ->firstWhere('username', '=', $request->username);
 
