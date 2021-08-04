@@ -6,6 +6,7 @@ use App\Model\CmsUser;
 use App\Model\MenuMaster;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
 use Validator;
 use Session;
 use Hash;
@@ -14,7 +15,7 @@ class AuthController extends Controller
 {
     /**
      * Display login page
-     * 
+     *
      * @return page login
      */
     public function loginPage() {
@@ -23,7 +24,7 @@ class AuthController extends Controller
 
     /**
      * Login with credential
-     * 
+     *
      * @param Illuminate\Http\Request $request
      * @return page login or dashboard
      */
@@ -39,7 +40,12 @@ class AuthController extends Controller
             Session::flash('error', $error);
             return redirect('/login');
         }
-
+// Test database connection
+        try {
+            DB::connection()->getPdo();
+        } catch (\Exception $e) {
+            die("Could not connect to the database.  Please check your configuration. error:" . $e );
+        }
         $user = CmsUser::with('role:id,role_name')
                     ->firstWhere('username', '=', $request->username);
 
@@ -52,7 +58,7 @@ class AuthController extends Controller
             Session::flash('error', 'Password wrong!');
             return redirect('/login');
         }
-        
+
         if ($user->url_image != null) {
             $array_string = explode("?file=", $user->url_image);
             $user->image = "/".$array_string[1];
@@ -81,7 +87,7 @@ class AuthController extends Controller
                 Session::put('role', 'serviceadvisor');
                 return redirect( "/service-advisor/new-order-list" );
                 break;
-                
+
             case 'foreman':
                 Session::put('role', 'foreman');
                 return redirect( "/foreman/dashboard" );
