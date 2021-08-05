@@ -7,16 +7,16 @@
         }
     </script>
 @else
-    
+
     @foreach($listdata->data as $order)
-     
+
         <tr>
 
             @isset($order->booking_no)
                 <td>
                     {{ $order->booking_no }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -26,17 +26,25 @@
                 <td>
                     {{ $order->customer_name }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
             @endisset
 
+            <td>
+                {{ $order->vehicle_name ?? "Data not available" }}
+            </td>
+
+            <td>
+                {{ $order->vehicle_plat ?? "Data not available" }}
+            </td>
+
             @isset($order->workshop_bengkel->bengkel_name)
                 <td>
                     {{ $order->workshop_bengkel->bengkel_name }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -53,7 +61,7 @@
                             @break
                     @endswitch
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -62,12 +70,12 @@
             @isset($order->id)
                 <td class="text-center">
                     <div class="btn-group mr-2 mb-2" data-toggle="buttons" role="group" aria-label="Icons Action group">
-                        <button type="button" 
+                        <button type="button"
                             class="btn btn-sm btn-primary"
                             onclick="detailView({{ $order->id }})">
                             <i class="far fa-fw fa-eye"></i>
                         </button>
-                        <button type="button" 
+                        <button type="button"
                             class="btn btn-sm btn-primary"
                             onclick="updateStatusView({{ $order->id }}, '{{ $order->booking_no }}')">
                                 <i class="fa fa-fw fa-pencil-alt"></i>
@@ -80,7 +88,7 @@
                 </td>
             @endisset
 
-        </tr> 
-        
+        </tr>
+
     @endforeach
 @endif

@@ -7,16 +7,16 @@
         }
     </script>
 @else
-    
+
     @foreach($listdata->data as $order)
-     
+
         <tr>
 
             @isset($order->booking_no)
                 <td>
                     {{ $order->booking_no }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -26,11 +26,15 @@
                 <td>
                     {{ $order->customer_name }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
             @endisset
+
+            <td>
+                {{ $order->vehicle_name ?? "Data not available" }}
+            </td>
 
             <td>
                 {{ $order->vehicle_plat ?? "Data not available" }}
@@ -40,7 +44,7 @@
                 <td>
                     {{ $order->workshop_bengkel->bengkel_name }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -57,7 +61,7 @@
                             @break
                     @endswitch
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -83,7 +87,7 @@
                             @break
                     @endswitch
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -92,14 +96,14 @@
             @isset($order->id)
                 <td class="text-center">
                     <div class="btn-group mr-2 mb-2" data-toggle="buttons" role="group" aria-label="Icons Action group">
-                        <button type="button" 
+                        <button type="button"
                             class="btn btn-sm btn-primary"
                             onclick="detailView({{ $order->id }})">
                             <i class="far fa-fw fa-eye"></i>
                         </button>
                         @switch($order->order_status)
                             @case(2)
-                                <button type="button" 
+                                <button type="button"
                                     class="btn btn-sm btn-primary"
                                     onclick="updateViewStatus2({{ $order->id }})">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
@@ -107,7 +111,7 @@
                                 @break
 
                             @case(3)
-                                <button type="button" 
+                                <button type="button"
                                     class="btn btn-sm btn-primary"
                                     onclick="updateViewStatus3({{ $order->id }})">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
@@ -115,20 +119,20 @@
                                 @break
 
                             @case(10)
-                                <button type="button" 
+                                <button type="button"
                                     class="btn btn-sm btn-primary"
                                     onclick="updateViewStatus10({{ $order->id }}, '{{ $order->customer_name }}')">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                 </button>
-                                @break    
-                        
+                                @break
+
                             @case(5)
-                                <button type="button" 
+                                <button type="button"
                                     class="btn btn-sm btn-primary"
                                     onclick="updateViewStatus5({{ $order->id }}, '{{ $order->customer_name }}')">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                 </button>
-                                @break                                
+                                @break
                         @endswitch
                     </div>
                 </td>
@@ -138,7 +142,7 @@
                 </td>
             @endisset
 
-        </tr> 
-        
+        </tr>
+
     @endforeach
 @endif

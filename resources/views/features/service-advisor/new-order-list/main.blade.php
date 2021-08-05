@@ -1,7 +1,7 @@
 @extends('template.layout')
 
 @section('js_before')
-    <script type="text/javascript" src="{{ asset('template/js/custom/infinity-scrolling.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('template/js/custom/infinity-scrolling.js') }}"></script>
     <script type="text/javascript">
         //API Hit Setting
         var page = 1;
@@ -19,7 +19,7 @@
 @endsection
 
 @section('title', 'Service Advisor - New Order List')
-    
+
 @section('content')
     <div class="block block-rounded block-bordered">
         <div class="block-content">
@@ -61,6 +61,8 @@
                     <thead class="text-center">
                         <th>Booking Number</th>
                         <th>Customer Name</th>
+                        <th>Vehicle Name</th>
+                        <th>Vehicle Plate</th>
                         <th>Bengkel Name</th>
                         <th>Order Type</th>
                         <th>Action</th>
@@ -80,7 +82,7 @@
 @endsection
 
 @section('js_after')
-    <script type="text/javascript" src="{{ asset('template/js/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('template/js/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script>
 
     <script type='text/javascript'>
 
@@ -125,10 +127,10 @@
             });
         }
 
-        infinityScroll("wrapper", 
-            "content", 
-            "GET", 
-            "/service-advisor/new-order-list/pagination", 
+        infinityScroll("wrapper",
+            "content",
+            "GET",
+            "/service-advisor/new-order-list/pagination",
             "html",
             {
                 "page": page+1,
