@@ -19,7 +19,7 @@ class UserManagerController extends Controller
                         ->get()
                         ->toJson();
         $bengkels = WorkshopBengkel::get()->toJson();
-        
+
         return view( 'features.user-management.user-manager.main' )
             ->with( 'roles', json_decode($roles, false) )
             ->with( 'bengkels', json_decode($bengkels, false) );
@@ -42,14 +42,23 @@ class UserManagerController extends Controller
                     return back();
             }
 
-            $image_name = null;
-        
-            if($request->hasFile('image')) {
+            if( CmsUser::where('zoom_key', $request->zoom_key)->exists() ) {
+                Session::flash('zoom_key', 'Zoom Key already exist');
+                return back();
+            }
 
+            if( CmsUser::where('zoom_secret', $request->zoom_secret)->exists() ) {
+                Session::flash('zoom_secret', 'Zoom Secret already exist');
+                return back();
+            }
+
+            $image_name = null;
+
+            if($request->hasFile('image')) {
                 /**
                  * Hashing picture name
                  */
-                $image_name = 
+                $image_name =
                     md5($request->file('image')->getClientOriginalName().time())
                     .'.'.$request->file('image')->getClientOriginalExtension();
 
@@ -69,15 +78,17 @@ class UserManagerController extends Controller
                 "phone" => $request->phone,
                 "status" => 1,
                 "is_bengkel_staff" => 1,
-                "url_image" => 
-                    $image_name != null ? 
+                "url_image" =>
+                    $image_name != null ?
                     env('APP_URL').'/download?file=files/cms-user/'.$image_name
                     : null,
+                "zoom_key" => $request->zoom_key,
+                "zoom_secret" => $request->zoom_secret,
                 "created_at" => new \DateTime('now'),
                 "updated_at" => null,
                 "deleted_at" => null,
             ]);
-            
+
             Session::flash('success', 'Success to create user');
             return back();
         } catch (\Throwable $th) {
@@ -106,12 +117,22 @@ class UserManagerController extends Controller
                     return back();
             }
 
+            if( !is_null($request->zoom_key) && CmsUser::where('zoom_key', $request->zoom_key)->exists() && $request->zoom_key !== $user->zoom_key ) {
+                Session::flash('zoom_key', 'Zoom Key already exist');
+                return back();
+            }
+
+            if( !is_null($request->zoom_secret) && CmsUser::where('zoom_secret', $request->zoom_secret)->exists() && $request->zoom_secret !== $user->zoom_secret ) {
+                Session::flash('zoom_secret', 'Zoom Secret already exist');
+                return back();
+            }
+
             if($request->hasFile('image')) {
 
                 /**
                  * Hashing picture name
                  */
-                $image_name = 
+                $image_name =
                     md5($request->file('image')->getClientOriginalName().time())
                     .'.'.$request->file('image')->getClientOriginalExtension();
 
@@ -120,7 +141,7 @@ class UserManagerController extends Controller
                     $image_name
                 );
 
-                $user->url_image = 
+                $user->url_image =
                     env('APP_URL').'/download?file=files/cms-user/'.$image_name;
             }
 
@@ -128,8 +149,14 @@ class UserManagerController extends Controller
             $user->email = $request->email;
             $user->phone = $request->phone;
             $user->role_id = $request->role;
+            if(!is_null($request->zoom_key)) {
+                $user->zoom_key = $request->zoom_key;
+            }
+            if(!is_null($request->zoom_secret)) {
+                $user->zoom_secret = $request->zoom_secret;
+            }
             $user->save();
-            
+
             Session::flash('success', 'Success to update user');
             return back();
         } catch (\Throwable $th) {
@@ -181,7 +208,7 @@ class UserManagerController extends Controller
             ->with(['role:id,role_name'])
             ->paginate( $request->get( 'size' ) )
             ->toJson();
-            
+
         return view( 'features.user-management.user-manager.function.table')
             ->with( 'listdata', json_decode($response, false) );
     }
@@ -192,7 +219,15 @@ class UserManagerController extends Controller
             $array_string = explode("?file=", $response->url_image);
             $response->image = "/".$array_string[1];
         }
-        
+
+        if (!is_null($response->zoom_key)) {
+            $response->zoom_key = "***".substr($response->zoom_key, -3);
+        }
+
+        if (!is_null($response->zoom_secret)) {
+            $response->zoom_secret = "***".substr($response->zoom_secret, -3);
+        }
+
         return response()->json( $response );
     }
 }

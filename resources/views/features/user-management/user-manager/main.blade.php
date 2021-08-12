@@ -1,7 +1,7 @@
 @extends('template.layout')
 
 @section('js_before')
-    <script type="text/javascript" src="{{ asset('template/js/custom/infinity-scrolling.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('template/js/custom/infinity-scrolling.js') }}"></script>
     <script type="text/javascript">
         //API Hit Setting
         var page = 1;
@@ -19,7 +19,7 @@
 @endsection
 
 @section('title', 'User Management - User Manager')
-    
+
 @section('content')
     <div class="block block-rounded block-bordered">
         <div class="block-content">
@@ -98,6 +98,9 @@
         let searchValue = "";
         let filter = "";
 
+        const ROLE_SUPER_ADVISOR = 2;
+        const ROLE_FOREMAN = 3;
+
         $(document).ready(function() {
             loadTable();
         });
@@ -131,10 +134,10 @@
             });
         }
 
-        infinityScroll("wrapper", 
-            "content", 
-            "GET", 
-            "/user-management/user-manager/pagination", 
+        infinityScroll("wrapper",
+            "content",
+            "GET",
+            "/user-management/user-manager/pagination",
             "html",
             {
                 "page": page+1,
@@ -199,7 +202,7 @@
                     $('#search-select').addClass('d-none');
                     searchField = $('#search');
                     break;
-                    
+
                 case "role_id":
                     $('#search').addClass('d-none');
                     $('#search-select').removeClass('d-none');
@@ -233,6 +236,16 @@
                     $('#status-form').find('[name="id"]').val(rspn.id);
                     // $('#download-image').prop('href', rspn.url_image);
                     $('#view-image').prop('src', rspn.image);
+                    $('#view-zoom-key').val(rspn.zoom_key);
+                    $('#view-zoom-secret').val(rspn.zoom_secret);
+
+                    if (rspn.role_id == ROLE_SUPER_ADVISOR) {
+                        $('#view-zoom-key').parents('.form-group').removeClass("d-none");
+                        $('#view-zoom-secret').parents('.form-group').removeClass("d-none");
+                    } else if (rspn.role_id == ROLE_FOREMAN) {
+                        $('#view-zoom-key').parents('.form-group').addClass("d-none");
+                        $('#view-zoom-secret').parents('.form-group').addClass("d-none");
+                    }
 
                     if (rspn.status) {
                         $('#status-active').removeClass('d-none');
@@ -287,26 +300,56 @@
         *@param action : what will use to this function create or update
         */
         function changeRole(action) {
-            var roleElement = $('#'+action+'-form').find('[name="role"] option:selected');
+            var roleElement = $('#' + action + '-form').find('[name="role"] option:selected');
             switch (roleElement.text().toLowerCase().replace(" ", "")) {
                 case 'serviceadvisor':
-                    if(action == "create")
-                        $('#'+action+'-form')
+                    if (action == "create") {
+                        $('#' + action + '-form')
                             .find('[name="image"]')
                             .prop('required', true);
-                    $('#'+action+'-form')
+
+                        $('#' + action + '-form')
+                            .find('[name="zoom_key"]')
+                            .prop('required', true);
+
+                        $('#' + action + '-form')
+                            .find('[name="zoom_secret"]')
+                            .prop('required', true);
+                    }
+                    $('#' + action + '-form')
                         .find('[name="image"]')
+                        .parents('.form-group')
+                        .removeClass("d-none");
+                    $('#' + action + '-zoom-key')
+                        .parents('.form-group')
+                        .removeClass("d-none");
+                    $('#' + action + '-zoom-secret')
                         .parents('.form-group')
                         .removeClass("d-none");
                     break;
 
                 default:
-                    if(action == "create")
-                        $('#'+action+'-form')
+                    if (action == "create") {
+                        $('#' + action + '-form')
                             .find('[name="image"]')
                             .prop('required', false);
-                    $('#'+action+'-form')
+
+                        $('#' + action + '-form')
+                            .find('[name="zoom_key"]')
+                            .prop('required', false);
+
+                        $('#' + action + '-form')
+                            .find('[name="zoom_secret"]')
+                            .prop('required', false);
+                    }
+                    $('#' + action + '-form')
                         .find('[name="image"]')
+                        .parents('.form-group')
+                        .addClass("d-none");
+                    $('#' + action + '-zoom-key')
+                        .parents('.form-group')
+                        .addClass("d-none");
+                    $('#' + action + '-zoom-secret')
                         .parents('.form-group')
                         .addClass("d-none");
                     break;

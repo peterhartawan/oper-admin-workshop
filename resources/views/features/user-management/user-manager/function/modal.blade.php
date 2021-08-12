@@ -19,7 +19,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Role</label>
                             <div class="col-sm-8">
-                                <select class="form-control" 
+                                <select class="form-control"
                                     id="create-role"
                                     name="role"
                                     required
@@ -34,7 +34,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Workshop Bengkel</label>
                             <div class="col-sm-8">
-                                <select class="form-control" 
+                                <select class="form-control"
                                     id="create-workshop"
                                     name="workshop"
                                     required>
@@ -49,9 +49,9 @@
                             <label class="col-sm-4 col-form-label">Username</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="username" 
-                                    id="create-username" 
+                                    class="form-control"
+                                    name="username"
+                                    id="create-username"
                                     required>
                             </div>
                         </div>
@@ -59,11 +59,11 @@
                             <label class="col-sm-4 col-form-label">Email</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
+                                    class="form-control"
                                     pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                     title="Please follow email format example@domain.com"
-                                    name="email" 
-                                    id="create-email" 
+                                    name="email"
+                                    id="create-email"
                                     required>
                             </div>
                         </div>
@@ -71,11 +71,11 @@
                             <label class="col-sm-4 col-form-label">Phone Number</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
+                                    class="form-control"
                                     pattern="^[0]\d{8,14}$"
                                     title="Please enter valid phone number."
-                                    name="phone" 
-                                    id="create-phone" 
+                                    name="phone"
+                                    id="create-phone"
                                     required>
                             </div>
                         </div>
@@ -83,13 +83,31 @@
                             <label class="col-sm-4 col-form-label">User Image</label>
                             <div class="col-sm-8">
                                 <div class="custom-file">
-                                    <input type="file" 
-                                        class="custom-file-input" 
-                                        data-toggle="custom-file-input" 
-                                        id="create-image" 
+                                    <input type="file"
+                                        class="custom-file-input"
+                                        data-toggle="custom-file-input"
+                                        id="create-image"
                                         name="image">
                                     <label class="custom-file-label" for="create-image">Choose Image</label>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group row d-none">
+                            <label class="col-sm-4 col-form-label">Zoom Key</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       class="form-control"
+                                       name="zoom_key"
+                                       id="create-zoom-key">
+                            </div>
+                        </div>
+                        <div class="form-group row d-none">
+                            <label class="col-sm-4 col-form-label">Zoom Secret</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       class="form-control"
+                                       name="zoom_secret"
+                                       id="create-zoom-secret">
                             </div>
                         </div>
                         <div class="form-group">
@@ -126,7 +144,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Role</label>
                             <div class="col-sm-8">
-                                <select class="form-control" 
+                                <select class="form-control"
                                     id="update-role"
                                     name="role"
                                     required
@@ -142,9 +160,9 @@
                             <label class="col-sm-4 col-form-label">Username</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="username" 
-                                    id="update-username" 
+                                    class="form-control"
+                                    name="username"
+                                    id="update-username"
                                     required>
                             </div>
                         </div>
@@ -152,11 +170,11 @@
                             <label class="col-sm-4 col-form-label">Email</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
+                                    class="form-control"
                                     pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                     title="Please follow email format example@domain.com"
-                                    name="email" 
-                                    id="update-email" 
+                                    name="email"
+                                    id="update-email"
                                     required>
                             </div>
                         </div>
@@ -164,11 +182,11 @@
                             <label class="col-sm-4 col-form-label">Phone Number</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
+                                    class="form-control"
                                     pattern="^[0]\d{8,14}$"
                                     title="Please enter valid phone number."
-                                    name="phone" 
-                                    id="update-phone" 
+                                    name="phone"
+                                    id="update-phone"
                                     required>
                             </div>
                         </div>
@@ -176,13 +194,31 @@
                             <label class="col-sm-4 col-form-label">User Image</label>
                             <div class="col-sm-8">
                                 <div class="custom-file">
-                                    <input type="file" 
-                                        class="custom-file-input" 
-                                        data-toggle="custom-file-input" 
-                                        id="update-image" 
+                                    <input type="file"
+                                        class="custom-file-input"
+                                        data-toggle="custom-file-input"
+                                        id="update-image"
                                         name="image">
                                     <label class="custom-file-label" for="update-image">Choose Image</label>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group row d-none">
+                            <label class="col-sm-4 col-form-label">Zoom Key</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       class="form-control"
+                                       name="zoom_key"
+                                       id="update-zoom-key">
+                            </div>
+                        </div>
+                        <div class="form-group row d-none">
+                            <label class="col-sm-4 col-form-label">Zoom Secret</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       class="form-control"
+                                       name="zoom_secret"
+                                       id="update-zoom-secret">
                             </div>
                         </div>
                         <div class="form-group">
@@ -215,7 +251,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Role</label>
                             <div class="col-sm-8">
-                                <select class="form-control" 
+                                <select class="form-control"
                                     id="view-role"
                                     name="role"
                                     disabled>
@@ -230,9 +266,9 @@
                             <label class="col-sm-4 col-form-label">Username</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="username" 
-                                    id="view-username" 
+                                    class="form-control"
+                                    name="username"
+                                    id="view-username"
                                     disabled>
                             </div>
                         </div>
@@ -240,11 +276,11 @@
                             <label class="col-sm-4 col-form-label">Email</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
+                                    class="form-control"
                                     pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                     title="Please follow email format example@domain.com"
-                                    name="email" 
-                                    id="view-email" 
+                                    name="email"
+                                    id="view-email"
                                     disabled>
                             </div>
                         </div>
@@ -252,11 +288,11 @@
                             <label class="col-sm-4 col-form-label">Phone Number</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
+                                    class="form-control"
                                     name="phone"
                                     pattern="^[0]\d{8,14}$"
-                                    title="Please enter valid phone number." 
-                                    id="view-phone" 
+                                    title="Please enter valid phone number."
+                                    id="view-phone"
                                     disabled>
                             </div>
                         </div>
@@ -273,10 +309,30 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">User Image</label>
                             <div class="col-sm-8">
-                                <img class="img-fluid" 
+                                <img class="img-fluid"
                                     id="view-image"
-                                    src="" 
+                                    src=""
                                     alt="">
+                            </div>
+                        </div>
+                        <div class="form-group row d-none">
+                            <label class="col-sm-4 col-form-label">Zoom Key</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       class="form-control"
+                                       name="zoom_key"
+                                       id="view-zoom-key"
+                                       disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row d-none">
+                            <label class="col-sm-4 col-form-label">Zoom Secret</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       class="form-control"
+                                       name="zoom_secret"
+                                       id="view-zoom-secret"
+                                       disabled>
                             </div>
                         </div>
                         <div class="form-group row">
