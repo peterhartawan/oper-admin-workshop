@@ -10,7 +10,7 @@ class OperOrder extends Model
      * @var integer
      * '
      * Reference to `order_status`
-     * 
+     *
      * Flow: 0 - 1 - 2 - 3 - 9 - 4 - 10 - 5 - 6 - 7 - 8
      * Out of flow: -1
      */
@@ -48,5 +48,9 @@ class OperOrder extends Model
 
     public function taskMaster(){
         return $this->hasOne('App\Model\TaskMaster', 'id', 'master_task');
+    }
+
+    public function service_advisor(){
+        return $this->hasOne('App\Model\CmsUser', 'id', 'service_advisor_id');
     }
 }

@@ -28,7 +28,7 @@ Route::prefix( 'logout' )->group(function() {
 
 Route::get( 'download', 'UtilitiesController@download' );
 
-/* 
+/*
 |--------------------------------------------------------------------------
 | Profile Routes
 |--------------------------------------------------------------------------
@@ -39,14 +39,14 @@ Route::get( 'download', 'UtilitiesController@download' );
         Route::post( 'password', 'ProfileController@updatePassword' );
         Route::post( 'picture', 'ProfileController@updatePicture' );
     });
-    
-/* 
+
+/*
 |--------------------------------------------------------------------------
 | End of Profile Routes
 |--------------------------------------------------------------------------
 */
 
-/* 
+/*
 |--------------------------------------------------------------------------
 | User Management Routes
 |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ Route::get( 'download', 'UtilitiesController@download' );
             Route::get   ( 'pagination', 'UserManagement\UserManagerController@paginateUserManager' );
             Route::get   ( '{id}', 'UserManagement\UserManagerController@detailUserManager' );
         });
-    
+
         Route::prefix( 'customer-list' )->group(function() {
             Route::get   ( '', 'UserManagement\CustomerListController@viewCustomerList' );
             Route::put   ( '', 'UserManagement\CustomerListController@updateCustomerList' );
@@ -80,14 +80,14 @@ Route::get( 'download', 'UtilitiesController@download' );
         });
 
     });
-    
-/* 
+
+/*
 |--------------------------------------------------------------------------
 | End of User Management Routes
 |--------------------------------------------------------------------------
 */
 
-/* 
+/*
 |--------------------------------------------------------------------------
 | Bengkel Manager Routes
 |--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ Route::get( 'download', 'UtilitiesController@download' );
             Route::post  ( 'master-brand', 'BengkelManager\BengkelRegistrationController@createMasterBrand' );
             Route::get   ( '{id}', 'BengkelManager\BengkelRegistrationController@detailBengkelRegistration' );
         });
-    
+
         Route::prefix( 'bengkel-setting' )->group(function() {
             Route::get   ( '', 'BengkelManager\BengkelSettingController@viewBengkelSetting' );
             Route::put   ( '', 'BengkelManager\BengkelSettingController@updateBengkelSetting' );
@@ -114,7 +114,7 @@ Route::get( 'download', 'UtilitiesController@download' );
             Route::get   ( 'pagination', 'BengkelManager\BengkelSettingController@paginateBengkelSetting' );
             Route::get   ( '{id}', 'BengkelManager\BengkelSettingController@detailBengkelSetting' );
         });
-    
+
         Route::prefix( 'task-setting' )->group(function() {
             Route::get   ( '', 'BengkelManager\TaskSettingController@viewTaskSetting' );
             Route::put   ( '', 'BengkelManager\TaskSettingController@updateTaskSetting' );
@@ -125,7 +125,7 @@ Route::get( 'download', 'UtilitiesController@download' );
                 Route::put   ( '', 'BengkelManager\TaskSettingController@updateTaskList' );
                 Route::post  ( '', 'BengkelManager\TaskSettingController@createTaskList' );
                 Route::delete( '', 'BengkelManager\TaskSettingController@deleteTaskList' );
-    
+
                 Route::get   ( 'pagination', 'BengkelManager\TaskSettingController@paginateTaskList' );
                 Route::get   ( '{id}', 'BengkelManager\TaskSettingController@detailTaskList' );
             });
@@ -133,7 +133,7 @@ Route::get( 'download', 'UtilitiesController@download' );
             Route::prefix( 'workshop-bengkel' )->group(function() {
                 Route::post  ( '', 'BengkelManager\TaskSettingController@createTaskMasterWorkshopBengkel' );
                 Route::delete( '', 'BengkelManager\TaskSettingController@deleteTaskMasterWorkshopBengkel' );
-    
+
                 Route::get   ( 'pagination', 'BengkelManager\TaskSettingController@paginateTaskMasterWorkshopBengkel' );
             });
 
@@ -148,13 +148,13 @@ Route::get( 'download', 'UtilitiesController@download' );
 
     });
 
-/* 
+/*
 |--------------------------------------------------------------------------
 | End of Bengkel Manager Routes
 |--------------------------------------------------------------------------
 */
 
-/* 
+/*
 |--------------------------------------------------------------------------
 | Wa Marketing Blast Routes
 |--------------------------------------------------------------------------
@@ -168,7 +168,7 @@ Route::get( 'download', 'UtilitiesController@download' );
             // Route::post  ( '', '' );
             // Route::delete( '', '' );
         });
-    
+
         Route::prefix( 'promo-blast' )->group(function() {
             Route::get   ( '', 'WaMarketingBlast\PromoBlastController@viewPromoBlast' );
             Route::put   ( '', 'WaMarketingBlast\PromoBlastController@updatePromoBlast' );
@@ -186,13 +186,13 @@ Route::get( 'download', 'UtilitiesController@download' );
 
     });
 
-/* 
+/*
 |--------------------------------------------------------------------------
 | End of Wa Marketing Blast Routes
 |--------------------------------------------------------------------------
 */
 
-/* 
+/*
 |--------------------------------------------------------------------------
 | Service Advisor Routes
 |--------------------------------------------------------------------------
@@ -207,7 +207,7 @@ Route::get( 'download', 'UtilitiesController@download' );
             Route::get   ( 'pagination', 'ServiceAdvisor\NewOrderListController@paginateNewOrderList' );
             Route::get   ( '{id}', 'ServiceAdvisor\NewOrderListController@detailNewOrderList' );
         });
-    
+
         Route::prefix( 'order-inprogress' )->group(function() {
             Route::get   ( '', 'ServiceAdvisor\OrderInProgressController@viewOrderInProgress' );
             Route::put   ( '', 'ServiceAdvisor\OrderInProgressController@updateOrderInProgress' );
@@ -216,19 +216,19 @@ Route::get( 'download', 'UtilitiesController@download' );
             Route::get   ( '{id}', 'ServiceAdvisor\OrderInProgressController@detailOrderInProgress' );
         });
 
+        Route::get('zoom/{booking_no}', 'Zoom\ZoomController@zoomMeeting');
+
         Route::fallback(function() {
             return redirect( "/service-advisor/new-order-list" );
         });
-
     });
-
-/* 
+/*
 |--------------------------------------------------------------------------
 | End of Service Advisor Routes
 |--------------------------------------------------------------------------
 */
 
-/* 
+/*
 |--------------------------------------------------------------------------
 | Foreman Routes
 |--------------------------------------------------------------------------
@@ -242,7 +242,7 @@ Route::get( 'download', 'UtilitiesController@download' );
             // Route::post  ( '', '' );
             // Route::delete( '', '' );
         });
-    
+
         Route::prefix( 'order-list' )->group(function() {
             Route::get   ( '', 'Foreman\OrderListController@viewOrderList' );
             Route::put   ( '', 'Foreman\OrderListController@updateOrderList' );
@@ -257,10 +257,10 @@ Route::get( 'download', 'UtilitiesController@download' );
         Route::fallback(function() {
             return redirect( "/foreman/dashboard" );
         });
-        
+
     });
 
-/* 
+/*
 |--------------------------------------------------------------------------
 | End of Foreman Routes
 |--------------------------------------------------------------------------
@@ -275,7 +275,7 @@ Route::fallback(function($url) {
         case 'bengkel-manager':
             return redirect( "/bengkel-manager/bengkel-registration" );
             break;
-        
+
         case 'wa-marketing-blast':
             return redirect( "/wa-marketing-blast/dashboard-wa" );
             break;

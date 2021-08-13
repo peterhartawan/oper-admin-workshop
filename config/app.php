@@ -175,6 +175,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /**
+         * @link https://appdividend.com/2018/05/10/laravel-mongodb-crud-tutorial-with-example/
+         */
+        Jenssegers\Mongodb\MongodbServiceProvider::class,
     ],
 
     /*

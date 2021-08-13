@@ -281,5 +281,15 @@
             $('#update-status-5-modal').modal('show');
         }
 
+        function zoomMeeting(booking_no) {
+            window.open('/service-advisor/zoom/'+booking_no, '_blank');
+        }
+
+        // Show error message
+        @if (Session::has('message'))
+            window.addEventListener('load', (event) => {
+                alert("{{ Session::get('message') }}");
+            });
+        @endif
     </script>
 @endsection

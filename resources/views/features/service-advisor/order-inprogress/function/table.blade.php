@@ -7,7 +7,6 @@
         }
     </script>
 @else
-
     @foreach($listdata->data as $order)
 
         <tr>
@@ -99,7 +98,7 @@
                         <button type="button"
                             class="btn btn-sm btn-primary"
                             onclick="detailView({{ $order->id }})">
-                            <i class="far fa-fw fa-eye"></i>
+                            <i class="fa fa-fw fa-eye"></i>
                         </button>
                         @switch($order->order_status)
                             @case(2)
@@ -134,6 +133,11 @@
                                 </button>
                                 @break
                         @endswitch
+                        <button type="button"
+                                class="btn btn-sm btn-primary"
+                                onclick="zoomMeeting('{{ $order->booking_no }}')">
+                            <i class="fa fa-fw fa-video"></i>
+                        </button>
                     </div>
                 </td>
             @else
