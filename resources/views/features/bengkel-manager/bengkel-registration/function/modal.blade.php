@@ -20,9 +20,9 @@
                             <label class="col-sm-4 col-form-label">Name</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="name" 
-                                    id="create-name" 
+                                    class="form-control"
+                                    name="name"
+                                    id="create-name"
                                     required>
                             </div>
                         </div>
@@ -30,8 +30,8 @@
                             <label class="col-sm-4 col-form-label">Address</label>
                             <div class="col-sm-8">
                                 <textarea class="form-control"
-                                    name="address" 
-                                    id="create-address" 
+                                    name="address"
+                                    id="create-address"
                                     rows="5"
                                     required></textarea>
                             </div>
@@ -66,7 +66,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Type</label>
                             <div class="col-sm-8">
-                                <select class="form-control" 
+                                <select class="form-control"
                                     id="create-type"
                                     name="type"
                                     required>
@@ -86,7 +86,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Vehicle Type</label>
                             <div class="col-sm-8">
-                                <select disabled class="form-control" 
+                                <select disabled class="form-control"
                                     id="vehicle-type"
                                     required>
                                         <option value="">Please Select</option>
@@ -101,21 +101,43 @@
                             <div class="col-sm-8">
                                 <input type="file"
                                     accept="image/*"
-                                    class="form-control" 
-                                    name="otImage" 
-                                    id="create-otImage" 
+                                    class="form-control"
+                                    name="otImage"
+                                    id="create-otImage"
                                     required />
                             </div>
                         </div>
 
 
                         <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Pickup Template Id</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                    class="form-control"
+                                    name="otPickupId"
+                                    id="create-otPickup"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Delivery Template Id</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                    class="form-control"
+                                    name="otDeliveryId"
+                                    id="create-otDelivery"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Oper Task Username</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="otUsername" 
-                                    id="create-otUsername" 
+                                    class="form-control"
+                                    name="otUsername"
+                                    id="create-otUsername"
                                     required>
                             </div>
                         </div>
@@ -123,9 +145,9 @@
                             <label class="col-sm-4 col-form-label">Oper Task URI</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="otUri" 
-                                    id="create-otUri" 
+                                    class="form-control"
+                                    name="otUri"
+                                    id="create-otUri"
                                     required>
                             </div>
                         </div>
@@ -133,9 +155,9 @@
                             <label class="col-sm-4 col-form-label">Oper Task Password</label>
                             <div class="col-sm-8">
                                 <input type="password"
-                                    class="form-control" 
-                                    name="otPassword" 
-                                    id="create-otPassword" 
+                                    class="form-control"
+                                    name="otPassword"
+                                    id="create-otPassword"
                                     required>
                             </div>
                         </div>
@@ -174,9 +196,9 @@
                             <label class="col-sm-4 col-form-label">Name</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="name" 
-                                    id="update-name" 
+                                    class="form-control"
+                                    name="name"
+                                    id="update-name"
                                     required>
                             </div>
                         </div>
@@ -184,8 +206,8 @@
                             <label class="col-sm-4 col-form-label">Address</label>
                             <div class="col-sm-8">
                                 <textarea class="form-control"
-                                    name="address" 
-                                    id="update-address" 
+                                    name="address"
+                                    id="update-address"
                                     rows="5"
                                     required></textarea>
                             </div>
@@ -220,7 +242,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Type</label>
                             <div class="col-sm-8">
-                                <select class="form-control" 
+                                <select class="form-control"
                                     id="update-type"
                                     name="type"
                                     required>
@@ -235,21 +257,39 @@
                             <div class="col-sm-8">
                                 <input type="file"
                                     accept="image/*"
-                                    class="form-control" 
-                                    name="otImage" 
-                                    id="create-otImage" 
+                                    class="form-control"
+                                    name="otImage"
+                                    id="create-otImage"
                                     />
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Pickup Template Id</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       class="form-control"
+                                       name="otPickupId"
+                                       id="create-otUsername" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Delivery Template Id</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       class="form-control"
+                                       name="otDeliveryId"
+                                       id="create-otUsername" required>
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Oper Task Username</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="otUsername" 
-                                    id="create-otUsername" 
+                                    class="form-control"
+                                    name="otUsername"
+                                    id="create-otUsername"
                                     required>
                             </div>
                         </div>
@@ -257,9 +297,9 @@
                             <label class="col-sm-4 col-form-label">Oper Task URI</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="otUri" 
-                                    id="create-otUri" 
+                                    class="form-control"
+                                    name="otUri"
+                                    id="create-otUri"
                                     required>
                             </div>
                         </div>
@@ -267,8 +307,8 @@
                             <label class="col-sm-4 col-form-label">Oper Task Password</label>
                             <div class="col-sm-8">
                                 <input type="password"
-                                    class="form-control" 
-                                    name="otPassword" 
+                                    class="form-control"
+                                    name="otPassword"
                                     id="update-otPassword">
                             </div>
                         </div>
@@ -303,9 +343,9 @@
                             <label class="col-sm-4 col-form-label">Name</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="name" 
-                                    id="view-name" 
+                                    class="form-control"
+                                    name="name"
+                                    id="view-name"
                                     disabled>
                             </div>
                         </div>
@@ -313,8 +353,8 @@
                             <label class="col-sm-4 col-form-label">Address</label>
                             <div class="col-sm-8">
                                 <textarea class="form-control"
-                                    name="address" 
-                                    id="view-address" 
+                                    name="address"
+                                    id="view-address"
                                     rows="5"
                                     disabled></textarea>
                             </div>
@@ -322,7 +362,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Type</label>
                             <div class="col-sm-8">
-                                <select class="form-control" 
+                                <select class="form-control"
                                     id="view-type"
                                     name="type"
                                     disabled>
@@ -338,26 +378,40 @@
                                 <img id="view-img" class="img-thumbnail w-100" src="#" alt="aaaa" />
                             </div>
                         </div>
-
-
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Pickup Template Id</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       class="form-control"
+                                       name="otPickupId"
+                                       id="create-otUsername" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Oper Task Delivery Template Id</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       class="form-control"
+                                       name="otDeliveryId"
+                                       id="create-otUsername" disabled>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Oper Task Username</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="otUsername" 
-                                    id="create-otUsername" 
-                                    required>
+                                    class="form-control"
+                                    name="otUsername"
+                                    id="create-otUsername" disabled>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Oper Task URI</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="otUri" 
-                                    id="create-otUri" 
-                                    required>
+                                    class="form-control"
+                                    name="otUri"
+                                    id="create-otUri" disabled>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -437,9 +491,9 @@
                             <label class="col-sm-4 col-form-label">Brand Name</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="name" 
-                                    id="brand-name" 
+                                    class="form-control"
+                                    name="name"
+                                    id="brand-name"
                                     required>
                             </div>
                         </div>
@@ -447,7 +501,7 @@
                             <label class="col-sm-4 col-form-label">Brand Type</label>
                             <div class="col-sm-8">
                                 <select class="form-control"
-                                    name="type" 
+                                    name="type"
                                     id="brand-type"
                                     required>
                                         <option value="">Please Select</option>

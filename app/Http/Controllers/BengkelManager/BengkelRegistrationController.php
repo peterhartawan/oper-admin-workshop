@@ -32,7 +32,7 @@ class BengkelRegistrationController extends Controller
 
             $request->file('otImage')
                     ->storeAs(
-                        '/public/workshop-image/', 
+                        '/public/workshop-image/',
                         $filename
             );
 
@@ -48,15 +48,17 @@ class BengkelRegistrationController extends Controller
                 "oper_task_username" => $request->otUsername,
                 "oper_task_password" => $request->otPassword,
                 "oper_task_uri" => $request->get('otUri'),
-                "workshop_picture" => env('APP_URL') . "/storage/workshop-image/" . $filename
+                "workshop_picture" =>  asset("/storage/workshop-image/" . $filename),
+                'pickup_template_id' => $request->otPickupId,
+                'delivery_template_id' => $request->otDeliveryId,
             ]);
 
             $rollbackDB = true;
 
             BengkelSetting::insert([
                 "workshop_bengkel_id" => $bengkel->id,
-            ]);            
-            
+            ]);
+
             Session::flash('success', 'Success to create bengkel');
             return back();
         } catch (\Throwable $th) {
@@ -80,6 +82,8 @@ class BengkelRegistrationController extends Controller
             $bengkel->bengkel_lat = $request->latitude;
             $bengkel->bengkel_tipe = $request->type;
             $bengkel->oper_task_username = $request->otUsername;
+            $bengkel->pickup_template_id = $request->otPickupId;
+            $bengkel->delivery_template_id = $request->otDeliveryId;
 
             if (isset($request->otPassword)) {
                 $bengkel->oper_task_password = $request->otPassword;
@@ -92,15 +96,15 @@ class BengkelRegistrationController extends Controller
 
                 $request->file('otImage')
                         ->storeAs(
-                            '/public/workshop-image', 
+                            '/public/workshop-image',
                             $filename
                 );
 
-                $bengkel->workshop_picture = env('APP_URL') . "/storage/workshop-image/" . $filename;
+                $bengkel->workshop_picture = asset("/storage/workshop-image/" . $filename);
             }
 
             $bengkel->save();
-            
+
             Session::flash('success', 'Success to update bengkel');
             return back();
         } catch (\Throwable $th) {
@@ -147,14 +151,14 @@ class BengkelRegistrationController extends Controller
         $response = WorkshopBengkel::where( $filter )
             ->paginate( $request->get( 'size' ) )
             ->toJson();
-            
+
         return view( 'features.bengkel-manager.bengkel-registration.function.table')
             ->with( 'listdata', json_decode($response, false) );
     }
 
     public function detailBengkelRegistration($id) {
         $response = WorkshopBengkel::find($id);
-        
+
         return response()->json( $response );
     }
 
@@ -163,8 +167,8 @@ class BengkelRegistrationController extends Controller
             MasterBrand::create([
                 "brand_name" => $request->name,
                 "brand_type" => $request->type,
-            ]);           
-            
+            ]);
+
             Session::flash('success', 'Success to create master brand');
             return back();
         } catch (\Throwable $th) {

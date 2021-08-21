@@ -2,8 +2,8 @@
 
 @section('js_before')
 <!-- This API Google must be loaded first -->
-<script defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEf_wLCEciMDw7tgnDGXptl94rdzLhW7Y"></script>
-    <script type="text/javascript" src="{{ asset('template/js/custom/infinity-scrolling.js') }}"></script> 
+<script defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_APP_KEY') }}&libraries=places&callback=initMap"></script>
+    <script type="text/javascript" src="{{ asset('template/js/custom/infinity-scrolling.js') }}"></script>
     <script type="text/javascript">
         //API Hit Setting
         var page = 1;
@@ -21,7 +21,7 @@
 @endsection
 
 @section('title', 'Bengkel Manager - Bengkel Registration')
-    
+
 @section('content')
     <div class="block block-rounded block-bordered">
         <div class="block-content">
@@ -131,10 +131,10 @@
             });
         }
 
-        infinityScroll("wrapper", 
-            "content", 
-            "GET", 
-            "/bengkel-manager/bengkel-registration/pagination", 
+        infinityScroll("wrapper",
+            "content",
+            "GET",
+            "/bengkel-manager/bengkel-registration/pagination",
             "html",
             {
                 "page": page+1,
@@ -187,7 +187,7 @@
                     $('#search-select').addClass('d-none');
                     searchField = $('#search');
                     break;
-                    
+
                 case "bengkel_tipe":
                     $('#search').addClass('d-none');
                     $('#search-select').removeClass('d-none');
@@ -221,6 +221,8 @@
                     $('#status-form').find('[name="id"]').val(rspn.id);
                     $('#view-form').find('[name="otUri"]').val(rspn.oper_task_uri);
                     $('#view-img').attr('src', rspn.workshop_picture);
+                    $('#view-form').find('[name="otPickupId"]').val(rspn.pickup_template_id);
+                    $('#view-form').find('[name="otDeliveryId"]').val(rspn.delivery_template_id);
 
                     if (rspn.bengkel_status) {
                         $('#status-active').removeClass('d-none');
@@ -259,6 +261,8 @@
                     $('#update-form').find('[name="otUsername"]').val(rspn.oper_task_username);
                     $('#update-form').find('[name="otUri"]').val(rspn.oper_task_uri);
                     $('#update-form').find('[name="otPassword"]').val("");
+                    $('#update-form').find('[name="otPickupId"]').val(rspn.pickup_template_id);
+                    $('#update-form').find('[name="otDeliveryId"]').val(rspn.delivery_template_id);
                     $('#update-longitude').trigger( "change" );
 
                     loaderOff();
@@ -305,7 +309,7 @@
     </script>
 
     <script type="text/javascript">
-        // Global Variable            
+        // Global Variable
             // for data maps
             var create_marker_poi;
             var create_map_poi;
@@ -321,7 +325,7 @@
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             }
             create_map_poi = new google.maps.Map(document.getElementById("create-maps"), myOptions);
-            
+
             create_marker_poi = new google.maps.Marker({
                 position: create_myLatlng,
                 draggable: true,
@@ -353,7 +357,7 @@
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             }
             update_map_poi = new google.maps.Map(document.getElementById("update-maps"), myOptions);
-            
+
             update_marker_poi = new google.maps.Marker({
                 position: update_myLatlng,
                 draggable: true,
