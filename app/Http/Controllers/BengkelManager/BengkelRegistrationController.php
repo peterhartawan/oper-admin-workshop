@@ -149,6 +149,7 @@ class BengkelRegistrationController extends Controller
             array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
         $response = WorkshopBengkel::where( $filter )
+            ->orderBy('bengkel_name')
             ->paginate( $request->get( 'size' ) )
             ->toJson();
 

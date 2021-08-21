@@ -23,9 +23,9 @@
                             <label class="col-sm-4 col-form-label">Bengkel Name</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="bengkel" 
-                                    id="update-bengkel" 
+                                    class="form-control"
+                                    name="bengkel"
+                                    id="update-bengkel"
                                     disabled>
                             </div>
                         </div>
@@ -33,9 +33,9 @@
                             <label class="col-sm-4 col-form-label">Open Time</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="js-masked-time form-control" 
-                                    name="open" 
-                                    id="update-open" 
+                                    class="js-masked-time form-control"
+                                    name="open"
+                                    id="update-open"
                                     required>
                             </div>
                         </div>
@@ -43,20 +43,20 @@
                             <label class="col-sm-4 col-form-label">Close Time</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="js-masked-time form-control" 
-                                    name="close" 
-                                    id="update-close" 
+                                    class="js-masked-time form-control"
+                                    name="close"
+                                    id="update-close"
                                     required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Minimal Order</label>
                             <div class="col-sm-8">
-                                <input type="input"
+                                <input type="number" min="1"
                                     maxlength="3"
-                                    class="form-control" 
-                                    name="order" 
-                                    id="update-order" 
+                                    class="form-control"
+                                    name="order"
+                                    id="update-order"
                                     required>
                             </div>
                         </div>
@@ -64,9 +64,9 @@
                             <label class="col-sm-4 col-form-label">Minimal Order Time</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="js-masked-time form-control" 
-                                    name="ordertime" 
-                                    id="update-ordertime" 
+                                    class="js-masked-time form-control"
+                                    name="ordertime"
+                                    id="update-ordertime"
                                     required>
                             </div>
                         </div>
@@ -74,10 +74,10 @@
                             <label class="col-sm-4 col-form-label">Maximal Jarak</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input type="number"
-                                        class="form-control" 
-                                        name="distance" 
-                                        id="update-distance" 
+                                    <input type="number" min="1"
+                                        class="form-control"
+                                        name="distance"
+                                        id="update-distance"
                                         required>
                                     <div class="input-group-append">
                                         <span class="input-group-text">
@@ -118,9 +118,9 @@
                             <label class="col-sm-4 col-form-label">Bengkel Name</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="bengkel" 
-                                    id="view-bengkel" 
+                                    class="form-control"
+                                    name="bengkel"
+                                    id="view-bengkel"
                                     disabled>
                             </div>
                         </div>
@@ -128,9 +128,9 @@
                             <label class="col-sm-4 col-form-label">Open Time</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="open" 
-                                    id="view-open" 
+                                    class="form-control"
+                                    name="open"
+                                    id="view-open"
                                     disabled>
                             </div>
                         </div>
@@ -138,9 +138,9 @@
                             <label class="col-sm-4 col-form-label">Close Time</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="close" 
-                                    id="view-close" 
+                                    class="form-control"
+                                    name="close"
+                                    id="view-close"
                                     disabled>
                             </div>
                         </div>
@@ -148,9 +148,9 @@
                             <label class="col-sm-4 col-form-label">Minimal Order</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="order" 
-                                    id="view-order" 
+                                    class="form-control"
+                                    name="order"
+                                    id="view-order"
                                     disabled>
                             </div>
                         </div>
@@ -158,9 +158,9 @@
                             <label class="col-sm-4 col-form-label">Minimal Order Time</label>
                             <div class="col-sm-8">
                                 <input type="text"
-                                    class="form-control" 
-                                    name="ordertime" 
-                                    id="view-ordertime" 
+                                    class="form-control"
+                                    name="ordertime"
+                                    id="view-ordertime"
                                     disabled>
                             </div>
                         </div>
@@ -169,10 +169,9 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                     <input type="text"
-                                        class="form-control" 
-                                        name="distance" 
-                                        id="view-distance" 
-                                        required>
+                                        class="form-control"
+                                        name="distance"
+                                        id="view-distance" disabled>
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             Meters

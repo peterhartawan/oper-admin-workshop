@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BengkelManager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\BengkelSetting;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 use Session;
@@ -25,7 +26,7 @@ class BengkelSettingController extends Controller
             $bengkel->maks_jarak = $request->distance;
             $bengkel->last_update = new \DateTime('now');
             $bengkel->save();
-            
+
             Session::flash('success', 'Success to update user');
             return back();
         } catch (\Throwable $th) {
@@ -41,13 +42,14 @@ class BengkelSettingController extends Controller
         if( !empty($request->value) )
             array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
-        $response = BengkelSetting::whereHas( "workshopBengkel", function($query) use ($filter) {
-                $query->where( $filter );
-            })
-            ->with(['workshopBengkel:id,bengkel_name'])
+        $response = DB::table('bengkel_settings')
+            ->join('workshop_bengkels', 'bengkel_settings.workshop_bengkel_id', '=', 'workshop_bengkels.id')
+            ->select('bengkel_settings.*', 'workshop_bengkels.bengkel_name')
+            ->where($filter)
+            ->orderBy('workshop_bengkels.bengkel_name')
             ->paginate( $request->get( 'size' ) )
             ->toJson();
-            
+
         return view( 'features.bengkel-manager.bengkel-setting.function.table')
             ->with( 'listdata', json_decode($response, false) );
     }
@@ -55,7 +57,7 @@ class BengkelSettingController extends Controller
     public function detailBengkelSetting($id) {
         $response = BengkelSetting::with('workshopBengkel:id,bengkel_name')
                         ->find($id);
-        
+
         return response()->json( $response );
     }
 }

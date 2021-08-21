@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Model\TaskMaster;
 use App\Model\TaskList;
 use App\Model\WorkshopBengkel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 use Session;
@@ -33,7 +34,7 @@ class TaskSettingController extends Controller
                 WorkshopBengkel::find($request->workshop)->update([
                     "task_id" => $task->id
                 ]);
-                
+
                 Session::flash('success', 'Success to create master task');
                 return back();
             } catch (\Throwable $th) {
@@ -57,7 +58,7 @@ class TaskSettingController extends Controller
                     ->update([
                         "task_id" => null
                     ]);
-                
+
                 Session::flash('success', 'Success to update master task');
                 return back();
             } catch (\Throwable $th) {
@@ -88,16 +89,17 @@ class TaskSettingController extends Controller
 
             $response = TaskMaster::where( $filter )
                 ->with('workshopBengkel')
+                ->orderBy('task_name')
                 ->paginate( $request->get( 'size' ) )
                 ->toJson();
-                
+
             return view( 'features.bengkel-manager.task-setting.task-master.function.table')
                 ->with( 'listdata', json_decode($response, false) );
         }
 
         public function detailTaskSetting($id) {
             $response = TaskMaster::with( ['workshopBengkel'] )->find($id);
-            
+
             return response()->json( $response );
         }
 
@@ -105,7 +107,7 @@ class TaskSettingController extends Controller
             $master = TaskMaster::with('workshopBengkel')
                         ->find($request->id)
                         ->toJson();
-            
+
             return view( 'features.bengkel-manager.task-setting.task-list.main' )
                 ->with( 'master', json_decode($master, false) )
                 ->with( 'id', $request->id );
@@ -117,11 +119,16 @@ class TaskSettingController extends Controller
             try {
                 $max_sequence = TaskList::where("master_task_id", $request->id)
                                 ->max("list_sequence");
-                
+
                 if($max_sequence == null) {
                     $max_sequence = 1;
                 } else {
                     $max_sequence += 1;
+                }
+
+                if ($request->final == 1) {
+                    TaskList::where('master_task_id', $request->master)
+                        ->update(["as_final_task" => 0]);
                 }
 
                 TaskList::insert([
@@ -130,7 +137,7 @@ class TaskSettingController extends Controller
                     "as_final_task" => $request->final,
                     "list_sequence" => $max_sequence
                 ]);
-                
+
                 Session::flash('success', 'Success to create task list');
                 return back();
             } catch (\Throwable $th) {
@@ -146,7 +153,7 @@ class TaskSettingController extends Controller
                 $user->list_name = $request->name;
                 $user->list_sequence = $request->sequence;
                 $user->save();
-                
+
                 Session::flash('success', 'Success to update task list');
                 return back();
             } catch (\Throwable $th) {
@@ -179,16 +186,17 @@ class TaskSettingController extends Controller
 
             $response = TaskList::where( $filter )
                 ->with(['masterTask.workshopBengkel'])
+                ->orderBy('list_sequence')
                 ->paginate( $request->get( 'size' ) )
                 ->toJson();
-                
+
             return view( 'features.bengkel-manager.task-setting.task-list.function.table')
                 ->with( 'listdata', json_decode($response, false) );
         }
 
         public function detailTaskList($id) {
             $response = TaskList::find($id);
-            
+
             return response()->json( $response );
         }
     /* END TASK LIST */

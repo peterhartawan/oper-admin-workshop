@@ -154,7 +154,9 @@
                 return {
                     "param": {
                         "page": page+1,
-                        "size": perPage
+                        "size": perPage,
+                        "key": filter,
+                        "value": searchValue
                     },
                     "endOfRequest": endOfRequest
                 }
@@ -382,4 +384,5 @@
             });
         });
     </script>
+    <script src="{{asset('template/js/maps.js')}}?v={{ rand(1, 999999) }}" type="text/javascript"></script>
 @endsection

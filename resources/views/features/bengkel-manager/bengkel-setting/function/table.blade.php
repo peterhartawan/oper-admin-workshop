@@ -7,16 +7,16 @@
         }
     </script>
 @else
-    
+
     @foreach($listdata->data as $setting)
-     
+
         <tr>
 
-            @isset($setting->workshop_bengkel->bengkel_name)
+            @isset($setting->bengkel_name)
                 <td>
-                    {{ $setting->workshop_bengkel->bengkel_name }}
+                    {{ $setting->bengkel_name }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -26,7 +26,7 @@
                 <td>
                     {{ $setting->bengkel_open }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -36,7 +36,7 @@
                  <td>
                      {{ $setting->bengkel_close }}
                  </td>
-             @else   
+             @else
                  <td class="bg-danger-light">
                      <i class="fa fa-exclamation-circle"></i> Data not available
                  </td>
@@ -46,7 +46,7 @@
                 <td>
                     {{ $setting->min_daily }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -55,12 +55,12 @@
             @isset($setting->id)
                 <td class="text-center">
                     <div class="btn-group mr-2 mb-2" data-toggle="buttons" role="group" aria-label="Icons Action group">
-                        <button type="button" 
+                        <button type="button"
                             class="btn btn-sm btn-primary"
                             onclick="detailView({{ $setting->id }})">
                             <i class="far fa-fw fa-eye"></i>
                         </button>
-                        <button type="button" 
+                        <button type="button"
                             class="btn btn-sm btn-primary"
                             onclick="updateView({{ $setting->id }})">
                                 <i class="fa fa-fw fa-pencil-alt"></i>
@@ -73,7 +73,7 @@
                 </td>
             @endisset
 
-        </tr> 
-        
+        </tr>
+
     @endforeach
 @endif
