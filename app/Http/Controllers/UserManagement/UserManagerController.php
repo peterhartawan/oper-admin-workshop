@@ -14,6 +14,9 @@ use Hash;
 
 class UserManagerController extends Controller
 {
+    const ROLE_SUPER_ADVISOR = 2;
+    const ROLE_FOREMAN = 3;
+
     public function viewUserManager() {
         $roles = Role::where( "role_name", "NOT LIKE", "%superadmin%" )
                         ->get()
@@ -25,44 +28,40 @@ class UserManagerController extends Controller
             ->with( 'bengkels', json_decode($bengkels, false) );
     }
 
-    public function createUserManager(Request $request) {
+    public function createUserManager(Request $request)
+    {
         try {
-            if( CmsUser::where('username', $request->username)->exists() ) {
-                    Session::flash('error', 'Username already exist');
-                    return back();
+            if (CmsUser::where('username', $request->username)->exists()) {
+                return back()->with('error', 'Username already exist.');
             }
 
-            if( CmsUser::where('email', $request->email)->exists() ) {
-                    Session::flash('error', 'Email already exist');
-                    return back();
+            if (CmsUser::where('email', $request->email)->exists()) {
+                return back()->with('error', 'Email already exist.');
             }
 
-            if( CmsUser::where('phone', $request->phone)->exists() ) {
-                    Session::flash('error', 'Phone already exist');
-                    return back();
+            if (CmsUser::where('phone', $request->phone)->exists()) {
+                return back()->with('error', 'Phone already exist.');
             }
 
-            if( CmsUser::where('zoom_key', $request->zoom_key)->exists() ) {
-                Session::flash('zoom_key', 'Zoom Key already exist');
-                return back();
+            if ($request->role == self::ROLE_SUPER_ADVISOR && CmsUser::where('zoom_key', $request->zoom_key)->exists()) {
+                return back()->with('error', 'Zoom Key already exist.');
             }
 
-            if( CmsUser::where('zoom_secret', $request->zoom_secret)->exists() ) {
-                Session::flash('zoom_secret', 'Zoom Secret already exist');
-                return back();
+            if ($request->role == self::ROLE_SUPER_ADVISOR && CmsUser::where('zoom_secret', $request->zoom_secret)->exists()) {
+                return back()->with('error', 'Zoom Secret already exist.');
             }
 
             $image_name = null;
 
-            if($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
                 /**
                  * Hashing picture name
                  */
                 $image_name =
-                    md5($request->file('image')->getClientOriginalName().time())
-                    .'.'.$request->file('image')->getClientOriginalExtension();
+                    md5($request->file('image')->getClientOriginalName() . time())
+                    . '.' . $request->file('image')->getClientOriginalExtension();
 
-                $request->file( "image" )->move(
+                $request->file("image")->move(
                     public_path('files/cms-user'),
                     $image_name
                 );
@@ -80,8 +79,8 @@ class UserManagerController extends Controller
                 "is_bengkel_staff" => 1,
                 "url_image" =>
                     $image_name != null ?
-                    env('APP_URL').'/download?file=files/cms-user/'.$image_name
-                    : null,
+                        env('APP_URL') . '/download?file=files/cms-user/' . $image_name
+                        : null,
                 "zoom_key" => $request->zoom_key,
                 "zoom_secret" => $request->zoom_secret,
                 "created_at" => new \DateTime('now'),
@@ -89,12 +88,10 @@ class UserManagerController extends Controller
                 "deleted_at" => null,
             ]);
 
-            Session::flash('success', 'Success to create user');
-            return back();
+            return back()->with('success', 'Success to create user');
         } catch (\Throwable $th) {
-            Log::debug('Create User Manager error: '.$th);
-            Session::flash('error', 'Something went wrong. Please contact system administrator.');
-            return back();
+            Log::debug('Create User Manager error: ' . $th);
+            return back()->with('error', 'Something went wrong. Please contact system administrator.');
         }
     }
 
@@ -102,29 +99,30 @@ class UserManagerController extends Controller
         try {
             $user = CmsUser::find($request->id);
 
-            if( CmsUser::where('username', $request->username)->exists() && $request->username !== $user->username ) {
-                    Session::flash('error', 'Username already exist');
-                    return back();
+            if (CmsUser::where('username', $request->username)->exists() && $request->username !== $user->username) {
+                return back()->with('error', 'Username already exist.');
             }
 
-            if( CmsUser::where('email', $request->email)->exists() && $request->email !== $user->email ) {
-                    Session::flash('error', 'Email already exist');
-                    return back();
+            if (CmsUser::where('email', $request->email)->exists() && $request->email !== $user->email) {
+                return back()->with('error', 'Email already exist.');
             }
 
-            if( CmsUser::where('phone', $request->phone)->exists() && $request->phone !== $user->phone ) {
-                    Session::flash('error', 'Phone already exist');
-                    return back();
+            if (CmsUser::where('phone', $request->phone)->exists() && $request->phone !== $user->phone) {
+                return back()->with('error', 'Phone already exist.');
             }
 
-            if( !is_null($request->zoom_key) && CmsUser::where('zoom_key', $request->zoom_key)->exists() && $request->zoom_key !== $user->zoom_key ) {
-                Session::flash('zoom_key', 'Zoom Key already exist');
-                return back();
+            if (!is_null($request->zoom_key)
+                && $request->role == self::ROLE_SUPER_ADVISOR
+                && CmsUser::where('zoom_key', $request->zoom_key)->exists()
+                && $request->zoom_key !== $user->zoom_key) {
+                return back()->with('error', 'Zoom Key already exist.');
             }
 
-            if( !is_null($request->zoom_secret) && CmsUser::where('zoom_secret', $request->zoom_secret)->exists() && $request->zoom_secret !== $user->zoom_secret ) {
-                Session::flash('zoom_secret', 'Zoom Secret already exist');
-                return back();
+            if (!is_null($request->zoom_key)
+                && $request->role == self::ROLE_SUPER_ADVISOR
+                && CmsUser::where('zoom_secret', $request->zoom_secret)->exists()
+                && $request->zoom_secret !== $user->zoom_secret) {
+                return back()->with('error', 'Zoom Secret already exist.');
             }
 
             if($request->hasFile('image')) {
@@ -157,12 +155,11 @@ class UserManagerController extends Controller
             }
             $user->save();
 
-            Session::flash('success', 'Success to update user');
-            return back();
+            return back()->with('success', 'Success to update user.');
         } catch (\Throwable $th) {
             Log::debug('Update User Manager error: '.$th);
-            Session::flash('error', 'Something went wrong. Please contact system administrator.');
-            return back();
+
+            return back()->with('error', 'Something went wrong. Please contact system administrator.');
         }
     }
 
