@@ -54,6 +54,7 @@ function webmeetsdkready() {
             leaveUrl: meetingConfig.leaveUrl,
             webEndpoint: meetingConfig.webEndpoint,
             disableCORP: !window.crossOriginIsolated, // default true
+            screenShare: true,
             // disablePreview: false, // default false
             success: function () {
                 ZoomMtg.i18n.load(meetingConfig.lang);
