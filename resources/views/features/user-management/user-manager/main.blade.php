@@ -157,7 +157,9 @@
                 return {
                     "param": {
                         "page": page+1,
-                        "size": perPage
+                        "size": perPage,
+                        "key": filter,
+                        "value": searchValue
                     },
                     "endOfRequest": endOfRequest
                 }
@@ -240,9 +242,13 @@
                     $('#view-zoom-secret').val(rspn.zoom_secret);
 
                     if (rspn.role_id == ROLE_SUPER_ADVISOR) {
+                        $('#view-image').parent().parent().removeClass("d-none");
+
                         $('#view-zoom-key').parents('.form-group').removeClass("d-none");
                         $('#view-zoom-secret').parents('.form-group').removeClass("d-none");
                     } else if (rspn.role_id == ROLE_FOREMAN) {
+                        $('#view-image').parent().parent().addClass("d-none");
+
                         $('#view-zoom-key').parents('.form-group').addClass("d-none");
                         $('#view-zoom-secret').parents('.form-group').addClass("d-none");
                     }

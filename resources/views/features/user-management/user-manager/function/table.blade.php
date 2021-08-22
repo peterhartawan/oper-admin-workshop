@@ -7,16 +7,16 @@
         }
     </script>
 @else
-    
+
     @foreach($listdata->data as $user)
-     
+
         <tr>
 
             @isset($user->username)
                 <td>
                     {{ $user->username }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -26,7 +26,7 @@
                 <td>
                     {{ $user->email }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -36,17 +36,17 @@
                  <td>
                      {{ $user->phone }}
                  </td>
-             @else   
+             @else
                  <td class="bg-danger-light">
                      <i class="fa fa-exclamation-circle"></i> Data not available
                  </td>
              @endisset
 
-            @isset($user->role->role_name)
+            @isset($user->role_name)
                 <td>
-                    {{ $user->role->role_name }}
+                    {{ $user->role_name }}
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -60,7 +60,7 @@
                         <span class="badge badge-pill badge-danger">suspend</span>
                     @endif
                 </td>
-            @else   
+            @else
                 <td class="bg-danger-light">
                     <i class="fa fa-exclamation-circle"></i> Data not available
                 </td>
@@ -69,17 +69,17 @@
             @isset($user->id)
                 <td class="text-center">
                     <div class="btn-group mr-2 mb-2" data-toggle="buttons" role="group" aria-label="Icons Action group">
-                        <button type="button" 
+                        <button type="button"
                             class="btn btn-sm btn-primary"
                             onclick="detailView({{ $user->id }})">
                             <i class="far fa-fw fa-eye"></i>
                         </button>
-                        <button type="button" 
+                        <button type="button"
                             class="btn btn-sm btn-primary"
                             onclick="updateView({{ $user->id }})">
                                 <i class="fa fa-fw fa-pencil-alt"></i>
                         </button>
-                        <button type="button" 
+                        <button type="button"
                             class="btn btn-sm btn-primary"
                             onclick="deleteView({{ $user->id }}, '{{ $user->username }}')">
                                 <i class="fa fa-fw fa-trash"></i>
@@ -92,7 +92,7 @@
                 </td>
             @endisset
 
-        </tr> 
-        
+        </tr>
+
     @endforeach
 @endif

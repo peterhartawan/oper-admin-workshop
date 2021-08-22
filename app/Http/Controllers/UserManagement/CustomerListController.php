@@ -33,7 +33,7 @@ class CustomerListController extends Controller
                 "customer_hp" => $request->phone,
                 "joined_date" => new \DateTime('now'),
             ]);
-            
+
             Session::flash('success', 'Success to create customer');
             return back();
         } catch (\Throwable $th) {
@@ -46,7 +46,7 @@ class CustomerListController extends Controller
     public function updateCustomerList(Request $request) {
         try {
             $customer = CustomerOper::find($request->id);
-            
+
             if( CustomerOper::where('customer_email', $request->email)->exists() && $request->email !== $customer->customer_email ) {
                     Session::flash('error', 'Email already exist');
                     return back();
@@ -61,7 +61,7 @@ class CustomerListController extends Controller
             $customer->customer_email = $request->email;
             $customer->customer_hp = $request->phone;
             $customer->save();
-            
+
             Session::flash('success', 'Success to update customer');
             return back();
         } catch (\Throwable $th) {
@@ -91,16 +91,17 @@ class CustomerListController extends Controller
             array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
         $response = CustomerOper::where( $filter )
+            ->orderBy('customer_name')
             ->paginate( $request->get( 'size' ) )
             ->toJson();
-            
+
         return view( 'features.user-management.customer-list.function.table')
             ->with( 'listdata', json_decode($response, false) );
     }
 
     public function detailCustomerList($id) {
         $response = CustomerOper::find($id);
-        
+
         return response()->json( $response );
     }
 }

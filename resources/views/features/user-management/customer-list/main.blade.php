@@ -1,7 +1,7 @@
 @extends('template.layout')
 
 @section('js_before')
-    <script type="text/javascript" src="{{ asset('template/js/custom/infinity-scrolling.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('template/js/custom/infinity-scrolling.js') }}"></script>
     <script type="text/javascript">
         //API Hit Setting
         var page = 1;
@@ -19,7 +19,7 @@
 @endsection
 
 @section('title', 'User Management - Customer List')
-    
+
 @section('content')
     <div class="block block-rounded block-bordered">
         <div class="block-content">
@@ -122,10 +122,10 @@
             });
         }
 
-        infinityScroll("wrapper", 
-            "content", 
-            "GET", 
-            "/user-management/customer-list/pagination", 
+        infinityScroll("wrapper",
+            "content",
+            "GET",
+            "/user-management/customer-list/pagination",
             "html",
             {
                 "page": page+1,
@@ -145,7 +145,9 @@
                 return {
                     "param": {
                         "page": page+1,
-                        "size": perPage
+                        "size": perPage,
+                        "key": filter,
+                        "value": searchValue
                     },
                     "endOfRequest": endOfRequest
                 }

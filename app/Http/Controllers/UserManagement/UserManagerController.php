@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Model\CmsUser;
 use App\Model\Role;
 use App\Model\WorkshopBengkel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 use Session;
@@ -14,6 +15,7 @@ use Hash;
 
 class UserManagerController extends Controller
 {
+    const ROLE_SUPER_ADMIN = 1;
     const ROLE_SUPER_ADVISOR = 2;
     const ROLE_FOREMAN = 3;
 
@@ -192,17 +194,20 @@ class UserManagerController extends Controller
     }
 
     public function paginateUserManager(Request $request) {
-        $filter = [];
+        $filter = [
+            ['cms_users.id', '!=',Session::get('user')->id]
+        ];
 
         if( !empty($request->value) )
             array_push($filter, [$request->key, "LIKE", "%{$request->value}%"]);
 
-        $response = CmsUser::where( $filter )
-            ->whereNotIn( "id", [Session::get('user')->id] )
-            ->whereDoesntHave( "role", function($query) {
-                $query->where( "role_name", "LIKE", "%superadmin%" );
-            })
-            ->with(['role:id,role_name'])
+        $response = DB::table('cms_users')
+            ->join('roles', 'cms_users.role_id', '=', 'roles.id')
+            ->where('roles.id', '!=', self::ROLE_SUPER_ADMIN)
+            ->whereNull('cms_users.deleted_at')
+            ->where($filter)
+            ->orderBy('cms_users.username')
+            ->select('cms_users.*', 'roles.role_name')
             ->paginate( $request->get( 'size' ) )
             ->toJson();
 
