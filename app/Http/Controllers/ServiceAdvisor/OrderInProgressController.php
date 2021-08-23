@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ServiceAdvisor;
 
 use App\Http\Controllers\Controller;
+use App\Model\WorkshopBengkel;
 use Illuminate\Http\Request;
 use App\Model\OperOrder;
 use Illuminate\Support\Facades\Log;
@@ -91,12 +92,14 @@ class OrderInProgressController extends Controller
                     . "Harap sebutkan kode booking ketika hendak menghubungi konsumen melalui Whatsapp.";
 
 
+                $workshopBengkel = WorkshopBengkel::find($order->bengkel_id);
+
                 $token = new UtilitiesServices();
                 $token = $token->getRecentOpertaskToken();
 
                 $response = $service->sendOrder(
                     [
-                        "task_template_id" => "1",
+                        "task_template_id" => $workshopBengkel->delivery_template_id,
                         "booking_time" => date('Y-m-d H:i:s', strtotime('now')),
                         "origin_latitude" => $order->customer_lat,
                         "origin_longitude" => $order->customer_long,
