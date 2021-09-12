@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Session;
 use Hash;
+use const App\Model\STATUS_MENU_ACTIVE;
 
 class AuthController extends Controller
 {
@@ -58,16 +59,17 @@ class AuthController extends Controller
             $user->image = "/".$array_string[1];
         }
 
-        $menus = MenuMaster::with([
-                        'childrenMenus' => function($query) use ($user) {
-                            $query->whereHas('roles', function($query) use ($user) {
-                                $query->where('role_id', $user->role->id);
-                            });
-                        }
-                    ])->where('parent_menu', null)
-                    ->whereHas('roles', function($query) use ($user) {
-                        $query->where('role_id', $user->role->id);
-                    })->get();
+        $menus = MenuMaster::with(['childrenMenus' => function ($query) use ($user) {
+                $query->whereHas('roles', function ($query) use ($user) {
+                    $query->where('role_id', $user->role->id);
+                });
+            }])
+            ->where('parent_menu', null)
+            ->where('status', STATUS_MENU_ACTIVE)
+            ->whereHas('roles', function ($query) use ($user) {
+                $query->where('role_id', $user->role->id);
+            })
+            ->get();
 
         Session::put('user', json_decode($user->toJson(), false));
         Session::put('menus', json_decode($menus->toJson(), false));
@@ -84,7 +86,7 @@ class AuthController extends Controller
 
             case 'foreman':
                 Session::put('role', 'foreman');
-                return redirect( "/foreman/dashboard" );
+                return redirect( "/foreman/order-list" );
                 break;
 
             default:

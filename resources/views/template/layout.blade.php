@@ -26,7 +26,7 @@
         <link rel="stylesheet" id="css-main" href="{{ asset('/template/css/dashmix.css') }}" />
         <link rel="stylesheet" href="{{ asset('/template/css/themes/xplay.css') }}" />
         <link rel="stylesheet" href="{{ asset('/template/css/loader.css') }}" />
-        
+
         @yield('css_after')
 
         <!-- Scripts -->
@@ -40,7 +40,7 @@
         <script>jQuery(function(){ Dashmix.helpers(['notify']); });</script>
 
         @yield('js_before')
-        
+
         <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -77,13 +77,13 @@
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="page-header-user-dropdown">
                                         <div class="bg-primary-darker rounded-top font-w600 text-white text-center p-3">
-                                            <a href="javascript:void(0)" onclick="$('#view-profile-modal').modal('show')">    
-                                                <img class="img-avatar img-avatar48 img-avatar-thumb" 
-                                                    src="{{ (Session::get('user')->url_image == null) ? asset("/template/media/avatars/avatar10.jpg") : asset(Session::get('user')->image) }}" 
+                                            <a href="javascript:void(0)" onclick="$('#view-profile-modal').modal('show')">
+                                                <img class="img-avatar img-avatar48 img-avatar-thumb"
+                                                    src="{{ (Session::get('user')->url_image == null) ? asset("/template/media/avatars/avatar10.jpg") : asset(Session::get('user')->image) }}"
                                                     alt="">
                                             </a>
                                             <div class="pt-2">
-                                                <a class="text-white font-w600" 
+                                                <a class="text-white font-w600"
                                                     href="javascript:void(0)"
                                                     onclick="$('#view-profile-modal').modal('show')">
                                                         {{ Session::get('user')->username }}
@@ -190,7 +190,7 @@
         <!-- End Modal -->
 
         @yield('js_after')
-        
+
         <script type="text/javascript">
             $.validator.addMethod("phoneNumber", function(value, element) {
                 return this.optional(element) || /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/.test(value);
@@ -292,7 +292,7 @@
                     form.submit();
                 }
             });
-            
+
             $("#update-form").validate({
                 errorClass: "is-invalid text-danger",
                 submitHandler: function(form) {
@@ -300,7 +300,7 @@
                     form.submit();
                 }
             });
-            
+
             $("#delete-form").validate({
                 errorClass: "is-invalid text-danger",
                 submitHandler: function(form) {
@@ -308,7 +308,7 @@
                     form.submit();
                 }
             });
-            
+
             $("#status-form").validate({
                 errorClass: "is-invalid text-danger",
                 submitHandler: function(form) {
@@ -317,6 +317,6 @@
                 }
             });
         </script>
-        
+
     </body>
 </html>

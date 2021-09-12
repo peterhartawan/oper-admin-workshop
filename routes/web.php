@@ -238,9 +238,6 @@ Route::get( 'download', 'UtilitiesController@download' );
 
         Route::prefix( 'dashboard' )->group(function() {
             Route::get   ( '', 'Foreman\DashboardController@DashboardPage' );
-            // Route::put   ( '', '' );
-            // Route::post  ( '', '' );
-            // Route::delete( '', '' );
         });
 
         Route::prefix( 'order-list' )->group(function() {
@@ -285,7 +282,7 @@ Route::fallback(function($url) {
             break;
 
         case 'foreman':
-            return redirect( "/foreman/dashboard" );
+            return redirect( "/foreman/order-list" );
             break;
 
         default:
