@@ -179,6 +179,11 @@ return [
          * @link https://appdividend.com/2018/05/10/laravel-mongodb-crud-tutorial-with-example/
          */
         Jenssegers\Mongodb\MongodbServiceProvider::class,
+
+        /**
+         * @link https://github.com/rap2hpoutre/laravel-log-viewer
+         */
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
     ],
 
     /*

@@ -45,7 +45,7 @@ class SyncDriverStatus extends Command
      */
     public function handle()
     {
-
+        Log::info("SYNC_DRIVER:CALLED");
         /**
          * Get Opertask Token
          */

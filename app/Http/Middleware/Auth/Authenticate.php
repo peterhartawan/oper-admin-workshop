@@ -19,6 +19,8 @@ class Authenticate
         $exception = [
             "/",
             "login",
+            "logs",
+            "command"
         ];
 
         if ( !in_array($request->route()->uri, $exception) && empty(Session::get('user'))) {
@@ -28,11 +30,11 @@ class Authenticate
                 case 'superadmin':
                     return redirect('/user-management/user-manager');
                     break;
-    
+
                 case 'serviceadvisor':
                     return redirect( "/service-advisor/new-order-list" );
                     break;
-                    
+
                 case 'foreman':
                     return redirect( "/foreman/dashboard" );
                     break;

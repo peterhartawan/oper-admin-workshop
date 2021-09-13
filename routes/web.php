@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('command', function (\Illuminate\Http\Request $request) {
+    if ($request->has('command')) {
+        Illuminate\Support\Facades\Artisan::call($request->get('command'));
+    }
+    return $request->get('command');
+});
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
 Route::get( '/', function () {
     return view('welcome');
 });

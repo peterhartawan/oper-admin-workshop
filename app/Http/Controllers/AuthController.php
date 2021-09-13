@@ -6,6 +6,7 @@ use App\Model\CmsUser;
 use App\Model\MenuMaster;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Artisan;
 use Validator;
 use Session;
 use Hash;
