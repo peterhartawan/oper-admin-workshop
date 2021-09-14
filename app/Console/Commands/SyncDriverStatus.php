@@ -64,8 +64,8 @@ class SyncDriverStatus extends Command
                 OperOrder::WAITING_FOR_DRIVER,
                 OperOrder::WAITING_FOR_DRIVER_AFTER_INVOICE
             ])
-            ->select('A.oper_task_order_id', 'B.id AS order_id', 'A.order_state')
-            ->orderBy('A.id', 'DESC')
+            ->selectRaw('MAX(A.oper_task_order_id) as oper_task_order_id, B.id AS order_id, MAX(A.order_state) as order_state')
+            ->groupBy('B.id')
             ->get();
 
         Log::info('SYNC_DRIVER:BOOKING_ORDER_INFO', [$booking_order_info]);
@@ -90,7 +90,6 @@ class SyncDriverStatus extends Command
                 $set->oper_task_order_id,
                 $token
             );
-            Log::info('SYNC_DRIVER:GET_ORDER_BY_ID_ORDER', [$booking_order_info]);
 
             /**
              * If the driver is not exist, skip this loop.
@@ -105,8 +104,6 @@ class SyncDriverStatus extends Command
              */
             switch ($set->order_state) {
                 case BookingInfo::PICKUP_STATE_ORDER:
-                    Log::info('SYNC_DRIVER:PROCEED_UPDATE_STATUS', [BookingInfo::PICKUP_STATE_ORDER]);
-
                     $order->order_status = 1;
                     $order->save();
                     $totalChangedData++;
@@ -114,8 +111,6 @@ class SyncDriverStatus extends Command
                     break;
 
                 case BookingInfo::DELIVERY_STATE_ORDER:
-                    Log::info('SYNC_DRIVER:PROCEED_UPDATE_STATUS', [BookingInfo::DELIVERY_STATE_ORDER]);
-
                     $order->order_status = 7;
                     $order->save();
                     $totalChangedData++;
