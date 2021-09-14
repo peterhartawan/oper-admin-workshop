@@ -123,6 +123,7 @@ class SyncDriverStatus extends Command
         }
 
         Log::info('SYNC_DRIVER:TOTAL_CHANGED_DATA', [$totalChangedData]);
+
         return $totalChangedData;
     }
 }

@@ -54,6 +54,8 @@ class UpdateDoneOrder extends Command
             AND A.order_state = ' . BookingInfo::DELIVERY_STATE_ORDER
         );
 
+        Log::info('UPDATE_DONE_ORDER:BOOKING_ORDER_INFO', [$bookingOrderInfo]);
+
         /**
          * Get Opertask Token
          */
@@ -61,6 +63,8 @@ class UpdateDoneOrder extends Command
         $token = $token->getRecentOpertaskToken();
 
         $service = new OperTaskServices();
+
+        $totalChangedDate = 0;
         foreach ($bookingOrderInfo as $order) {
             /**
              * Web hook
@@ -91,7 +95,10 @@ class UpdateDoneOrder extends Command
 
             $order->order_status = OperOrder::BOOKING_DONE;
             $order->save();
+            $totalChangedDate++;
         }
+
+        Log::info('UPDATE_DONE_ORDER:TOTAL_CHANGED_DATA', [$totalChangedDate]);
 
         return 0;
     }
