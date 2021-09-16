@@ -17,7 +17,7 @@ class UpdateDoneOrder extends Command
      *
      * @var string
      */
-    protected $signature = 'operadmin:update-done-order';
+    protected $signature = 'opertask:update-done-order';
 
     /**
      * The console command description.
@@ -82,11 +82,17 @@ class UpdateDoneOrder extends Command
             $dateNow=date_create(date("Y-m-d H:i:s"));
             $dateDispatch=date_create($response->data->dispatch_at);
             $dateDiff=date_diff($dateNow,$dateDispatch);
-            if ($response->data->driver === null || $dateDiff->days < 1) {
+            if ($response->data->driver != null || $dateDiff->days < 1) {
+                Log::info('UPDATE_DONE_ORDER:BOOKING_ORDER_INFO_DETAIL', [
+                    "driver" => $response->data->driver,
+                    "date now" => $dateNow,
+                    "date dispatch" => $dateDispatch,
+                    "date diff" => $dateDiff
+                ]);
                 continue;
             }
 
-            /**
+            /**s
              * Proceed update status
              */
             $order = OperOrder::where('id', $order->order_id)
