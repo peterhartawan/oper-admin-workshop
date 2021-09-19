@@ -82,8 +82,9 @@ class UpdateDoneOrder extends Command
             $dateNow=date_create(date("Y-m-d H:i:s"));
             $dateDispatch=date_create($response->data->dispatch_at);
             $dateDiff=date_diff($dateNow,$dateDispatch);
-            if ($response->data->driver != null || $dateDiff->days < 1) {
-                Log::info('UPDATE_DONE_ORDER:BOOKING_ORDER_INFO_DETAIL', [
+            if ($response->data->driver == null || $dateDiff->days < 1) {
+                Log::info('UPDATE_DONE_ORDER:SKIP_BOOKING_ORDER_INFO_DETAIL', [
+                    "id" => $order->order_id,
                     "driver" => $response->data->driver,
                     "date now" => $dateNow,
                     "date dispatch" => $dateDispatch,
