@@ -59,11 +59,10 @@ class OrderInProgressController extends Controller
                     . '.'
                     . $request->file('file')->getClientOriginalExtension();
 
-                $request->file('file')
-                    ->storeAs(
-                        '/public/invoice-image',
-                        $filename
-                    );
+                $request->file( 'file' )->move(
+                    public_path('files/invoice-image'),
+                    $filename
+                );
 
                 $order->update([
                     "order_status" => 5,
