@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Foreman;
 
+use App\Helper\MessageHelper;
 use App\Http\Controllers\Controller;
 use App\Model\ForemanTaskProgress;
+use App\Model\NoSQL\BookingUri;
 use Illuminate\Http\Request;
 use App\Model\OperOrder;
 use App\Model\TaskList;
@@ -39,7 +41,7 @@ class OrderListController extends Controller
                     "task_id" => $list->id,
                 ]);
             }
-            
+
             Session::flash('success', 'Success to update status order');
             return back();
         } catch (\Throwable $th) {
@@ -60,7 +62,7 @@ class OrderListController extends Controller
                         ->with(['workshopBengkel:id,bengkel_name'])
                         ->paginate( $request->get( 'size' ) )
                         ->toJson();
-            
+
         return view( 'features.foreman.order-list.function.table')
             ->with( 'listdata', json_decode($response, false) );
     }
@@ -78,7 +80,7 @@ class OrderListController extends Controller
                         ->with(['workshopBengkel:id,bengkel_name'])
                         ->paginate( $request->get( 'size' ) )
                         ->toJson();
-            
+
         return view( 'features.foreman.order-list.function.table')
             ->with( 'listdata', json_decode($response, false) );
     }
@@ -90,7 +92,7 @@ class OrderListController extends Controller
                             'vehicleType'
                         ])
                         ->find($id);
-        
+
         return response()->json( $response );
     }
 
@@ -98,7 +100,7 @@ class OrderListController extends Controller
         $response = OperOrder::find($id);
         $response = TaskList::where('master_task_id', $response->master_task)
                         ->with( [
-                            'masterTask', 
+                            'masterTask',
                             'taskProgress' => function($query) use ($id) {
                                 $query->where('order_id', $id);
                             }
@@ -107,7 +109,7 @@ class OrderListController extends Controller
                         ->sortBy('list_sequence')
                         ->toJson();
 
-            
+
         return view( 'features.foreman.order-list.function.table-status-4')
             ->with( 'listdata', json_decode($response, false) );
     }
@@ -122,11 +124,11 @@ class OrderListController extends Controller
                 /**
                  * Hashing picture name
                  */
-                $image_name = 
+                $image_name =
                     md5($request->file('image')->getClientOriginalName().time())
                     .'.'.$request->file('image')->getClientOriginalExtension();
 
-                $response->image_name = 
+                $response->image_name =
                     env('APP_URL')
                     .'/download?file=files/task/'
                     .$image_name;
@@ -149,11 +151,28 @@ class OrderListController extends Controller
                         ->count();
 
             if ($check == 0 && $list->as_final_task) {
-                OperOrder::find($request->id)->update([
-                    "order_status" => 10
+                $order = OperOrder::find($request->id);
+
+                $order->update([
+                    "order_status" => OperOrder::FOREMAN_TASK_DONE
                 ]);
+
+                $bookingUri = BookingUri::where('booking_no', $order->booking_no)->first()->booking_uri;
+                $bookingStatusUrl = sprintf("%s/booking-status/status/%s", env("OPERWORKSHOP_FE_URL"), $bookingUri);
+
+                $messanging = new MessageHelper();
+                $messanging->sendMessage(
+                    MessageHelper::WHATSAPP,
+                    $order->customer_hp,
+                    (
+                        "OPER Workshop -\n".
+                        "Hore, mobil Anda sudah selesai di servis.\n\n" .
+                        "Konsultasi dengan service advisor terkait tagihan anda melalui link ini:\n\n".
+                        $bookingStatusUrl
+                    )
+                );
             }
-            
+
             Session::flash('success', 'Success to update task list timestamp');
             return back();
         } catch (\Throwable $th) {

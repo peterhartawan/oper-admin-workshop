@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\ServiceAdvisor;
 
+use App\Helper\MessageHelper;
 use App\Http\Controllers\Controller;
+use App\Model\NoSQL\BookingUri;
 use App\Model\WorkshopBengkel;
 use Illuminate\Http\Request;
 use App\Model\OperOrder;
@@ -36,7 +38,7 @@ class OrderInProgressController extends Controller
                 ->get()
                 ->first();
 
-            if ($order->order_status == 2) {
+            if ($order->order_status == OperOrder::SERVICE_ADVISOR_OPEN_ORDER) {
                 $order->update([
                     "pkb_file" =>
                         env('APP_URL') . '/download?file=files/pkb/' . $request->file('file')->getClientOriginalName(),
@@ -47,30 +49,59 @@ class OrderInProgressController extends Controller
                     public_path('files/pkb'),
                     $request->file("file")->getClientOriginalName()
                 );
-            } else if ($order->order_status == 3) {
-
+            } else if ($order->order_status == OperOrder::SERVICE_ADVISOR_SUBMIT_PKB) {
                 $order->update([
                     "order_status" => 9
                 ]);
 
-            } else if ($order->order_status == 10) {
+                $bookingUri = BookingUri::where('booking_no', $order->booking_no)->first()->booking_uri;
+                $bookingStatusUrl = sprintf("%s/booking-status/status/%s", env("OPERWORKSHOP_FE_URL"), $bookingUri);
+
+                $messanging = new MessageHelper();
+                $messanging->sendMessage(
+                    MessageHelper::WHATSAPP,
+                    $order->customer_hp,
+                    (
+                        "OPER Workshop -\n".
+                        "Anda sudah berkonsultasi dengan service advisor.\n" .
+                        "Kini mobil anda sedang memasuki proses servis sesuai dengan hasil diskusi dengan service advisor.\n\n".
+                        "Pantau proses servis kendaraan anda melalui link berikut ini:\n\n".
+                        $bookingStatusUrl
+                    )
+                );
+            } else if ($order->order_status == OperOrder::FOREMAN_TASK_DONE) {
 
                 $filename = md5(strtotime('now') . $request->file('file')->getClientOriginalName())
                     . '.'
                     . $request->file('file')->getClientOriginalExtension();
 
-                $res = $request->file( 'file' )->move(
+                $request->file( 'file' )->move(
                     public_path('files/invoice'),
                     $filename
                 );
-                Log::info("UPLOAD_INVOICE", [$res, $filename]);
 
                 $order->update([
-                    "order_status" => 5,
+                    "order_status" => OperOrder::SERVICE_ADVISOR_UPLOAD_INVOICE,
                     "invoice_file" => $filename
                 ]);
 
-            } else if ($order->order_status == 5) {
+                $bookingUri = BookingUri::where('booking_no', $order->booking_no)->first()->booking_uri;
+                $bookingStatusUrl = sprintf("%s/booking-status/status/%s", env("OPERWORKSHOP_FE_URL"), $bookingUri);
+
+                $messanging = new MessageHelper();
+                $messanging->sendMessage(
+                    MessageHelper::WHATSAPP,
+                    $order->customer_hp,
+                    (
+                        "OPER Workshop -\n".
+                        "Pembayaran anda sudah diterima.\n" .
+                        "Kini mobil anda siap diantar kembali.Terima kasih sudah menggunakan OPER Workshop.\n\n".
+                        "Klik link untuk melakukan tracking kendaraan anda:\n\n".
+                        $bookingStatusUrl
+                    )
+                );
+
+            } else if ($order->order_status == OperOrder::SERVICE_ADVISOR_UPLOAD_INVOICE) {
 
                 /**
                  * Insert image
@@ -133,7 +164,7 @@ class OrderInProgressController extends Controller
                  */
 
                 $order->update([
-                    "order_status" => 6
+                    "order_status" => OperOrder::WAITING_FOR_DRIVER_AFTER_INVOICE
                 ]);
             }
 
