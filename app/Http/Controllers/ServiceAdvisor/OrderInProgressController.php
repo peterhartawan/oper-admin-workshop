@@ -85,22 +85,6 @@ class OrderInProgressController extends Controller
                     "invoice_file" => $filename
                 ]);
 
-                $bookingUri = BookingUri::where('booking_no', $order->booking_no)->first()->booking_uri;
-                $bookingStatusUrl = sprintf("%s/booking-status/status/%s", env("OPERWORKSHOP_FE_URL"), $bookingUri);
-
-                $messanging = new MessageHelper();
-                $messanging->sendMessage(
-                    MessageHelper::WHATSAPP,
-                    $order->customer_hp,
-                    (
-                        "OPER Workshop -\n".
-                        "Pembayaran anda sudah diterima.\n" .
-                        "Kini mobil anda siap diantar kembali.Terima kasih sudah menggunakan OPER Workshop.\n\n".
-                        "Klik link untuk melakukan tracking kendaraan anda:\n\n".
-                        $bookingStatusUrl
-                    )
-                );
-
             } else if ($order->order_status == OperOrder::SERVICE_ADVISOR_UPLOAD_INVOICE) {
 
                 /**
@@ -162,10 +146,25 @@ class OrderInProgressController extends Controller
                 /**
                  * Update state
                  */
-
                 $order->update([
                     "order_status" => OperOrder::WAITING_FOR_DRIVER_AFTER_INVOICE
                 ]);
+
+                $bookingUri = BookingUri::where('booking_no', $order->booking_no)->first()->booking_uri;
+                $bookingStatusUrl = sprintf("%s/booking-status/status/%s", env("OPERWORKSHOP_FE_URL"), $bookingUri);
+
+                $messanging = new MessageHelper();
+                $messanging->sendMessage(
+                    MessageHelper::WHATSAPP,
+                    $order->customer_hp,
+                    (
+                        "OPER Workshop -\n".
+                        "Pembayaran anda sudah diterima.\n" .
+                        "Kini mobil anda siap diantar kembali.Terima kasih sudah menggunakan OPER Workshop.\n\n".
+                        "Klik link untuk melakukan tracking kendaraan anda:\n\n".
+                        $bookingStatusUrl
+                    )
+                );
             }
 
             Session::flash('success', 'Success to update status order');
