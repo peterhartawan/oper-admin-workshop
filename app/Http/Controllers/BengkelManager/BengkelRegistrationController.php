@@ -47,7 +47,7 @@ class BengkelRegistrationController extends Controller
                 "oper_task_username" => $request->otUsername,
                 "oper_task_password" => $request->otPassword,
                 "oper_task_uri" => $request->get('otUri'),
-                "workshop_picture" =>  asset("files/workshop-image/" . $filename),
+                "workshop_picture" =>  public_path('files/workshop-image' . $filename),
                 'pickup_template_id' => $request->otPickupId,
                 'delivery_template_id' => $request->otDeliveryId,
             ]);
@@ -99,7 +99,7 @@ class BengkelRegistrationController extends Controller
                             $filename
                 );
 
-                $bengkel->workshop_picture = asset("files/workshop-image/" . $filename);
+                $bengkel->workshop_picture = public_path('files/workshop-image' . $filename);
             }
 
             $bengkel->save();
